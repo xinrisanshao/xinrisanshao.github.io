@@ -80,3 +80,7 @@ deploy:
   type: git
   repo: https://github.com/xinrisanshao/xinrisanshao.github.io.git
   branch: master
+ 
+# Extensions
+## Plugins: http://hexo.io/plugins/
+plugins: hexo-generate-feed

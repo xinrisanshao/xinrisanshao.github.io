@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>新日三少的博客</title>
+  <subtitle>Big big pig</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://www.wangxinri.cn/"/>
+  <updated>2017-08-02T13:59:29.011Z</updated>
+  <id>http://www.wangxinri.cn/</id>
+  
+  <author>
+    <name>新日三少</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="http://www.wangxinri.cn/2017/08/02/hello-world/"/>
+    <id>http://www.wangxinri.cn/2017/08/02/hello-world/</id>
+    <published>2017-08-02T13:59:29.011Z</published>
+    <updated>2017-08-02T13:59:29.011Z</updated>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.<br><a id="more"></a></p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;GitHub&lt;/a&gt;.&lt;br&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>第一篇博客</title>
+    <link href="http://www.wangxinri.cn/2017/08/01/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/"/>
+    <id>http://www.wangxinri.cn/2017/08/01/第一篇博客/</id>
+    <published>2017-08-01T02:23:16.000Z</published>
+    <updated>2017-08-02T13:59:29.012Z</updated>
+    
+    <content type="html"><![CDATA[<p>以上是文章摘要<br><a id="more"></a><br>以下是余下全文</p>
+<blockquote><p>Do not just seek happiness for yourself. Seek happiness for all. Through kindness. Through mercy.  </p>
+<footer><strong>David Levithan</strong><cite>Wide Awake</cite></footer></blockquote>  
+<blockquote><p>Every interaction is both precious and an opportunity to delight.  </p>
+<footer><strong>Seth Godin</strong><cite><a href="http://sethgodin.typepad.com/seths_blog/2009/07/welcome-to-island-marketing.html" target="_blank" rel="external">Welcome to Island Marketing</a></cite></footer></blockquote>  
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">alert(&apos;Hello World!&apos;);</div></pre></td></tr></table></figure>
+<p>为什么啊<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">alert(&apos;Hello World!&apos;);</div><div class="line">alert(&apos;Hello World!&apos;);</div></pre></td></tr></table></figure><br>为什么啊<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">alert(&apos;Hello World!&apos;);</div><div class="line">alert(&apos;Hello World!&apos;);</div></pre></td></tr></table></figure><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">  </div><div class="line">system.print.out();</div><div class="line">array.map(callback[, thisArg]);  </div></pre></td></tr></table></figure>  </p>
+<img src="/images/aaa.jpg" width="90" height="150" title="微信支付">
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;以上是文章摘要&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://www.wangxinri.cn/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="http://www.wangxinri.cn/tags/Linux/"/>
+    
+      <category term="Http" scheme="http://www.wangxinri.cn/tags/Http/"/>
+    
+      <category term="网络" scheme="http://www.wangxinri.cn/tags/%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>好开心</title>
+    <link href="http://www.wangxinri.cn/2017/08/01/%E5%A5%BD%E5%BC%80%E5%BF%83/"/>
+    <id>http://www.wangxinri.cn/2017/08/01/好开心/</id>
+    <published>2017-08-01T01:45:55.000Z</published>
+    <updated>2017-08-02T13:59:29.012Z</updated>
+    
+    <content type="html"><![CDATA[<p>你好，欢迎来到我的个人技术博客<br><a id="more"></a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;你好，欢迎来到我的个人技术博客&lt;br&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>

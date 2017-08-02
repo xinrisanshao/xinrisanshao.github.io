@@ -11,7 +11,7 @@ keywords: "enjoy life"
 # Set rss to false to disable feed link.
 # Leave rss as empty to use site's feed link.
 # Set rss to specific value if you have burned your feed already.
-rss:
+rss: /atom.xml
 
 # Specify the date when the site was setup
 since: 2017
@@ -627,3 +627,7 @@ images: images
 
 # Theme version
 version: 5.1.1
+
+# 文章末尾添加“本文结束”标记
+passage_end_tag:
+  enabled: true
