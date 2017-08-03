@@ -297,7 +297,7 @@ font:
 
 # MathJax Support
 mathjax:
-  enable: false
+  enable: true
   per_page: false
   cdn: //cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML
 
@@ -334,7 +334,7 @@ changyan:
 
 # Support for LiveRe comments system.
 # You can get your uid from https://livere.com/insight/myCode (General web site)
-#livere_uid: your uid
+livere_uid: MTAyMC8yOTk0Mi82NTA3
 
 # Baidu Share
 # Available value:
@@ -481,7 +481,7 @@ algolia_search:
 # Local search
 # Dependencies: https://github.com/flashlab/hexo-generator-search
 local_search:
-  enable: false
+  enable: true
   # if auto, trigger search by changing input
   # if manual, trigger search by pressing enter key or search button
   trigger: auto
@@ -636,6 +636,11 @@ images: images
 # Theme version
 version: 5.1.1
 
+
+
 # 文章末尾添加“本文结束”标记
 passage_end_tag:
   enabled: true
+
+  
+  

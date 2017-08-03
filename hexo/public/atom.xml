@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.wangxinri.cn/"/>
-  <updated>2017-08-02T13:59:29.011Z</updated>
+  <updated>2017-08-03T01:52:24.562Z</updated>
   <id>http://www.wangxinri.cn/</id>
   
   <author>
@@ -17,10 +17,10 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="http://www.wangxinri.cn/2017/08/02/hello-world/"/>
-    <id>http://www.wangxinri.cn/2017/08/02/hello-world/</id>
-    <published>2017-08-02T13:59:29.011Z</published>
-    <updated>2017-08-02T13:59:29.011Z</updated>
+    <link href="http://www.wangxinri.cn/2017/08/03/hello-world/"/>
+    <id>http://www.wangxinri.cn/2017/08/03/hello-world/</id>
+    <published>2017-08-03T01:52:24.561Z</published>
+    <updated>2017-08-03T01:52:24.562Z</updated>
     
     <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.<br><a id="more"></a></p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
@@ -47,7 +47,7 @@
     <link href="http://www.wangxinri.cn/2017/08/01/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/"/>
     <id>http://www.wangxinri.cn/2017/08/01/第一篇博客/</id>
     <published>2017-08-01T02:23:16.000Z</published>
-    <updated>2017-08-02T13:59:29.012Z</updated>
+    <updated>2017-08-03T01:52:24.563Z</updated>
     
     <content type="html"><![CDATA[<p>以上是文章摘要<br><a id="more"></a><br>以下是余下全文</p>
 <blockquote><p>Do not just seek happiness for yourself. Seek happiness for all. Through kindness. Through mercy.  </p>
@@ -81,7 +81,7 @@
     <link href="http://www.wangxinri.cn/2017/08/01/%E5%A5%BD%E5%BC%80%E5%BF%83/"/>
     <id>http://www.wangxinri.cn/2017/08/01/好开心/</id>
     <published>2017-08-01T01:45:55.000Z</published>
-    <updated>2017-08-02T13:59:29.012Z</updated>
+    <updated>2017-08-03T01:52:24.562Z</updated>
     
     <content type="html"><![CDATA[<p>你好，欢迎来到我的个人技术博客<br><a id="more"></a></p>
 ]]></content>

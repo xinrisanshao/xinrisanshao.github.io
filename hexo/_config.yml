@@ -7,7 +7,7 @@ title: 新日三少的博客
 subtitle: Big big pig   
 description: Love Coding,Enjoy Life
 author: 新日三少
-language: en 
+language: zh-Hans
 timezone: Asia/Shanghai
 
 # URL
@@ -84,3 +84,10 @@ deploy:
 # Extensions
 ## Plugins: http://hexo.io/plugins/
 plugins: hexo-generate-feed
+
+#search
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
