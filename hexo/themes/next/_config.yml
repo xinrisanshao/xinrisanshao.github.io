@@ -91,7 +91,11 @@ scheme: Pisces
 # Value is the target link (E.g. GitHub: https://github.com/iissnan)
 #social:
   #LinkLabel: Link
-
+social:
+  #LinkLabel:link
+  GitHub: https://github.com/xinrisanshao
+  QQ: 
+  CSDN: http://blog.csdn.net/u012878150
 # Social Links Icons
 # Icon Mapping:
 #   Map a menu item to a specific FontAwesome icon name.
@@ -102,15 +106,19 @@ social_icons:
   # Icon Mappings.
   # KeyMapsToSocialItemKey: NameOfTheIconFromFontAwesome
   GitHub: github
-  Twitter: twitter
-  Weibo: weibo
+  QQ: qq
+  CSDN: crosshairs
+  #Twitter: twitter
+  #Weibo: weibo
 
 # Blog rolls
-#links_title: Links
+links_title: 推荐阅读
 #links_layout: block
-#links_layout: inline
-#links:
-  #Title: http://example.com/
+links_layout: inline
+links:
+  知乎: https://www.zhihu.com/
+  简书: http://www.jianshu.com/
+  CSDN: http://www.csdn.net/
 
 # Sidebar Avatar
 #in theme directory(source/images): /images/avatar.jpg
@@ -198,8 +206,8 @@ post_meta:
 # Dependencies: https://github.com/willin/hexo-wordcount
 post_wordcount:
   item_text: true
-  wordcount: false
-  min2read: false
+  wordcount: true
+  min2read: true
   separated_meta: true
 
 # Wechat Subscriber
@@ -336,7 +344,7 @@ changyan:
 ##  type: button
 
 # Share
-#jiathis:
+jiathis: true
 # Warning: JiaThis does not support https.
 #add_this_id:
 
