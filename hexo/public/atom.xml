@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.wangxinri.cn/"/>
-  <updated>2017-08-06T08:43:49.734Z</updated>
+  <updated>2017-08-06T09:08:44.445Z</updated>
   <id>http://www.wangxinri.cn/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.wangxinri.cn/2017/08/06/github%20Pages%20+%20Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89%20%20%E5%88%9D%E7%BA%A7%E7%AF%87/"/>
     <id>http://www.wangxinri.cn/2017/08/06/github Pages + Hexo搭建个人博客（一）  初级篇/</id>
     <published>2017-08-06T08:28:39.747Z</published>
-    <updated>2017-08-06T08:43:49.734Z</updated>
+    <updated>2017-08-06T09:08:44.445Z</updated>
     
     <content type="html"><![CDATA[<h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>之前一直是在有道云上做一些笔记的，上周末在网上看到了一些别人搭建的个人博客，顿时感兴趣起来，然后自己就瞎捣鼓了几天，最终搭建成功了，哈哈。在这个过程中发现，搭建一个网站还是比较简单的，难得是管理博客，更难的是写博客！！！<br><a id="more"></a><br>这个过程中，注册了自己的第一个github账号（很失败有木有，太out了），同时也了解了一些git的版本控制，还知道了Markdown这种标记语言，后面的这些博客都是用这个标记语言写的，还是很有收获的。</p>
 <p>今天特地总结一下使用github Pages + Hexo搭建个人博客的过程，以备不时之需。这里不谈理论，只谈过程，理论自己也不是很清楚，就不瞎说了，以后慢慢熟悉了，在补充！</p>
@@ -60,7 +60,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo new <span class="string">"文章标题"</span></div></pre></td></tr></table></figure>
 <p>我们可以在本地博客文件夹source-&gt;_post文件夹下看到我们新建的markdown文件。通过Markdown编辑器对我们文章进行编辑，我这采用的是Markdownpad2编辑器。</p>
 <p>MarkdownPad2：<a href="http://download.csdn.net/detail/rentongtmd/8333707" target="_blank" rel="external">点击下载</a></p>
-<p>Markdown语法：<a href="http://www.markdown.cn/" target="_blank" rel="external">Marddown中文网</a></p>
+<p>Markdown语法：<a href="http://www.markdown.cn/" target="_blank" rel="external">Markdown中文网</a></p>
 <p>为了能够使Hexo部署到GitHub上，需要安装一个插件：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo-deployer-git --save</div></pre></td></tr></table></figure>
 <p>接下来,我们进行本地发布：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hexo generate</div><div class="line">hexo server</div></pre></td></tr></table></figure></p>

@@ -214,7 +214,7 @@ hexo new "文章标题"
 
 MarkdownPad2：[点击下载](http://download.csdn.net/detail/rentongtmd/8333707)
 
-Markdown语法：[Marddown中文网](http://www.markdown.cn/)
+Markdown语法：[Markdown中文网](http://www.markdown.cn/)
 
 为了能够使Hexo部署到GitHub上，需要安装一个插件：
 
