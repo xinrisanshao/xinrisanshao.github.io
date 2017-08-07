@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.wangxinri.cn/"/>
-  <updated>2017-08-06T09:08:44.445Z</updated>
+  <updated>2017-08-07T05:00:32.037Z</updated>
   <id>http://www.wangxinri.cn/</id>
   
   <author>
@@ -16,13 +16,33 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>github Pages + Hexo搭建个人博客（二）  提升篇</title>
+    <link href="http://www.wangxinri.cn/2017/08/07/github%20Pages%20+%20Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%BA%8C%EF%BC%89%20%20%E6%8F%90%E5%8D%87%E7%AF%87/"/>
+    <id>http://www.wangxinri.cn/2017/08/07/github Pages + Hexo搭建个人博客（二）  提升篇/</id>
+    <published>2017-08-07T04:59:25.000Z</published>
+    <updated>2017-08-07T05:00:32.037Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="hexo" scheme="http://www.wangxinri.cn/categories/hexo/"/>
+    
+    
+      <category term="hexo" scheme="http://www.wangxinri.cn/tags/hexo/"/>
+    
+      <category term="github" scheme="http://www.wangxinri.cn/tags/github/"/>
+    
+  </entry>
+  
+  <entry>
     <title>github Pages + Hexo搭建个人博客（一）  初级篇</title>
     <link href="http://www.wangxinri.cn/2017/08/06/github%20Pages%20+%20Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89%20%20%E5%88%9D%E7%BA%A7%E7%AF%87/"/>
     <id>http://www.wangxinri.cn/2017/08/06/github Pages + Hexo搭建个人博客（一）  初级篇/</id>
     <published>2017-08-06T08:28:39.747Z</published>
-    <updated>2017-08-06T09:08:44.445Z</updated>
+    <updated>2017-08-07T04:57:59.173Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>之前一直是在有道云上做一些笔记的，上周末在网上看到了一些别人搭建的个人博客，顿时感兴趣起来，然后自己就瞎捣鼓了几天，最终搭建成功了，哈哈。在这个过程中发现，搭建一个网站还是比较简单的，难得是管理博客，更难的是写博客！！！<br><a id="more"></a><br>这个过程中，注册了自己的第一个github账号（很失败有木有，太out了），同时也了解了一些git的版本控制，还知道了Markdown这种标记语言，后面的这些博客都是用这个标记语言写的，还是很有收获的。</p>
+    <content type="html"><![CDATA[<h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>之前一直是在有道云上做一些笔记的，上周末在网上看到了一些别人搭建的个人博客，顿时感兴趣起来，然后自己就瞎捣鼓了几天，最终搭建成功了，哈哈。在这个过程中发现，搭建一个网站还是比较简单的，难的是管理博客，更难的是写博客！！！<br><a id="more"></a><br>这个过程中，注册了自己的第一个github账号（很失败有木有，太out了），同时也了解了一些git的版本控制，还知道了Markdown这种标记语言，后面的这些博客都是用这个标记语言写的，还是很有收获的。</p>
 <p>今天特地总结一下使用github Pages + Hexo搭建个人博客的过程，以备不时之需。这里不谈理论，只谈过程，理论自己也不是很清楚，就不瞎说了，以后慢慢熟悉了，在补充！</p>
 <h1 id="二、环境准备"><a href="#二、环境准备" class="headerlink" title="二、环境准备"></a>二、环境准备</h1><h2 id="1-注册github账号"><a href="#1-注册github账号" class="headerlink" title="1. 注册github账号"></a>1. 注册github账号</h2><p>这个就不多说了，账号注册好后，登陆，在首页右边有一个 <strong>+</strong> 号图标，点击之后，选择New repository进行仓库的创建。Repository name命名为username.github.io（username是你的账号名，记住一定要这样命令哦)，点击Create repository，创建成功。</p>
 <h2 id="2-安装Git"><a href="#2-安装Git" class="headerlink" title="2. 安装Git"></a>2. 安装Git</h2><p>我们之所以要安装git，是因为后面我们要用到git命令，将生成的静态博客网页等信息推送至github仓库，我们的git使用一般由两种方式，一种是<strong>图形化界面（GUI）</strong>,另外一种是通过<strong>命令行</strong>。这里我选择安装前者，带界面的，菜鸟嘛，不会git命令，先熟悉熟悉流程，顺带在这个过程中在了解git的一些常用命令。另外安装前者，在桌面上会生成两个图标， <strong>GitHub和Git Shell</strong>,这两个图标分别是图形界面和命令行工具，意思就是我们不仅可以使用图形界面的工具管理我们github上的仓库，同时也可以使用命令行的形式管理，自由切换，爽歪歪！</p>
@@ -77,7 +97,7 @@
     
     <summary type="html">
     
-      &lt;h1 id=&quot;一、前言&quot;&gt;&lt;a href=&quot;#一、前言&quot; class=&quot;headerlink&quot; title=&quot;一、前言&quot;&gt;&lt;/a&gt;一、前言&lt;/h1&gt;&lt;p&gt;之前一直是在有道云上做一些笔记的，上周末在网上看到了一些别人搭建的个人博客，顿时感兴趣起来，然后自己就瞎捣鼓了几天，最终搭建成功了，哈哈。在这个过程中发现，搭建一个网站还是比较简单的，难得是管理博客，更难的是写博客！！！&lt;br&gt;
+      &lt;h1 id=&quot;一、前言&quot;&gt;&lt;a href=&quot;#一、前言&quot; class=&quot;headerlink&quot; title=&quot;一、前言&quot;&gt;&lt;/a&gt;一、前言&lt;/h1&gt;&lt;p&gt;之前一直是在有道云上做一些笔记的，上周末在网上看到了一些别人搭建的个人博客，顿时感兴趣起来，然后自己就瞎捣鼓了几天，最终搭建成功了，哈哈。在这个过程中发现，搭建一个网站还是比较简单的，难的是管理博客，更难的是写博客！！！&lt;br&gt;
     
     </summary>
     
