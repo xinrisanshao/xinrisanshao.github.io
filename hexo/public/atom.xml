@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.wangxinri.cn/"/>
-  <updated>2017-08-07T05:00:32.037Z</updated>
+  <updated>2017-08-07T12:35:13.132Z</updated>
   <id>http://www.wangxinri.cn/</id>
   
   <author>
@@ -20,9 +20,21 @@
     <link href="http://www.wangxinri.cn/2017/08/07/github%20Pages%20+%20Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%BA%8C%EF%BC%89%20%20%E6%8F%90%E5%8D%87%E7%AF%87/"/>
     <id>http://www.wangxinri.cn/2017/08/07/github Pages + Hexo搭建个人博客（二）  提升篇/</id>
     <published>2017-08-07T04:59:25.000Z</published>
-    <updated>2017-08-07T05:00:32.037Z</updated>
+    <updated>2017-08-07T12:35:13.132Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>在之前的<a href="http://wangxinri.cn/2017/08/06/github Pages + Hexo搭建个人博客（一） 初级篇/" target="_blank" rel="external">初级篇</a>中介绍了如何搭建个人博客。本文介绍如何更换博客主题、设置第三方服务和最重要的如何管理发布博客。<br><a id="more"></a></p>
+<h1 id="二、更换主题"><a href="#二、更换主题" class="headerlink" title="二、更换主题"></a>二、更换主题</h1><p>在这篇文章中，假定你已经成功安装了Hexo,并使用Hexo提供的命令创建了一个站点。</p>
+<p>在Hexo中有两份主要的配置文件，其名称都是<strong>_config.yml</strong>。其中，一份位于站点根目录下（此处为G:\GitHub\hexo），主要包含Hexo本身的配置；另一份位于主题根目录下，这份配置由主题作者提供，主要用于配置主题相关的选项。</p>
+<p>为了描述方便，在以下说明中，将前者称为<strong>站点配置文件</strong>，后者称为<strong>主题配置文件</strong>。 </p>
+<h2 id="1-安装NExT"><a href="#1-安装NExT" class="headerlink" title="1. 安装NExT"></a>1. 安装NExT</h2><p>Hexo 安装主题的方式非常简单，只需要将主题文件拷贝至站点目录的 themes 目录下， 然后修改下配置文件即可。具体到 NexT 来说，安装步骤如下。 </p>
+<h3 id="1）下载主题"><a href="#1）下载主题" class="headerlink" title="1）下载主题"></a>1）下载主题</h3><p>如果你熟悉Git，建议你使用<strong>克隆最新版本</strong>的方式，之后的更新可以通过<strong>git pull</strong>来快速更新，而不用再次下载压缩包替换。 （说多了都是累啊，早知道就该看官网了，我就是下载的压缩包，估计是没法快速更新了）</p>
+<p>在终端窗口下，定位到 Hexo 站点目录下。使用 Git 命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> G:\GitHub\hexo</div><div class="line">git <span class="built_in">clone</span> https://github.com/iissnan/hexo-theme-next themes/next  <span class="comment">#后面意思是clone到该目录下themes/next文件夹中</span></div></pre></td></tr></table></figure></p>
+<h3 id="2-启用主题"><a href="#2-启用主题" class="headerlink" title="2)启用主题"></a>2)启用主题</h3><p>与所有 Hexo 主题启用的模式一样。当克隆/下载完成后，打开<strong>站点配置文件</strong>，找到<strong>theme</strong>字段，并将其值更改为<strong>next</strong>。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">theme: next</div></pre></td></tr></table></figure></p>
+]]></content>
     
     <summary type="html">
+    
+      &lt;h1 id=&quot;一、前言&quot;&gt;&lt;a href=&quot;#一、前言&quot; class=&quot;headerlink&quot; title=&quot;一、前言&quot;&gt;&lt;/a&gt;一、前言&lt;/h1&gt;&lt;p&gt;在之前的&lt;a href=&quot;http://wangxinri.cn/2017/08/06/github Pages + Hexo搭建个人博客（一） 初级篇/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;初级篇&lt;/a&gt;中介绍了如何搭建个人博客。本文介绍如何更换博客主题、设置第三方服务和最重要的如何管理发布博客。&lt;br&gt;
     
     </summary>
     
