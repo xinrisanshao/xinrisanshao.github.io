@@ -119,10 +119,12 @@
 <meta property="og:site_name" content="新日三少的博客">
 <meta property="og:description" content="一、前言在之前的初级篇中介绍了如何搭建个人博客。本文介绍如何更换博客主题、设置第三方服务和最重要的如何管理发布博客。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-08-07T12:35:13.132Z">
+<meta property="og:image" content="http://ou6yob3zd.bkt.clouddn.com/20170808201948.png">
+<meta property="og:updated_time" content="2017-08-08T13:59:55.748Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="github Pages + Hexo搭建个人博客（二）  提升篇">
 <meta name="twitter:description" content="一、前言在之前的初级篇中介绍了如何搭建个人博客。本文介绍如何更换博客主题、设置第三方服务和最重要的如何管理发布博客。">
+<meta name="twitter:image" content="http://ou6yob3zd.bkt.clouddn.com/20170808201948.png">
 
 
 
@@ -423,7 +425,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  456
+                  2,154
                 </span>
               
 
@@ -439,7 +441,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  2
+                  8
                 </span>
               
             </div>
@@ -461,10 +463,60 @@
 <h1 id="二、更换主题"><a href="#二、更换主题" class="headerlink" title="二、更换主题"></a>二、更换主题</h1><p>在这篇文章中，假定你已经成功安装了Hexo,并使用Hexo提供的命令创建了一个站点。</p>
 <p>在Hexo中有两份主要的配置文件，其名称都是<strong>_config.yml</strong>。其中，一份位于站点根目录下（此处为G:\GitHub\hexo），主要包含Hexo本身的配置；另一份位于主题根目录下，这份配置由主题作者提供，主要用于配置主题相关的选项。</p>
 <p>为了描述方便，在以下说明中，将前者称为<strong>站点配置文件</strong>，后者称为<strong>主题配置文件</strong>。 </p>
-<h2 id="1-安装NExT"><a href="#1-安装NExT" class="headerlink" title="1. 安装NExT"></a>1. 安装NExT</h2><p>Hexo 安装主题的方式非常简单，只需要将主题文件拷贝至站点目录的 themes 目录下， 然后修改下配置文件即可。具体到 NexT 来说，安装步骤如下。 </p>
-<h3 id="1）下载主题"><a href="#1）下载主题" class="headerlink" title="1）下载主题"></a>1）下载主题</h3><p>如果你熟悉Git，建议你使用<strong>克隆最新版本</strong>的方式，之后的更新可以通过<strong>git pull</strong>来快速更新，而不用再次下载压缩包替换。 （说多了都是累啊，早知道就该看官网了，我就是下载的压缩包，估计是没法快速更新了）</p>
+<h2 id="1-安装NexT"><a href="#1-安装NexT" class="headerlink" title="1. 安装NexT"></a>1. 安装NexT</h2><p>Hexo 安装主题的方式非常简单，只需要将主题文件拷贝至站点目录的 themes 目录下， 然后修改下配置文件即可。具体到 NexT 来说，安装步骤如下。 </p>
+<h3 id="1-下载主题"><a href="#1-下载主题" class="headerlink" title="1) 下载主题"></a>1) 下载主题</h3><p>如果你熟悉Git，建议你使用<strong>克隆最新版本</strong>的方式，之后的更新可以通过<strong>git pull</strong>来快速更新，而不用再次下载压缩包替换。 （说多了都是累啊，早知道就该看官网了，我就是下载的压缩包，估计是没法快速更新了）</p>
 <p>在终端窗口下，定位到 Hexo 站点目录下。使用 Git 命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> G:\GitHub\hexo</div><div class="line">git <span class="built_in">clone</span> https://github.com/iissnan/hexo-theme-next themes/next  <span class="comment">#后面意思是clone到该目录下themes/next文件夹中</span></div></pre></td></tr></table></figure></p>
-<h3 id="2-启用主题"><a href="#2-启用主题" class="headerlink" title="2)启用主题"></a>2)启用主题</h3><p>与所有 Hexo 主题启用的模式一样。当克隆/下载完成后，打开<strong>站点配置文件</strong>，找到<strong>theme</strong>字段，并将其值更改为<strong>next</strong>。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">theme: next</div></pre></td></tr></table></figure></p>
+<h3 id="2-启用主题"><a href="#2-启用主题" class="headerlink" title="2) 启用主题"></a>2) 启用主题</h3><p>与所有 Hexo 主题启用的模式一样。当克隆/下载完成后，打开<strong>站点配置文件</strong>，找到<strong>theme</strong>字段，并将其值更改为<strong>next</strong>。 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">theme: next</div></pre></td></tr></table></figure>
+<p>此时我们在<strong>主题配置文件</strong>中设置语言。修改<strong>language</strong>字段。在主题的languages文件夹中选择语言，此处目录为G:\GitHub\hexo\themes\next\languages 。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">language: zh-Hans   <span class="comment">#选择汉语，选择其他语言填写其他值即可</span></div></pre></td></tr></table></figure>
+<p>到此，NexT主题安装完成。下一步将验证主题是否正确启用。在切换主题之后、验证之前，我们最好使用hexo clean 来清除Hexo的缓存。 </p>
+<h3 id="3-验证主题"><a href="#3-验证主题" class="headerlink" title="3) 验证主题"></a>3) 验证主题</h3><p>进入到博客文件夹根目录，此处为G:\GitHub\hexo，执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">hexo clean  <span class="comment">#更换主题，最好先清除Hexo缓存</span></div><div class="line">hexo generate  <span class="comment">#生成静态页面</span></div><div class="line">hexo server   <span class="comment"># hexo server -p **** 更换默认4000端口为****</span></div></pre></td></tr></table></figure>
+<p>此时即可使用浏览器访问 <a href="http://localhost:4000。" target="_blank" rel="external">http://localhost:4000。</a></p>
+<p>检查站点是否正确运行，如长时间访问不了，更改端口。</p>
+<p><img src="http://ou6yob3zd.bkt.clouddn.com/20170808201948.png" alt=""></p>
+<p>现在，你已经成功安装并启用了NexT主题。下一步我们将要更改一些主题的设定，包括个性化以及集成第三方服务。</p>
+<h1 id="三、主题设定"><a href="#三、主题设定" class="headerlink" title="三、主题设定"></a>三、主题设定</h1><p>NexT官网和网上资料非常丰富，就不细说了，参考如下：</p>
+<p>官方参考：<a href="http://theme-next.iissnan.com/getting-started.html" target="_blank" rel="external">NexT使用文档</a></p>
+<p>网上资源：<a href="http://blog.csdn.net/qq_33699981/article/details/72716951" target="_blank" rel="external">hexo的next主题个性化教程：打造炫酷网站</a></p>
+<p><strong>补充几点：</strong></p>
+<h2 id="1-修改背景图片"><a href="#1-修改背景图片" class="headerlink" title="1. 修改背景图片"></a>1. 修改背景图片</h2><p>首先找到一个背景图片放到 hexo（hexo工程文件）-&gt; themes -&gt; next -&gt; source -&gt; images 的路径下；</p>
+<p>然后进入hexo（hexo工程文件）-&gt; themes -&gt; next -&gt; source -&gt; css -&gt; _custom ，找到路径下的custom.styl文件，在文件的最上方加入如下代码就完事了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// Custom styles.</div><div class="line">body &#123;</div><div class="line">  background:url(/images/background.jpeg);</div><div class="line">  background-attachment: fixed;   <span class="comment">#固定背景图，使得不随页面移动</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="2-修改博客内容宽度"><a href="#2-修改博客内容宽度" class="headerlink" title="2. 修改博客内容宽度"></a>2. 修改博客内容宽度</h2><p>Pisces Scheme 直接在./themes/next/source/css/_variables/custom.styl文件中添加</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$main</span>-desktop = 1200px </div><div class="line"><span class="variable">$content</span>-desktop = 900px</div></pre></td></tr></table></figure>
+<p>可以避免直接修改源码，可以解决内容宽度问题，而且在移动设备上显示正常。</p>
+<p>参考：<a href="https://github.com/iissnan/hexo-theme-next/issues/759#issuecomment-202242848" target="_blank" rel="external">感觉浏览器留白太多，代码块看起来比较麻烦</a></p>
+<p>到这的时候，主题应该也优化的差不多，接下来就是写博客和管理了，加油搞起。</p>
+<h1 id="四、博客管理维护"><a href="#四、博客管理维护" class="headerlink" title="四、博客管理维护"></a>四、博客管理维护</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>Hexo部署到GitHub上的文件，是.md（你的博文）转化之后的.html（静态网页）。因此，当你重装电脑或者想在不同电脑上修改博客时，因为.md文件不存在了，就不可能了（除非你自己写html）。</p>
+<p>其实，Hexo生成的网站文件中有.gitignore文件，因此它的本意也是想我们将Hexo生成的网站文件存放到GitHub上进行管理的（而不是用U盘或者云备份啦）。这样，不仅解决了上述的问题，还可以通过git的版本控制追踪你的博文的修改过程，是极赞的。</p>
+<p><strong>注：</strong> .gitignoree文件中的内容是忽略上传至Github仓库的文件，这里我修改成如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.deploy*/    <span class="comment">#只忽略上传.deploy*/开头的文件</span></div></pre></td></tr></table></figure></p>
+<p>但是，如果每一个GitHub Pages都需要创建一个额外的仓库来存放Hexo网站文件，我感觉很麻烦（10个项目需要20个仓库）。</p>
+<p>所以，我利用了分支！！！</p>
+<p>简单地说，每个想建立GitHub Pages的仓库，起码有两个分支，一个用来存放Hexo网站的文件，一个用来发布网站。</p>
+<p>下面以我的博客作为例子详细地讲述。</p>
+<h2 id="2-博客搭建流程"><a href="#2-博客搭建流程" class="headerlink" title="2. 博客搭建流程"></a>2. 博客搭建流程</h2><p>  1.创建仓库，xinrisanshao.github.io；</p>
+<p>  2.创建两个分支：master 与 hexo；</p>
+<p>  3.设置hexo为默认分支（因为我们只需要手动管理这个分支上的Hexo网站文件）；</p>
+<p>  4.使用如下命令拷贝仓库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> https://github.com/xinrisanshao/xinrisanshao.github.io.git</div></pre></td></tr></table></figure>
+<p>  5.在本地xinrisanshao.github.io文件夹下通过Git shell依次执行npm install hexo、hexo init、npm<br>   install 和 npm install hexo-deployer-git（此时当前分支应显示为hexo）;</p>
+<p>  6.修改_config.yml中的deploy参数，分支应为master；</p>
+<p>  7.依次执行git add .、git commit -m “…”、git push origin hexo提交网站相关的文件（Hexo网站根目录执行）；</p>
+<p>  8.执行hexo generate -d生成网站并部署到GitHub上（Hexo网站根目录执行）。</p>
+<p>这样一来，在GitHub上的xinrisanshao.github.io仓库就有两个分支，一个hexo分支用来存放网站的原始文件，一个master分支用来存放生成的静态网页。修改了博客网站原始文件，然后发布到hexo分支上进行保存，同时修改后新的静态网页deploy到master,同步更新，两者都保存至Github仓库上，不怕文件丢失了。</p>
+<p><strong>注：</strong>流程的5,6步hexo init创建的是一个新的Hexo网站文件，我们在本地配置好的Hexo+next主题的网站文件可以直接复制到.\xinrisanshao.github.io\文件夹中，直接代替5,6步创建的流程，这样就不需要我们再次重复配置了，其他的过程都是一样的。</p>
+<h2 id="3-博客管理流程"><a href="#3-博客管理流程" class="headerlink" title="3. 博客管理流程"></a>3. 博客管理流程</h2><h3 id="1-编辑与修改博客"><a href="#1-编辑与修改博客" class="headerlink" title="1. 编辑与修改博客"></a>1. 编辑与修改博客</h3><p>在本地对博客进行修改（添加新博文、修改样式等等）后，通过下面的流程进行管理：</p>
+<p>1.依次执行git add .、git commit -m “…”、git push origin hexo指令将改动推送到GitHub（此时当前分支应为hexo）；</p>
+<p>2.然后才执行hexo generate -d发布网站到master分支上。</p>
+<p>虽然两个过程顺序调转一般不会有问题，不过逻辑上这样的顺序是绝对没问题的（例如突然死机要重装了，悲催….的情况，调转顺序就有问题了）。</p>
+<h3 id="2-本地资料丢失"><a href="#2-本地资料丢失" class="headerlink" title="2. 本地资料丢失"></a>2. 本地资料丢失</h3><p>当重装电脑之后，或者想在其他电脑上修改博客，可以使用下列步骤：<br>1.首先安装Git，Node.js和Hexo。</p>
+<p>2.使用git clone git@github.com:CrazyMilk/CrazyMilk.github.io.git拷贝仓库（默认分支为hexo）；</p>
+<p>3.因为之前的.gitignore文件只忽略了上传.deploy*/开头的文件，所以我们上传到hexo分支的是整个的Hexo网站文件，下载之后直接什么依赖配置都好了，此时即可照着编辑与修改博客流程进行博客编辑了，大功告成。</p>
+<h3 id="3-博客图片存放（补）"><a href="#3-博客图片存放（补）" class="headerlink" title="3. 博客图片存放（补）"></a>3. 博客图片存放（补）</h3><p>如果将博客的图片放在Hexo网站文件中，那么加载博客的时候会变得非常慢，此时，我们可以选择一个合适的图床存放图片，然后获得图片的链接地址，这样访问速度会变快许多。</p>
+<p>我选择的是<strong>七牛云</strong>存放图片，具体使用方法很简单，注册账号，上传图片至空间中，这些就不细说了，网上一大堆资料。</p>
+<h1 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h1><p>不想再敲了，好累！这也算是对搭建这个博客的一个总结吧，休息去。</p>
 
       
     </div>
@@ -770,7 +822,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、前言"><span class="nav-number">1.</span> <span class="nav-text">一、前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、更换主题"><span class="nav-number">2.</span> <span class="nav-text">二、更换主题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-安装NExT"><span class="nav-number">2.1.</span> <span class="nav-text">1. 安装NExT</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1）下载主题"><span class="nav-number">2.1.1.</span> <span class="nav-text">1）下载主题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-启用主题"><span class="nav-number">2.1.2.</span> <span class="nav-text">2)启用主题</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、前言"><span class="nav-number">1.</span> <span class="nav-text">一、前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、更换主题"><span class="nav-number">2.</span> <span class="nav-text">二、更换主题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-安装NexT"><span class="nav-number">2.1.</span> <span class="nav-text">1. 安装NexT</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-下载主题"><span class="nav-number">2.1.1.</span> <span class="nav-text">1) 下载主题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-启用主题"><span class="nav-number">2.1.2.</span> <span class="nav-text">2) 启用主题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-验证主题"><span class="nav-number">2.1.3.</span> <span class="nav-text">3) 验证主题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、主题设定"><span class="nav-number">3.</span> <span class="nav-text">三、主题设定</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-修改背景图片"><span class="nav-number">3.1.</span> <span class="nav-text">1. 修改背景图片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-修改博客内容宽度"><span class="nav-number">3.2.</span> <span class="nav-text">2. 修改博客内容宽度</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、博客管理维护"><span class="nav-number">4.</span> <span class="nav-text">四、博客管理维护</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-概述"><span class="nav-number">4.1.</span> <span class="nav-text">1. 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-博客搭建流程"><span class="nav-number">4.2.</span> <span class="nav-text">2. 博客搭建流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-博客管理流程"><span class="nav-number">4.3.</span> <span class="nav-text">3. 博客管理流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-编辑与修改博客"><span class="nav-number">4.3.1.</span> <span class="nav-text">1. 编辑与修改博客</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-本地资料丢失"><span class="nav-number">4.3.2.</span> <span class="nav-text">2. 本地资料丢失</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-博客图片存放（补）"><span class="nav-number">4.3.3.</span> <span class="nav-text">3. 博客图片存放（补）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、总结"><span class="nav-number">5.</span> <span class="nav-text">五、总结</span></a></li></ol></div>
             
 
           </div>
@@ -823,7 +875,7 @@
 -->
 <div style="color:red" class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count" >全站共2.3k字</span>
+  <span class="post-count" >全站共4.0k字</span>
 </div>
 
 
