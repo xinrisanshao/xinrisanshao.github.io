@@ -7,7 +7,7 @@ categories: hexo
 comments: true
 ---
 # 一、前言
-在之前的[初级篇](http://wangxinri.cn/2017/08/06/github Pages + Hexo搭建个人博客（一） 初级篇/)中介绍了如何搭建个人博客。本文介绍如何更换博客主题、设置第三方服务和最重要的如何管理发布博客。
+在之前的**初级篇**中介绍了如何搭建个人博客。本文介绍如何更换博客主题、设置第三方服务和最重要的如何管理发布博客。
 <!--more-->
 # 二、更换主题
 在这篇文章中，假定你已经成功安装了Hexo,并使用Hexo提供的命令创建了一个站点。
@@ -67,8 +67,16 @@ NexT官网和网上资料非常丰富，就不细说了，参考如下：
 网上资源：[hexo的next主题个性化教程：打造炫酷网站](http://blog.csdn.net/qq_33699981/article/details/72716951)
 
 **补充几点：**
+## 1. 添加评论功能
+我选择的是**来比力**，很简单，注册一个账号，妈的，是韩国的网站，发验证码竟然是韩文，通过有道词典才知道它讲的是啥，输入四位验证码回车后，然后填写相关信息，申请获取代码，然后得到安装代码中的data-uid。
 
-## 1. 修改背景图片
+编辑主题配置文件， 编辑 livere_uid 字段，设置如下：
+
+``` bash
+livere_uid: #your livere_uid
+```
+
+## 2. 修改背景图片
 
 首先找到一个背景图片放到 hexo（hexo工程文件）-> themes -> next -> source -> images 的路径下；
 
@@ -82,7 +90,7 @@ body {
 }
 ```
 
-## 2. 修改博客内容宽度
+## 3. 修改博客内容宽度
 Pisces Scheme 直接在./themes/next/source/css/_variables/custom.styl文件中添加
 
 ``` bash
@@ -164,6 +172,7 @@ git clone https://github.com/xinrisanshao/xinrisanshao.github.io.git
 
 3.因为之前的.gitignore文件只忽略了上传.deploy*/开头的文件，所以我们上传到hexo分支的是整个的Hexo网站文件，下载之后直接什么依赖配置都好了，此时即可照着编辑与修改博客流程进行博客编辑了，大功告成。
 
+以上博客管理参考：[点击查看](http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/#more)
 
 ### 3. 博客图片存放（补）
 如果将博客的图片放在Hexo网站文件中，那么加载博客的时候会变得非常慢，此时，我们可以选择一个合适的图床存放图片，然后获得图片的链接地址，这样访问速度会变快许多。
