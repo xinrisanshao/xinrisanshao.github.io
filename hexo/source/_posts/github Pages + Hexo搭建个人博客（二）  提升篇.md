@@ -168,7 +168,11 @@ git clone https://github.com/xinrisanshao/xinrisanshao.github.io.git
 当重装电脑之后，或者想在其他电脑上修改博客，可以使用下列步骤：
 1.首先安装Git，Node.js和Hexo。
 
-2.使用git clone git@github.com:CrazyMilk/CrazyMilk.github.io.git拷贝仓库（默认分支为hexo）；
+2.使用下面命令拷贝仓库（默认分支为hexo）；
+
+``` bash
+git clone https://github.com/xinrisanshao/xinrisanshao.github.io.git
+```
 
 3.因为之前的.gitignore文件只忽略了上传.deploy*/开头的文件，所以我们上传到hexo分支的是整个的Hexo网站文件，下载之后直接什么依赖配置都好了，此时即可照着编辑与修改博客流程进行博客编辑了，大功告成。
 

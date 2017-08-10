@@ -1,164 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
-    
-    <entry>
-      <title><![CDATA[github Pages + Hexo搭建个人博客（二）  提升篇]]></title>
-      <url>/2017/08/07/github%20Pages%20+%20Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%BA%8C%EF%BC%89%20%20%E6%8F%90%E5%8D%87%E7%AF%87/</url>
-      <content type="html"><![CDATA[<h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>在之前的<strong>初级篇</strong>中介绍了如何搭建个人博客。本文介绍如何更换博客主题、设置第三方服务和最重要的如何管理发布博客。<br><a id="more"></a></p>
-<h1 id="二、更换主题"><a href="#二、更换主题" class="headerlink" title="二、更换主题"></a>二、更换主题</h1><p>在这篇文章中，假定你已经成功安装了Hexo,并使用Hexo提供的命令创建了一个站点。</p>
-<p>在Hexo中有两份主要的配置文件，其名称都是<strong>_config.yml</strong>。其中，一份位于站点根目录下（此处为G:\GitHub\hexo），主要包含Hexo本身的配置；另一份位于主题根目录下，这份配置由主题作者提供，主要用于配置主题相关的选项。</p>
-<p>为了描述方便，在以下说明中，将前者称为<strong>站点配置文件</strong>，后者称为<strong>主题配置文件</strong>。 </p>
-<h2 id="1-安装NexT"><a href="#1-安装NexT" class="headerlink" title="1. 安装NexT"></a>1. 安装NexT</h2><p>Hexo 安装主题的方式非常简单，只需要将主题文件拷贝至站点目录的 themes 目录下， 然后修改下配置文件即可。具体到 NexT 来说，安装步骤如下。 </p>
-<h3 id="1-下载主题"><a href="#1-下载主题" class="headerlink" title="1) 下载主题"></a>1) 下载主题</h3><p>如果你熟悉Git，建议你使用<strong>克隆最新版本</strong>的方式，之后的更新可以通过<strong>git pull</strong>来快速更新，而不用再次下载压缩包替换。 （说多了都是累啊，早知道就该看官网了，我就是下载的压缩包，估计是没法快速更新了）</p>
-<p>在终端窗口下，定位到 Hexo 站点目录下。使用 Git 命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> G:\GitHub\hexo</div><div class="line">git <span class="built_in">clone</span> https://github.com/iissnan/hexo-theme-next themes/next  <span class="comment">#后面意思是clone到该目录下themes/next文件夹中</span></div></pre></td></tr></table></figure></p>
-<h3 id="2-启用主题"><a href="#2-启用主题" class="headerlink" title="2) 启用主题"></a>2) 启用主题</h3><p>与所有 Hexo 主题启用的模式一样。当克隆/下载完成后，打开<strong>站点配置文件</strong>，找到<strong>theme</strong>字段，并将其值更改为<strong>next</strong>。 </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">theme: next</div></pre></td></tr></table></figure>
-<p>此时我们在<strong>主题配置文件</strong>中设置语言。修改<strong>language</strong>字段。在主题的languages文件夹中选择语言，此处目录为G:\GitHub\hexo\themes\next\languages 。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">language: zh-Hans   <span class="comment">#选择汉语，选择其他语言填写其他值即可</span></div></pre></td></tr></table></figure>
-<p>到此，NexT主题安装完成。下一步将验证主题是否正确启用。在切换主题之后、验证之前，我们最好使用hexo clean 来清除Hexo的缓存。 </p>
-<h3 id="3-验证主题"><a href="#3-验证主题" class="headerlink" title="3) 验证主题"></a>3) 验证主题</h3><p>进入到博客文件夹根目录，此处为G:\GitHub\hexo，执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">hexo clean  <span class="comment">#更换主题，最好先清除Hexo缓存</span></div><div class="line">hexo generate  <span class="comment">#生成静态页面</span></div><div class="line">hexo server   <span class="comment"># hexo server -p **** 更换默认4000端口为****</span></div></pre></td></tr></table></figure>
-<p>此时即可使用浏览器访问 <a href="http://localhost:4000。" target="_blank" rel="external">http://localhost:4000。</a></p>
-<p>检查站点是否正确运行，如长时间访问不了，更改端口。</p>
-<p><img src="http://ou6yob3zd.bkt.clouddn.com/20170808201948.png" alt=""></p>
-<p>现在，你已经成功安装并启用了NexT主题。下一步我们将要更改一些主题的设定，包括个性化以及集成第三方服务。</p>
-<h1 id="三、主题设定"><a href="#三、主题设定" class="headerlink" title="三、主题设定"></a>三、主题设定</h1><p>NexT官网和网上资料非常丰富，就不细说了，参考如下：</p>
-<p>官方参考：<a href="http://theme-next.iissnan.com/getting-started.html" target="_blank" rel="external">NexT使用文档</a></p>
-<p>网上资源：<a href="http://blog.csdn.net/qq_33699981/article/details/72716951" target="_blank" rel="external">hexo的next主题个性化教程：打造炫酷网站</a></p>
-<p><strong>补充几点：</strong></p>
-<h2 id="1-添加评论功能"><a href="#1-添加评论功能" class="headerlink" title="1. 添加评论功能"></a>1. 添加评论功能</h2><p>我选择的是<strong>来比力</strong>，很简单，注册一个账号，妈的，是韩国的网站，发验证码竟然是韩文，通过有道词典才知道它讲的是啥，输入四位验证码回车后，然后填写相关信息，申请获取代码，然后得到安装代码中的data-uid。</p>
-<p>编辑主题配置文件， 编辑 livere_uid 字段，设置如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">livere_uid: <span class="comment">#your livere_uid</span></div></pre></td></tr></table></figure>
-<h2 id="2-修改背景图片"><a href="#2-修改背景图片" class="headerlink" title="2. 修改背景图片"></a>2. 修改背景图片</h2><p>首先找到一个背景图片放到 hexo（hexo工程文件）-&gt; themes -&gt; next -&gt; source -&gt; images 的路径下；</p>
-<p>然后进入hexo（hexo工程文件）-&gt; themes -&gt; next -&gt; source -&gt; css -&gt; _custom ，找到路径下的custom.styl文件，在文件的最上方加入如下代码就完事了。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// Custom styles.</div><div class="line">body &#123;</div><div class="line">  background:url(/images/background.jpeg);</div><div class="line">  background-attachment: fixed;   <span class="comment">#固定背景图，使得不随页面移动</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="3-修改博客内容宽度"><a href="#3-修改博客内容宽度" class="headerlink" title="3. 修改博客内容宽度"></a>3. 修改博客内容宽度</h2><p>Pisces Scheme 直接在./themes/next/source/css/_variables/custom.styl文件中添加</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$main</span>-desktop = 1200px </div><div class="line"><span class="variable">$content</span>-desktop = 900px</div></pre></td></tr></table></figure>
-<p>可以避免直接修改源码，可以解决内容宽度问题，而且在移动设备上显示正常。</p>
-<p>参考：<a href="https://github.com/iissnan/hexo-theme-next/issues/759#issuecomment-202242848" target="_blank" rel="external">感觉浏览器留白太多，代码块看起来比较麻烦</a></p>
-<p>到这的时候，主题应该也优化的差不多，接下来就是写博客和管理了，加油搞起。</p>
-<h1 id="四、博客管理维护"><a href="#四、博客管理维护" class="headerlink" title="四、博客管理维护"></a>四、博客管理维护</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>Hexo部署到GitHub上的文件，是.md（你的博文）转化之后的.html（静态网页）。因此，当你重装电脑或者想在不同电脑上修改博客时，因为.md文件不存在了，就不可能了（除非你自己写html）。</p>
-<p>其实，Hexo生成的网站文件中有.gitignore文件，因此它的本意也是想我们将Hexo生成的网站文件存放到GitHub上进行管理的（而不是用U盘或者云备份啦）。这样，不仅解决了上述的问题，还可以通过git的版本控制追踪你的博文的修改过程，是极赞的。</p>
-<p><strong>注：</strong> .gitignoree文件中的内容是忽略上传至Github仓库的文件，这里我修改成如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.deploy*/    <span class="comment">#只忽略上传.deploy*/开头的文件</span></div></pre></td></tr></table></figure></p>
-<p>但是，如果每一个GitHub Pages都需要创建一个额外的仓库来存放Hexo网站文件，我感觉很麻烦（10个项目需要20个仓库）。</p>
-<p>所以，我利用了分支！！！</p>
-<p>简单地说，每个想建立GitHub Pages的仓库，起码有两个分支，一个用来存放Hexo网站的文件，一个用来发布网站。</p>
-<p>下面以我的博客作为例子详细地讲述。</p>
-<h2 id="2-博客搭建流程"><a href="#2-博客搭建流程" class="headerlink" title="2. 博客搭建流程"></a>2. 博客搭建流程</h2><p>  1.创建仓库，xinrisanshao.github.io；</p>
-<p>  2.创建两个分支：master 与 hexo；</p>
-<p>  3.设置hexo为默认分支（因为我们只需要手动管理这个分支上的Hexo网站文件）；</p>
-<p>  4.使用如下命令拷贝仓库</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> https://github.com/xinrisanshao/xinrisanshao.github.io.git</div></pre></td></tr></table></figure>
-<p>  5.在本地xinrisanshao.github.io文件夹下通过Git shell依次执行npm install hexo、hexo init、npm<br>   install 和 npm install hexo-deployer-git（此时当前分支应显示为hexo）;</p>
-<p>  6.修改_config.yml中的deploy参数，分支应为master；</p>
-<p>  7.依次执行git add .、git commit -m “…”、git push origin hexo提交网站相关的文件（Hexo网站根目录执行）；</p>
-<p>  8.执行hexo generate -d生成网站并部署到GitHub上（Hexo网站根目录执行）。</p>
-<p>这样一来，在GitHub上的xinrisanshao.github.io仓库就有两个分支，一个hexo分支用来存放网站的原始文件，一个master分支用来存放生成的静态网页。修改了博客网站原始文件，然后发布到hexo分支上进行保存，同时修改后新的静态网页deploy到master,同步更新，两者都保存至Github仓库上，不怕文件丢失了。</p>
-<p><strong>注：</strong>流程的5,6步hexo init创建的是一个新的Hexo网站文件，我们在本地配置好的Hexo+next主题的网站文件可以直接复制到.\xinrisanshao.github.io\文件夹中，直接代替5,6步创建的流程，这样就不需要我们再次重复配置了，其他的过程都是一样的。</p>
-<h2 id="3-博客管理流程"><a href="#3-博客管理流程" class="headerlink" title="3. 博客管理流程"></a>3. 博客管理流程</h2><h3 id="1-编辑与修改博客"><a href="#1-编辑与修改博客" class="headerlink" title="1. 编辑与修改博客"></a>1. 编辑与修改博客</h3><p>在本地对博客进行修改（添加新博文、修改样式等等）后，通过下面的流程进行管理：</p>
-<p>1.依次执行git add .、git commit -m “…”、git push origin hexo指令将改动推送到GitHub（此时当前分支应为hexo）；</p>
-<p>2.然后才执行hexo generate -d发布网站到master分支上。</p>
-<p>虽然两个过程顺序调转一般不会有问题，不过逻辑上这样的顺序是绝对没问题的（例如突然死机要重装了，悲催….的情况，调转顺序就有问题了）。</p>
-<h3 id="2-本地资料丢失"><a href="#2-本地资料丢失" class="headerlink" title="2. 本地资料丢失"></a>2. 本地资料丢失</h3><p>当重装电脑之后，或者想在其他电脑上修改博客，可以使用下列步骤：<br>1.首先安装Git，Node.js和Hexo。</p>
-<p>2.使用git clone git@github.com:CrazyMilk/CrazyMilk.github.io.git拷贝仓库（默认分支为hexo）；</p>
-<p>3.因为之前的.gitignore文件只忽略了上传.deploy*/开头的文件，所以我们上传到hexo分支的是整个的Hexo网站文件，下载之后直接什么依赖配置都好了，此时即可照着编辑与修改博客流程进行博客编辑了，大功告成。</p>
-<p>以上博客管理参考：<a href="http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/#more" target="_blank" rel="external">点击查看</a></p>
-<h3 id="3-博客图片存放（补）"><a href="#3-博客图片存放（补）" class="headerlink" title="3. 博客图片存放（补）"></a>3. 博客图片存放（补）</h3><p>如果将博客的图片放在Hexo网站文件中，那么加载博客的时候会变得非常慢，此时，我们可以选择一个合适的图床存放图片，然后获得图片的链接地址，这样访问速度会变快许多。</p>
-<p>我选择的是<strong>七牛云</strong>存放图片，具体使用方法很简单，注册账号，上传图片至空间中，这些就不细说了，网上一大堆资料。</p>
-<h1 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h1><p>不想再敲了，好累！这也算是对搭建这个博客的一个总结吧，休息去。</p>
-]]></content>
-      
-        <categories>
-            
-            <category> hexo </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> hexo </tag>
-            
-            <tag> github </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[github Pages + Hexo搭建个人博客（一）  初级篇]]></title>
-      <url>/2017/08/06/github%20Pages%20+%20Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89%20%20%E5%88%9D%E7%BA%A7%E7%AF%87/</url>
-      <content type="html"><![CDATA[<h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>之前一直是在有道云上做一些笔记的，上周末在网上看到了一些别人搭建的个人博客，顿时感兴趣起来，然后自己就瞎捣鼓了几天，最终搭建成功了，哈哈。在这个过程中发现，搭建一个网站还是比较简单的，难的是管理博客，更难的是写博客！！！<br><a id="more"></a><br>这个过程中，注册了自己的第一个github账号（很失败有木有，太out了），同时也了解了一些git的版本控制，还知道了Markdown这种标记语言，后面的这些博客都是用这个标记语言写的，还是很有收获的。</p>
-<p>今天特地总结一下使用github Pages + Hexo搭建个人博客的过程，以备不时之需。这里不谈理论，只谈过程，理论自己也不是很清楚，就不瞎说了，以后慢慢熟悉了，在补充！</p>
-<h1 id="二、环境准备"><a href="#二、环境准备" class="headerlink" title="二、环境准备"></a>二、环境准备</h1><h2 id="1-注册github账号"><a href="#1-注册github账号" class="headerlink" title="1. 注册github账号"></a>1. 注册github账号</h2><p>这个就不多说了，账号注册好后，登陆，在首页右边有一个 <strong>+</strong> 号图标，点击之后，选择New repository进行仓库的创建。Repository name命名为username.github.io（username是你的账号名，记住一定要这样命令哦)，点击Create repository，创建成功。</p>
-<h2 id="2-安装Git"><a href="#2-安装Git" class="headerlink" title="2. 安装Git"></a>2. 安装Git</h2><p>我们之所以要安装git，是因为后面我们要用到git命令，将生成的静态博客网页等信息推送至github仓库，我们的git使用一般由两种方式，一种是<strong>图形化界面（GUI）</strong>,另外一种是通过<strong>命令行</strong>。这里我选择安装前者，带界面的，菜鸟嘛，不会git命令，先熟悉熟悉流程，顺带在这个过程中在了解git的一些常用命令。另外安装前者，在桌面上会生成两个图标， <strong>GitHub和Git Shell</strong>,这两个图标分别是图形界面和命令行工具，意思就是我们不仅可以使用图形界面的工具管理我们github上的仓库，同时也可以使用命令行的形式管理，自由切换，爽歪歪！</p>
-<p>Github for Windows: <a href="http://download.csdn.net/detail/devsplash/9666012" target="_blank" rel="external">点击下载</a></p>
-<p>下载安装完后，桌面上生成<strong>GitHub和Git Shell</strong>两个图标，然后点击<strong>GitHub</strong>图标，输入前面注册的github账号和密码，登录完成，ok，暂时先这样，接着往下走。</p>
-<p>Github for Windows 安装配置使用教程: <a href="http://blog.csdn.net/chenxun_2010/article/details/43670651" target="_blank" rel="external">参考</a></p>
-<h2 id="3-安装Node-js"><a href="#3-安装Node-js" class="headerlink" title="3. 安装Node.js"></a>3. 安装Node.js</h2><p>安装Node.js,因为Hexo是一个基于Node.js的静态博客程序，所以首先安装Node.js。</p>
-<p>点击进入<a href="https://nodejs.org/en/" target="_blank" rel="external">Node.js官网</a></p>
-<p>我们选择左边的通用版，点击下载后，设置安装路径然后默认安装就可以了。</p>
-<h2 id="4-安装Hexo"><a href="#4-安装Hexo" class="headerlink" title="4. 安装Hexo"></a>4. 安装Hexo</h2><p>以上环境配好了之后，那么恭喜您！接下来只需要使用npm即可完成Hexo的安装。</p>
-<p>打开终端，输入：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install -g hexo-cli</div></pre></td></tr></table></figure>
-<p>如果执行这条命令时长时间未成功，那么请先使用下面的命令将npm镜像源更改为国内的镜像，再执行上面的安装命令，因为国外的镜像源很有可能被墙了。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm config <span class="built_in">set</span> registry https://registry.npm.taobao.org</div></pre></td></tr></table></figure>
-<p>安装好Hexo以后，在终端输入：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo</div></pre></td></tr></table></figure>
-<p>若出现下图，说明hexo安装成功：</p>
-<p><img src="http://ou6yob3zd.bkt.clouddn.com/20170806141617.png" alt=""></p>
-<h1 id="三、使用Hexo建站"><a href="#三、使用Hexo建站" class="headerlink" title="三、使用Hexo建站"></a>三、使用Hexo建站</h1><h2 id="1-初始化博客"><a href="#1-初始化博客" class="headerlink" title="1. 初始化博客"></a>1. 初始化博客</h2><p>新建一个网站。如果没有设置 folder ，Hexo 默认在目前的文件夹建立网站。比如我在终端进入到G:Github目录，输入hexo init hexo，则在该目录下创建了hexo博客文件夹。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo init [folder]</div></pre></td></tr></table></figure>
-<p>接下来进入到博客文件夹，这里是E:Github/hexo，执行如下命令，根据该目录下的package.json中既定的dependencies配置安装所有的依赖包</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install</div></pre></td></tr></table></figure>
-<h2 id="2-配置"><a href="#2-配置" class="headerlink" title="2. 配置"></a>2. 配置</h2><p>网站的主配置文件为hexo根目录下的<strong>_config.yml</strong>文件：</p>
-<p>默认配置如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div></pre></td><td class="code"><pre><div class="line"># Hexo Configuration</div><div class="line">## Docs: https://hexo.io/docs/configuration.html</div><div class="line">## Source: https://github.com/hexojs/hexo/</div><div class="line"></div><div class="line"># Site</div><div class="line">title: Hexo</div><div class="line">subtitle:</div><div class="line">description:</div><div class="line">author: John Doe</div><div class="line">language:</div><div class="line">timezone:</div><div class="line"></div><div class="line"># URL</div><div class="line">## If your site is put in a subdirectory, set url as &apos;http://yoursite.com/child&apos; and root as &apos;/child/&apos;</div><div class="line">url: http://yoursite.com</div><div class="line">root: /</div><div class="line">permalink: :year/:month/:day/:title/</div><div class="line">permalink_defaults:</div><div class="line"></div><div class="line"># Directory</div><div class="line">source_dir: source</div><div class="line">public_dir: public</div><div class="line">tag_dir: tags</div><div class="line">archive_dir: archives</div><div class="line">category_dir: categories</div><div class="line">code_dir: downloads/code</div><div class="line">i18n_dir: :lang</div><div class="line">skip_render:</div><div class="line"></div><div class="line"># Writing</div><div class="line">new_post_name: :title.md # File name of new posts</div><div class="line">default_layout: post</div><div class="line">titlecase: false # Transform title into titlecase</div><div class="line">external_link: true # Open external links in new tab</div><div class="line">filename_case: 0</div><div class="line">render_drafts: false</div><div class="line">post_asset_folder: false</div><div class="line">relative_link: false</div><div class="line">future: true</div><div class="line">highlight:</div><div class="line">  enable: true</div><div class="line">  line_number: true</div><div class="line">  auto_detect: false</div><div class="line">  tab_replace:</div><div class="line">  </div><div class="line"># Home page setting</div><div class="line"># path: Root path for your blogs index page. (default = &apos;&apos;)</div><div class="line"># per_page: Posts displayed per page. (0 = disable pagination)</div><div class="line"># order_by: Posts order. (Order by date descending by default)</div><div class="line">index_generator:</div><div class="line">  path: &apos;&apos;</div><div class="line">  per_page: 10</div><div class="line">  order_by: -date</div><div class="line">  </div><div class="line"># Category &amp; Tag</div><div class="line">default_category: uncategorized</div><div class="line">category_map:</div><div class="line">tag_map:</div><div class="line"></div><div class="line"># Date / Time format</div><div class="line">## Hexo uses Moment.js to parse and display date</div><div class="line">## You can customize the date format as defined in</div><div class="line">## http://momentjs.com/docs/#/displaying/format/</div><div class="line">date_format: YYYY-MM-DD</div><div class="line">time_format: HH:mm:ss</div><div class="line"></div><div class="line"># Pagination</div><div class="line">## Set per_page to 0 to disable pagination</div><div class="line">per_page: 10</div><div class="line">pagination_dir: page</div><div class="line"></div><div class="line"># Extensions</div><div class="line">## Plugins: https://hexo.io/plugins/</div><div class="line">## Themes: https://hexo.io/themes/</div><div class="line">theme: landscape</div><div class="line"></div><div class="line"># Deployment</div><div class="line">## Docs: https://hexo.io/docs/deployment.html</div><div class="line">deploy:</div><div class="line">  type:</div><div class="line"></div></pre></td></tr></table></figure>
-<p>这些配置项所代表的意思可以参考Hexo中文网：<a href="https://hexo.io/zh-cn/docs/configuration.html" target="_blank" rel="external">_config.yml配置</a> ，我们需要修改的配置只有这几项，拿我自己修改的配置作为示例。</p>
-<h3 id="1-修改网站相关信息"><a href="#1-修改网站相关信息" class="headerlink" title="1). 修改网站相关信息"></a>1). 修改网站相关信息</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">title: 新日三少的博客 </div><div class="line">subtitle: Big big pig   </div><div class="line">description: Love Coding,Enjoy Life</div><div class="line">author: 新日三少</div><div class="line">language: zh-CN      <span class="comment">#themes主题文件夹下的languages下面有很多语言可选</span></div><div class="line">timezone: Asia/Shanghai</div></pre></td></tr></table></figure>
-<p><strong>注意</strong>：每一项的填写，其:后面都要保留一个空格，下同。</p>
-<h3 id="2-配置统一资源定位符（个人域名）"><a href="#2-配置统一资源定位符（个人域名）" class="headerlink" title="2). 配置统一资源定位符（个人域名）"></a>2). 配置统一资源定位符（个人域名）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">url: http://www.wangxinri.cn</div></pre></td></tr></table></figure>
-<p>对于root（根目录）、permalink（永久链接）、permalink_defaults（默认永久链接）等其他信息保持默认。<br>如无个人域名，无需修改这一项。</p>
-<h3 id="3-配置部署"><a href="#3-配置部署" class="headerlink" title="3). 配置部署"></a>3). 配置部署</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">deploy: </div><div class="line">  <span class="built_in">type</span>: git</div><div class="line">  repo: https://github.com/xinrisanshao/xinrisanshao.github.io.git</div><div class="line">  branch: master</div></pre></td></tr></table></figure>
-<p>其中repo项是之前Github上创建好的仓库的地址，，可以通过如下图所示的方式得到：</p>
-<p><img src="http://ou6yob3zd.bkt.clouddn.com/20170806151918.png" alt=""></p>
-<h2 id="3-本地发布博客"><a href="#3-本地发布博客" class="headerlink" title="3.  本地发布博客"></a>3.  本地发布博客</h2><p>接下来，在网站中建立第一篇文章，<strong>打开终端，进入到博客文件夹根目录</strong>，这里是E:Github/hexo，然后输入</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo new <span class="string">"文章标题"</span></div></pre></td></tr></table></figure>
-<p>我们可以在本地博客文件夹source-&gt;_post文件夹下看到我们新建的markdown文件。通过Markdown编辑器对我们文章进行编辑，我这采用的是Markdownpad2编辑器。</p>
-<p>MarkdownPad2：<a href="http://download.csdn.net/detail/rentongtmd/8333707" target="_blank" rel="external">点击下载</a></p>
-<p>Markdown语法：<a href="http://www.markdown.cn/" target="_blank" rel="external">Markdown中文网</a></p>
-<p>为了能够使Hexo部署到GitHub上，需要安装一个插件：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo-deployer-git --save</div></pre></td></tr></table></figure>
-<p>接下来,我们进行本地发布：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hexo generate</div><div class="line">hexo server</div></pre></td></tr></table></figure></p>
-<p>执行完后，打开浏览器，输入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:4000/</div></pre></td></tr></table></figure></p>
-<p>我们可以在浏览器端看到我们搭建好的博客和发布的文章，如果访问失败，可能端口被占用，更换端口 hexo server -p 5000 ,将默认4000端口换成5000。<br><img src="http://ou6yob3zd.bkt.clouddn.com/20170806161241.png" alt=""></p>
-<h2 id="4-发布博客至github仓库"><a href="#4-发布博客至github仓库" class="headerlink" title="4. 发布博客至github仓库"></a>4. 发布博客至github仓库</h2><p>但是毕竟我们目前发布的博客只有本机看得到，怎么让其他人看到我们写的博客呢？这时候我们来看看博客的部署。</p>
-<p>打开终端，进入到博客文件夹根目录，这里还是<strong>E:Github/hexo</strong>，执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hexo generate</div><div class="line">hexo deploy</div></pre></td></tr></table></figure>
-<p>输入我们的网址：<a href="http://xinrisanshao.github.io" target="_blank" rel="external">xinrisanshao.github.io</a> ,即可访问博客了。</p>
-<p>此时查看github中的仓库，发现我们博客文件夹根目录中的<strong>public文件夹</strong>里面的文件已经发布到仓库中了。</p>
-<p>此时搭建的博客还只是入门，外观确实一般般，接下来将更进一步，比如如何更换主题、如何管理博客等等。</p>
-<p>好累啊，先休息下，果然还是写博客最累啊。</p>
-]]></content>
-      
-        <categories>
-            
-            <category> hexo </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> hexo </tag>
-            
-            <tag> github </tag>
-            
-        </tags>
-        
-    </entry>
-    
-  
-  
+<search>
+  <entry>
+    <title><![CDATA[github Pages + Hexo搭建个人博客（二） 提升篇]]></title>
+    <url>%2F2017%2F08%2F07%2Fgithub%20Pages%20%2B%20Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%BA%8C%EF%BC%89%20%20%E6%8F%90%E5%8D%87%E7%AF%87%2F</url>
+    <content type="text"><![CDATA[一、前言在之前的初级篇中介绍了如何搭建个人博客。本文介绍如何更换博客主题、设置第三方服务和最重要的如何管理发布博客。 二、更换主题在这篇文章中，假定你已经成功安装了Hexo,并使用Hexo提供的命令创建了一个站点。 在Hexo中有两份主要的配置文件，其名称都是_config.yml。其中，一份位于站点根目录下（此处为G:\GitHub\hexo），主要包含Hexo本身的配置；另一份位于主题根目录下，这份配置由主题作者提供，主要用于配置主题相关的选项。 为了描述方便，在以下说明中，将前者称为站点配置文件，后者称为主题配置文件。 1. 安装NexTHexo 安装主题的方式非常简单，只需要将主题文件拷贝至站点目录的 themes 目录下， 然后修改下配置文件即可。具体到 NexT 来说，安装步骤如下。 1) 下载主题如果你熟悉Git，建议你使用克隆最新版本的方式，之后的更新可以通过git pull来快速更新，而不用再次下载压缩包替换。 （说多了都是累啊，早知道就该看官网了，我就是下载的压缩包，估计是没法快速更新了） 在终端窗口下，定位到 Hexo 站点目录下。使用 Git 命令：12cd G:\GitHub\hexogit clone https://github.com/iissnan/hexo-theme-next themes/next #后面意思是clone到该目录下themes/next文件夹中 2) 启用主题与所有 Hexo 主题启用的模式一样。当克隆/下载完成后，打开站点配置文件，找到theme字段，并将其值更改为next。 1theme: next 此时我们在主题配置文件中设置语言。修改language字段。在主题的languages文件夹中选择语言，此处目录为G:\GitHub\hexo\themes\next\languages 。 1language: zh-Hans #选择汉语，选择其他语言填写其他值即可 到此，NexT主题安装完成。下一步将验证主题是否正确启用。在切换主题之后、验证之前，我们最好使用hexo clean 来清除Hexo的缓存。 3) 验证主题进入到博客文件夹根目录，此处为G:\GitHub\hexo，执行如下命令： 123hexo clean #更换主题，最好先清除Hexo缓存hexo generate #生成静态页面hexo server # hexo server -p **** 更换默认4000端口为**** 此时即可使用浏览器访问 http://localhost:4000。 检查站点是否正确运行，如长时间访问不了，更改端口。 现在，你已经成功安装并启用了NexT主题。下一步我们将要更改一些主题的设定，包括个性化以及集成第三方服务。 三、主题设定NexT官网和网上资料非常丰富，就不细说了，参考如下： 官方参考：NexT使用文档 网上资源：hexo的next主题个性化教程：打造炫酷网站 补充几点： 1. 添加评论功能我选择的是来比力，很简单，注册一个账号，妈的，是韩国的网站，发验证码竟然是韩文，通过有道词典才知道它讲的是啥，输入四位验证码回车后，然后填写相关信息，申请获取代码，然后得到安装代码中的data-uid。 编辑主题配置文件， 编辑 livere_uid 字段，设置如下： 1livere_uid: #your livere_uid 2. 修改背景图片首先找到一个背景图片放到 hexo（hexo工程文件）-&gt; themes -&gt; next -&gt; source -&gt; images 的路径下； 然后进入hexo（hexo工程文件）-&gt; themes -&gt; next -&gt; source -&gt; css -&gt; _custom ，找到路径下的custom.styl文件，在文件的最上方加入如下代码就完事了。 12345// Custom styles.body &#123; background:url(/images/background.jpeg); background-attachment: fixed; #固定背景图，使得不随页面移动&#125; 3. 修改博客内容宽度Pisces Scheme 直接在./themes/next/source/css/_variables/custom.styl文件中添加 12$main-desktop = 1200px $content-desktop = 900px 可以避免直接修改源码，可以解决内容宽度问题，而且在移动设备上显示正常。 参考：感觉浏览器留白太多，代码块看起来比较麻烦 到这的时候，主题应该也优化的差不多，接下来就是写博客和管理了，加油搞起。 四、博客管理维护1. 概述Hexo部署到GitHub上的文件，是.md（你的博文）转化之后的.html（静态网页）。因此，当你重装电脑或者想在不同电脑上修改博客时，因为.md文件不存在了，就不可能了（除非你自己写html）。 其实，Hexo生成的网站文件中有.gitignore文件，因此它的本意也是想我们将Hexo生成的网站文件存放到GitHub上进行管理的（而不是用U盘或者云备份啦）。这样，不仅解决了上述的问题，还可以通过git的版本控制追踪你的博文的修改过程，是极赞的。 注： .gitignoree文件中的内容是忽略上传至Github仓库的文件，这里我修改成如下：1.deploy*/ #只忽略上传.deploy*/开头的文件 但是，如果每一个GitHub Pages都需要创建一个额外的仓库来存放Hexo网站文件，我感觉很麻烦（10个项目需要20个仓库）。 所以，我利用了分支！！！ 简单地说，每个想建立GitHub Pages的仓库，起码有两个分支，一个用来存放Hexo网站的文件，一个用来发布网站。 下面以我的博客作为例子详细地讲述。 2. 博客搭建流程 1.创建仓库，xinrisanshao.github.io； 2.创建两个分支：master 与 hexo； 3.设置hexo为默认分支（因为我们只需要手动管理这个分支上的Hexo网站文件）； 4.使用如下命令拷贝仓库 1git clone https://github.com/xinrisanshao/xinrisanshao.github.io.git 5.在本地xinrisanshao.github.io文件夹下通过Git shell依次执行npm install hexo、hexo init、npm install 和 npm install hexo-deployer-git（此时当前分支应显示为hexo）; 6.修改_config.yml中的deploy参数，分支应为master； 7.依次执行git add .、git commit -m “…”、git push origin hexo提交网站相关的文件（Hexo网站根目录执行）； 8.执行hexo generate -d生成网站并部署到GitHub上（Hexo网站根目录执行）。 这样一来，在GitHub上的xinrisanshao.github.io仓库就有两个分支，一个hexo分支用来存放网站的原始文件，一个master分支用来存放生成的静态网页。修改了博客网站原始文件，然后发布到hexo分支上进行保存，同时修改后新的静态网页deploy到master,同步更新，两者都保存至Github仓库上，不怕文件丢失了。 注：流程的5,6步hexo init创建的是一个新的Hexo网站文件，我们在本地配置好的Hexo+next主题的网站文件可以直接复制到.\xinrisanshao.github.io\文件夹中，直接代替5,6步创建的流程，这样就不需要我们再次重复配置了，其他的过程都是一样的。 3. 博客管理流程1. 编辑与修改博客在本地对博客进行修改（添加新博文、修改样式等等）后，通过下面的流程进行管理： 1.依次执行git add .、git commit -m “…”、git push origin hexo指令将改动推送到GitHub（此时当前分支应为hexo）； 2.然后才执行hexo generate -d发布网站到master分支上。 虽然两个过程顺序调转一般不会有问题，不过逻辑上这样的顺序是绝对没问题的（例如突然死机要重装了，悲催….的情况，调转顺序就有问题了）。 2. 本地资料丢失当重装电脑之后，或者想在其他电脑上修改博客，可以使用下列步骤：1.首先安装Git，Node.js和Hexo。 2.使用下面命令拷贝仓库（默认分支为hexo）； 1git clone https://github.com/xinrisanshao/xinrisanshao.github.io.git 3.因为之前的.gitignore文件只忽略了上传.deploy*/开头的文件，所以我们上传到hexo分支的是整个的Hexo网站文件，下载之后直接什么依赖配置都好了，此时即可照着编辑与修改博客流程进行博客编辑了，大功告成。 以上博客管理参考：点击查看 3. 博客图片存放（补）如果将博客的图片放在Hexo网站文件中，那么加载博客的时候会变得非常慢，此时，我们可以选择一个合适的图床存放图片，然后获得图片的链接地址，这样访问速度会变快许多。 我选择的是七牛云存放图片，具体使用方法很简单，注册账号，上传图片至空间中，这些就不细说了，网上一大堆资料。 五、总结不想再敲了，好累！这也算是对搭建这个博客的一个总结吧，休息去。]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>github</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[github Pages + Hexo搭建个人博客（一） 初级篇]]></title>
+    <url>%2F2017%2F08%2F06%2Fgithub%20Pages%20%2B%20Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89%20%20%E5%88%9D%E7%BA%A7%E7%AF%87%2F</url>
+    <content type="text"><![CDATA[一、前言之前一直是在有道云上做一些笔记的，上周末在网上看到了一些别人搭建的个人博客，顿时感兴趣起来，然后自己就瞎捣鼓了几天，最终搭建成功了，哈哈。在这个过程中发现，搭建一个网站还是比较简单的，难的是管理博客，更难的是写博客！！！这个过程中，注册了自己的第一个github账号（很失败有木有，太out了），同时也了解了一些git的版本控制，还知道了Markdown这种标记语言，后面的这些博客都是用这个标记语言写的，还是很有收获的。 今天特地总结一下使用github Pages + Hexo搭建个人博客的过程，以备不时之需。这里不谈理论，只谈过程，理论自己也不是很清楚，就不瞎说了，以后慢慢熟悉了，在补充！ 二、环境准备1. 注册github账号这个就不多说了，账号注册好后，登陆，在首页右边有一个 + 号图标，点击之后，选择New repository进行仓库的创建。Repository name命名为username.github.io（username是你的账号名，记住一定要这样命令哦)，点击Create repository，创建成功。 2. 安装Git我们之所以要安装git，是因为后面我们要用到git命令，将生成的静态博客网页等信息推送至github仓库，我们的git使用一般由两种方式，一种是图形化界面（GUI）,另外一种是通过命令行。这里我选择安装前者，带界面的，菜鸟嘛，不会git命令，先熟悉熟悉流程，顺带在这个过程中在了解git的一些常用命令。另外安装前者，在桌面上会生成两个图标， GitHub和Git Shell,这两个图标分别是图形界面和命令行工具，意思就是我们不仅可以使用图形界面的工具管理我们github上的仓库，同时也可以使用命令行的形式管理，自由切换，爽歪歪！ Github for Windows: 点击下载 下载安装完后，桌面上生成GitHub和Git Shell两个图标，然后点击GitHub图标，输入前面注册的github账号和密码，登录完成，ok，暂时先这样，接着往下走。 Github for Windows 安装配置使用教程: 参考 3. 安装Node.js安装Node.js,因为Hexo是一个基于Node.js的静态博客程序，所以首先安装Node.js。 点击进入Node.js官网 我们选择左边的通用版，点击下载后，设置安装路径然后默认安装就可以了。 4. 安装Hexo以上环境配好了之后，那么恭喜您！接下来只需要使用npm即可完成Hexo的安装。 打开终端，输入： 1npm install -g hexo-cli 如果执行这条命令时长时间未成功，那么请先使用下面的命令将npm镜像源更改为国内的镜像，再执行上面的安装命令，因为国外的镜像源很有可能被墙了。 1npm config set registry https://registry.npm.taobao.org 安装好Hexo以后，在终端输入： 1hexo 若出现下图，说明hexo安装成功： 三、使用Hexo建站1. 初始化博客新建一个网站。如果没有设置 folder ，Hexo 默认在目前的文件夹建立网站。比如我在终端进入到G:Github目录，输入hexo init hexo，则在该目录下创建了hexo博客文件夹。 1hexo init [folder] 接下来进入到博客文件夹，这里是E:Github/hexo，执行如下命令，根据该目录下的package.json中既定的dependencies配置安装所有的依赖包 1npm install 2. 配置网站的主配置文件为hexo根目录下的_config.yml文件： 默认配置如下： 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081# Hexo Configuration## Docs: https://hexo.io/docs/configuration.html## Source: https://github.com/hexojs/hexo/# Sitetitle: Hexosubtitle:description:author: John Doelanguage:timezone:# URL## If your site is put in a subdirectory, set url as &apos;http://yoursite.com/child&apos; and root as &apos;/child/&apos;url: http://yoursite.comroot: /permalink: :year/:month/:day/:title/permalink_defaults:# Directorysource_dir: sourcepublic_dir: publictag_dir: tagsarchive_dir: archivescategory_dir: categoriescode_dir: downloads/codei18n_dir: :langskip_render:# Writingnew_post_name: :title.md # File name of new postsdefault_layout: posttitlecase: false # Transform title into titlecaseexternal_link: true # Open external links in new tabfilename_case: 0render_drafts: falsepost_asset_folder: falserelative_link: falsefuture: truehighlight: enable: true line_number: true auto_detect: false tab_replace: # Home page setting# path: Root path for your blogs index page. (default = &apos;&apos;)# per_page: Posts displayed per page. (0 = disable pagination)# order_by: Posts order. (Order by date descending by default)index_generator: path: &apos;&apos; per_page: 10 order_by: -date # Category &amp; Tagdefault_category: uncategorizedcategory_map:tag_map:# Date / Time format## Hexo uses Moment.js to parse and display date## You can customize the date format as defined in## http://momentjs.com/docs/#/displaying/format/date_format: YYYY-MM-DDtime_format: HH:mm:ss# Pagination## Set per_page to 0 to disable paginationper_page: 10pagination_dir: page# Extensions## Plugins: https://hexo.io/plugins/## Themes: https://hexo.io/themes/theme: landscape# Deployment## Docs: https://hexo.io/docs/deployment.htmldeploy: type: 这些配置项所代表的意思可以参考Hexo中文网：_config.yml配置 ，我们需要修改的配置只有这几项，拿我自己修改的配置作为示例。 1). 修改网站相关信息123456title: 新日三少的博客 subtitle: Big big pig description: Love Coding,Enjoy Lifeauthor: 新日三少language: zh-CN #themes主题文件夹下的languages下面有很多语言可选timezone: Asia/Shanghai 注意：每一项的填写，其:后面都要保留一个空格，下同。 2). 配置统一资源定位符（个人域名）1url: http://www.wangxinri.cn 对于root（根目录）、permalink（永久链接）、permalink_defaults（默认永久链接）等其他信息保持默认。如无个人域名，无需修改这一项。 3). 配置部署1234deploy: type: git repo: https://github.com/xinrisanshao/xinrisanshao.github.io.git branch: master 其中repo项是之前Github上创建好的仓库的地址，，可以通过如下图所示的方式得到： 3. 本地发布博客接下来，在网站中建立第一篇文章，打开终端，进入到博客文件夹根目录，这里是E:Github/hexo，然后输入 1hexo new "文章标题" 我们可以在本地博客文件夹source-&gt;_post文件夹下看到我们新建的markdown文件。通过Markdown编辑器对我们文章进行编辑，我这采用的是Markdownpad2编辑器。 MarkdownPad2：点击下载 Markdown语法：Markdown中文网 为了能够使Hexo部署到GitHub上，需要安装一个插件： 1npm install hexo-deployer-git --save 接下来,我们进行本地发布：12hexo generatehexo server 执行完后，打开浏览器，输入：1http://localhost:4000/ 我们可以在浏览器端看到我们搭建好的博客和发布的文章，如果访问失败，可能端口被占用，更换端口 hexo server -p 5000 ,将默认4000端口换成5000。 4. 发布博客至github仓库但是毕竟我们目前发布的博客只有本机看得到，怎么让其他人看到我们写的博客呢？这时候我们来看看博客的部署。 打开终端，进入到博客文件夹根目录，这里还是E:Github/hexo，执行如下命令： 12hexo generatehexo deploy 输入我们的网址：xinrisanshao.github.io ,即可访问博客了。 此时查看github中的仓库，发现我们博客文件夹根目录中的public文件夹里面的文件已经发布到仓库中了。 此时搭建的博客还只是入门，外观确实一般般，接下来将更进一步，比如如何更换主题、如何管理博客等等。 好累啊，先休息下，果然还是写博客最累啊。]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>github</tag>
+      </tags>
+  </entry>
 </search>

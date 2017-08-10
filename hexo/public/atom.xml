@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.wangxinri.cn/"/>
-  <updated>2017-08-09T01:22:31.341Z</updated>
+  <updated>2017-08-09T01:36:21.119Z</updated>
   <id>http://www.wangxinri.cn/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.wangxinri.cn/2017/08/07/github%20Pages%20+%20Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%BA%8C%EF%BC%89%20%20%E6%8F%90%E5%8D%87%E7%AF%87/"/>
     <id>http://www.wangxinri.cn/2017/08/07/github Pages + Hexo搭建个人博客（二）  提升篇/</id>
     <published>2017-08-07T04:59:25.000Z</published>
-    <updated>2017-08-09T01:22:31.341Z</updated>
+    <updated>2017-08-09T01:36:21.119Z</updated>
     
     <content type="html"><![CDATA[<h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>在之前的<strong>初级篇</strong>中介绍了如何搭建个人博客。本文介绍如何更换博客主题、设置第三方服务和最重要的如何管理发布博客。<br><a id="more"></a></p>
 <h1 id="二、更换主题"><a href="#二、更换主题" class="headerlink" title="二、更换主题"></a>二、更换主题</h1><p>在这篇文章中，假定你已经成功安装了Hexo,并使用Hexo提供的命令创建了一个站点。</p>
@@ -78,7 +78,8 @@
 <p>2.然后才执行hexo generate -d发布网站到master分支上。</p>
 <p>虽然两个过程顺序调转一般不会有问题，不过逻辑上这样的顺序是绝对没问题的（例如突然死机要重装了，悲催….的情况，调转顺序就有问题了）。</p>
 <h3 id="2-本地资料丢失"><a href="#2-本地资料丢失" class="headerlink" title="2. 本地资料丢失"></a>2. 本地资料丢失</h3><p>当重装电脑之后，或者想在其他电脑上修改博客，可以使用下列步骤：<br>1.首先安装Git，Node.js和Hexo。</p>
-<p>2.使用git clone git@github.com:CrazyMilk/CrazyMilk.github.io.git拷贝仓库（默认分支为hexo）；</p>
+<p>2.使用下面命令拷贝仓库（默认分支为hexo）；</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> https://github.com/xinrisanshao/xinrisanshao.github.io.git</div></pre></td></tr></table></figure>
 <p>3.因为之前的.gitignore文件只忽略了上传.deploy*/开头的文件，所以我们上传到hexo分支的是整个的Hexo网站文件，下载之后直接什么依赖配置都好了，此时即可照着编辑与修改博客流程进行博客编辑了，大功告成。</p>
 <p>以上博客管理参考：<a href="http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/#more" target="_blank" rel="external">点击查看</a></p>
 <h3 id="3-博客图片存放（补）"><a href="#3-博客图片存放（补）" class="headerlink" title="3. 博客图片存放（补）"></a>3. 博客图片存放（补）</h3><p>如果将博客的图片放在Hexo网站文件中，那么加载博客的时候会变得非常慢，此时，我们可以选择一个合适的图床存放图片，然后获得图片的链接地址，这样访问速度会变快许多。</p>
