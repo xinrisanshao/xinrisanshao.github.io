@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.wangxinri.cn/"/>
-  <updated>2017-08-09T01:36:21.119Z</updated>
+  <updated>2017-08-11T07:42:50.601Z</updated>
   <id>http://www.wangxinri.cn/</id>
   
   <author>
@@ -14,6 +14,26 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Words as Vectors(译)</title>
+    <link href="http://www.wangxinri.cn/2017/08/11/Words%20as%20Vectors/"/>
+    <id>http://www.wangxinri.cn/2017/08/11/Words as Vectors/</id>
+    <published>2017-08-11T04:59:25.000Z</published>
+    <updated>2017-08-11T07:42:50.601Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="word2vec" scheme="http://www.wangxinri.cn/categories/word2vec/"/>
+    
+    
+      <category term="skip-gram" scheme="http://www.wangxinri.cn/tags/skip-gram/"/>
+    
+      <category term="CBOW" scheme="http://www.wangxinri.cn/tags/CBOW/"/>
+    
+  </entry>
   
   <entry>
     <title>github Pages + Hexo搭建个人博客（二）  提升篇</title>
