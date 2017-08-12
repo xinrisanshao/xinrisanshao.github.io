@@ -11,24 +11,26 @@
 
 {% if theme.copyright %}
 
-<div style="color:red" class="powered-by">
-  <i class="fa fa-user-md"></i><span id="busuanzi_container_site_pv">
-    访客数:<span id="busuanzi_value_site_pv"></span>
-  </span>
-</div>
-
 <!--
-<div class="powered-by">
+<div style="color:red" class="powered-by">
   {{ __('footer.powered', '<a class="theme-link" href="https://hexo.io">Hexo</a>') }}
 </div>
 
-<div class="theme-info">
+<div style="color:red" class="theme-info">
   {{ __('footer.theme') }} -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.{{ theme.scheme }}
   </a>
 </div>
 -->
+
+<div style="color:red" class="powered-by">
+  <i class="fa fa-user-md"></i><span id="busuanzi_container_site_pv">
+    访客数:<span id="busuanzi_value_site_pv"></span>
+  </span>
+</div>
+
+
 <div style="color:red" class="theme-info">
   <div class="powered-by"></div>
   <span class="post-count" >全站共{{ totalcount(site) }}字</span>
