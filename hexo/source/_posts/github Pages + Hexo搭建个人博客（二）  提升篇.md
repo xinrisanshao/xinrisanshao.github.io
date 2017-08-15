@@ -102,6 +102,61 @@ $content-desktop = 900px
 
 参考：[感觉浏览器留白太多，代码块看起来比较麻烦](https://github.com/iissnan/hexo-theme-next/issues/759#issuecomment-202242848)
 
+## 4. 添加菜单栏
+在个人网站根目录下使用hexo命令hexo new page "photo" 就直接创建了.\Hexo\source\photo\index.md
+文件。
+
+在主题配置文件_config.yml中找到meun:字段，添加**photo**字段
+```xml
+menu:
+  home: /
+  categories: /categories/
+  tags: /tags/
+  archives: /archives/
+  photo: /photo/
+  about: /about/
+  #sitemap: /sitemap.xml
+  #commonweal: /404.html
+```
+给photo添加相应的图标，还是刚才的主题配置文件_config.yml，添加**photo**字段：
+
+```xml
+menu_icons:
+  enable: true
+  #KeyMapsToMenuItemKey: NameOfTheIconFromFontAwesome
+  home: home
+  about: user
+  categories: th
+  schedule: calendar
+  tags: tags
+  archives: archive
+  sitemap: sitemap
+  commonweal: heartbeat
+  photo: photo
+
+```
+
+在如下图标库中选择喜欢的icon，添加相应的名称即可，这里添加为**photo**：[点击选择图标](http://fontawesome.io/icons/)
+
+将网站中的**photo**字段显示为中文**照片**字段
+
+在\themes\next\languages\zh-Hans.yml添加：
+
+```xml
+menu:
+  home: 首页
+  archives: 归档
+  categories: 分类
+  tags: 标签
+  about: 关于
+  search: 搜索
+  schedule: 日程表
+  sitemap: 站点地图
+  commonweal: 公益404
+  photo: 照片
+
+```
+
 到这的时候，主题应该也优化的差不多，接下来就是写博客和管理了，加油搞起。
 
 # 四、博客管理维护

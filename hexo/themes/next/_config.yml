@@ -48,9 +48,10 @@ index_with_subtitle: false
 menu:
   home: /
   categories: /categories/
-  about: /about/
-  archives: /archives/
   tags: /tags/
+  archives: /archives/
+  photo: /photo/
+  about: /about/
   #sitemap: /sitemap.xml
   #commonweal: /404.html
 
@@ -70,7 +71,7 @@ menu_icons:
   archives: archive
   sitemap: sitemap
   commonweal: heartbeat
-
+  photo: image
 
 # ---------------------------------------------------------------
 # Scheme Settings
@@ -94,7 +95,6 @@ scheme: Pisces
 social:
   #LinkLabel:link
   GitHub: https://github.com/xinrisanshao
-  QQ: 
   CSDN: http://blog.csdn.net/u012878150
 # Social Links Icons
 # Icon Mapping:
@@ -106,25 +106,23 @@ social_icons:
   # Icon Mappings.
   # KeyMapsToSocialItemKey: NameOfTheIconFromFontAwesome
   GitHub: github
-  QQ: qq
   CSDN: crosshairs
   #Twitter: twitter
   #Weibo: weibo
 
 # Blog rolls
-links_title: 推荐阅读
+links_title: 友情链接
 #links_layout: block
 links_layout: inline
 links:
-  知乎: https://www.zhihu.com/
-  简书: http://www.jianshu.com/
-  CSDN: http://www.csdn.net/
+  双哥的博客: http://alvincat.github.io/
+  
 
 # Sidebar Avatar
 #in theme directory(source/images): /images/avatar.jpg
 #in site  directory(source/uploads): /uploads/avatar.jpg
 avatar: /images/avatar.jpg
-reward_comment: 日哥这么帅，不鼓励鼓励！
+reward_comment: 梦想夹带眼泪，咸咸的汗水！
 wechatpay: /images/wechatpay.jpg
 alipay: /images/alipay.jpg
 
