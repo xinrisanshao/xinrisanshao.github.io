@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.wangxinri.cn/"/>
-  <updated>2017-08-12T12:42:44.476Z</updated>
+  <updated>2017-08-15T12:39:57.806Z</updated>
   <id>http://www.wangxinri.cn/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.wangxinri.cn/2017/08/12/%E6%A0%B7%E5%85%88/"/>
     <id>http://www.wangxinri.cn/2017/08/12/样先/</id>
     <published>2017-08-12T11:59:25.000Z</published>
-    <updated>2017-08-12T12:42:44.476Z</updated>
+    <updated>2017-08-15T12:39:57.806Z</updated>
     
     <content type="html"><![CDATA[<p>　　仅以此记录样先发给我的新年贺词，时刻向兄弟学习！（侵犯他的隐私我不管，哈哈）</p>
 <a id="more"></a>
@@ -44,7 +44,9 @@
       <category term="兄弟" scheme="http://www.wangxinri.cn/categories/%E5%85%84%E5%BC%9F/"/>
     
     
-      <category term="兄弟，朋友" scheme="http://www.wangxinri.cn/tags/%E5%85%84%E5%BC%9F%EF%BC%8C%E6%9C%8B%E5%8F%8B/"/>
+      <category term="兄弟" scheme="http://www.wangxinri.cn/tags/%E5%85%84%E5%BC%9F/"/>
+    
+      <category term="朋友" scheme="http://www.wangxinri.cn/tags/%E6%9C%8B%E5%8F%8B/"/>
     
   </entry>
   
