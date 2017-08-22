@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.wangxinri.cn/"/>
-  <updated>2017-08-21T05:43:37.470Z</updated>
+  <updated>2017-08-22T01:06:48.049Z</updated>
   <id>http://www.wangxinri.cn/</id>
   
   <author>
@@ -16,14 +16,52 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>个人总结之排序算法</title>
+    <link href="http://www.wangxinri.cn/2017/08/21/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93%E4%B9%8B%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/"/>
+    <id>http://www.wangxinri.cn/2017/08/21/个人总结之排序算法/</id>
+    <published>2017-08-21T11:30:25.000Z</published>
+    <updated>2017-08-22T01:06:48.049Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>回顾之前学习的各种排序算法，从初级到高级，包括选择排序，冒泡排序，插入排序，希尔排序，快速排序，归并排序，堆排序等等，持续更新中…<br><a id="more"></a><br><strong>注：</strong>这里实现的算法都是递增排序，也就是从小到大排序。</p>
+<h2 id="初级排序算法"><a href="#初级排序算法" class="headerlink" title="初级排序算法"></a>初级排序算法</h2><h2 id="1-选择排序"><a href="#1-选择排序" class="headerlink" title="1.选择排序"></a>1.选择排序</h2><p><strong>思想：</strong>首先，找到数组中最小的那个元素，其次，将它和数组的第一个元素交换位置（如果第一个元素就是最小元素那么它就和自己交换）。再次，在剩下的元素中找到最小的元素，将它与数组的第二个元素交换位置。如此往复，直到将整个数组排序。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> [] sort(<span class="keyword">int</span> a[],<span class="keyword">int</span> length)&#123;    <span class="comment">//选择排序</span></div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;length;i++)&#123;</div><div class="line">		<span class="keyword">int</span> minIndex = i; <span class="comment">//初始化最小元素的索引</span></div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=i+<span class="number">1</span>;j&lt;length;j++)&#123;</div><div class="line">			<span class="keyword">if</span>(a[minIndex]&gt;a[j])&#123;</div><div class="line">				minIndex = j;  <span class="comment">//找到最小元素的索引</span></div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">int</span> tem = a[i];</div><div class="line">		a[i] = a[minIndex];</div><div class="line">		a[minIndex] = tem;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> a;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="2-直接插入排序"><a href="#2-直接插入排序" class="headerlink" title="2.直接插入排序"></a>2.直接插入排序</h2><p><strong>思想：</strong> 每一步将一个待排序的记录，插入到前面应排好序的有序序列中去，直到查完所有元素为止。<br><img src="http://ou6yob3zd.bkt.clouddn.com/20170821195323.png" alt=""></p>
+<p><strong>代码：</strong></p>
+<p>第一种：从后往前依次比较前面排好序的有序序列，如果插入元素较小时，交换，j- -,继续比较。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> [] sort(<span class="keyword">int</span> a[],<span class="keyword">int</span> length)&#123;  </div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;a.length;i++)&#123;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=i;j&gt;<span class="number">0</span>&amp;&amp;a[j]&lt;a[j-<span class="number">1</span>];j--)&#123;  </div><div class="line">			<span class="keyword">int</span> tem = a[j-<span class="number">1</span>];</div><div class="line">			a[j-<span class="number">1</span>] = a[j];</div><div class="line">			a[j] = tem;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> a;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>第二种：不需要交换的直接插入排序，将内循环中较大的元素都向右移动而不总是交换两个元素，从而提高效率。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> [] sort(<span class="keyword">int</span> a[],<span class="keyword">int</span> length)&#123;    <span class="comment">//不需要交换的插入排序</span></div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;a.length;i++)&#123;</div><div class="line">		<span class="keyword">int</span> tem = a[i];  <span class="comment">//待插入的元素</span></div><div class="line">		<span class="keyword">int</span> j;</div><div class="line">		<span class="keyword">for</span>(j=i-<span class="number">1</span>;j&gt;=<span class="number">0</span>&amp;&amp;tem&lt;a[j];j--)&#123;</div><div class="line">			a[j+<span class="number">1</span>] = a[j];   <span class="comment">//元素后移,直到找到待插入的元素的位置</span></div><div class="line">		&#125;</div><div class="line">		a[j+<span class="number">1</span>] = tem;  <span class="comment">//将带插入元素插入到查找到的位置</span></div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> a;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>第三种：此外还可以通过增加哨兵的形式，在插入排序的实现中先找出最小的元素并将其置于数组的最左边，这样就能去掉内循环的判断条件j&gt;0。这是一种常见的规避边界测试的方法，能够省略判断条件的元素通常被称为哨兵。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> [] sort(<span class="keyword">int</span> a[],<span class="keyword">int</span> length)&#123;</div><div class="line">	<span class="keyword">int</span> minIndex =<span class="number">0</span>;</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;length;i++)&#123;</div><div class="line">		<span class="keyword">if</span>(a[minIndex]&gt;a[i])&#123;</div><div class="line">			minIndex = i;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">int</span> tem = a[<span class="number">0</span>];</div><div class="line">	a[<span class="number">0</span>] = a[minIndex];</div><div class="line">	a[minIndex] = tem;</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;length;i++)&#123;</div><div class="line">		tem = a[i];</div><div class="line">		<span class="keyword">int</span> j;</div><div class="line">		<span class="keyword">for</span>(j=i-<span class="number">1</span>;tem&lt;a[j];j--)&#123;</div><div class="line">			a[j+<span class="number">1</span>] = a[j];</div><div class="line">		&#125;</div><div class="line">		a[j+<span class="number">1</span>] = tem;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> a;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h2><p><strong>思想：</strong>希尔排序是把记录按下标的一定增量分组，对每组使用直接插入排序算法排序；随着增量逐渐减少，每组包含的关键词越来越多，当增量减至1时，整个文件恰被分成一组，算法便终止。</p>
+<p>简单插入排序很循规蹈矩，不管数组分布是怎么样的，依然一步一步的对元素进行比较，移动，插入，比如[5,4,3,2,1,0]这种倒序序列，数组末端的0要回到首位置很是费劲，比较和移动元素均需n-1次。而希尔排序在数组中采用跳跃式分组的策略，通过某个增量将数组元素划分为若干组，然后分组进行插入排序，随后逐步缩小增量，继续按组进行插入排序操作，直至增量为1。希尔排序通过这种策略使得整个数组在初始阶段达到从宏观上看基本有序，小的基本在前，大的基本在后。然后缩小增量，到增量为1时，其实多数情况下只需微调即可，不会涉及过多的数据移动。</p>
+<p>我们来看下希尔排序的基本步骤，在此我们选择增量gap=length/2，缩小增量继续以gap = gap/2的方式，这种增量选择我们可以用一个序列来表示，{n/2,(n/2)/2…1}，称为增量序列。希尔排序的增量序列的选择与证明是个数学难题，我们选择的这个增量序列是比较常用的，也是希尔建议的增量，称为希尔增量，但其实这个增量序列不是最优的。此处我们做示例使用希尔增量。</p>
+<p><img src="http://ou6yob3zd.bkt.clouddn.com/20170821203528.png" alt=""></p>
+<p><strong>代码：</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] sort(<span class="keyword">int</span> a[],<span class="keyword">int</span> length)&#123;</div><div class="line">	<span class="keyword">int</span> h = length/<span class="number">2</span>; <span class="comment">//初始增量</span></div><div class="line">	<span class="keyword">while</span>(h&gt;=<span class="number">1</span>)&#123;</div><div class="line">		<span class="comment">//将数组变为h有序</span></div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=h;i&lt;length;i++) &#123;</div><div class="line">			<span class="comment">//将a[i]插入到a[i-h],a[i-2*h],a[i-3*h]...之中</span></div><div class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=i;j&gt;=h&amp;&amp;a[j]&lt;a[j-h];j-=h)&#123;</div><div class="line">				<span class="keyword">int</span> tem = a[j-h];</div><div class="line">				a[j-h] = a[j];</div><div class="line">				a[j] = tem;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		h = h/<span class="number">2</span>; <span class="comment">//每次排完序后,增量减少</span></div><div class="line">	&#125;	</div><div class="line">	<span class="keyword">return</span> a;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>参考：<a href="http://www.cnblogs.com/chengxiao/p/6104371.html" target="_blank" rel="external">dreamcatcher-cx</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;回顾之前学习的各种排序算法，从初级到高级，包括选择排序，冒泡排序，插入排序，希尔排序，快速排序，归并排序，堆排序等等，持续更新中…&lt;br&gt;
+    
+    </summary>
+    
+      <category term="算法" scheme="http://www.wangxinri.cn/categories/%E7%AE%97%E6%B3%95/"/>
+    
+    
+      <category term="排序" scheme="http://www.wangxinri.cn/tags/%E6%8E%92%E5%BA%8F/"/>
+    
+      <category term="编程" scheme="http://www.wangxinri.cn/tags/%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
     <title>牛客网-剑指offer</title>
     <link href="http://www.wangxinri.cn/2017/08/19/%E5%89%91%E6%8C%87offer/"/>
     <id>http://www.wangxinri.cn/2017/08/19/剑指offer/</id>
     <published>2017-08-19T01:30:25.000Z</published>
-    <updated>2017-08-21T05:43:37.470Z</updated>
+    <updated>2017-08-22T01:06:58.815Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>牛客网剑指offer题目汇总，记录自己刷题历程，原文链接：<a href="https://www.nowcoder.com/ta/coding-interviews" target="_blank" rel="external">点击查看</a></p>
-<a id="more"></a>
+    <content type="html"><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>牛客网剑指offer题目汇总，记录自己刷题历程，原文链接：<a href="https://www.nowcoder.com/ta/coding-interviews" target="_blank" rel="external">点击查看</a><br><a id="more"></a></p>
 <h2 id="题目一：二维数组中的查找-（数组）"><a href="#题目一：二维数组中的查找-（数组）" class="headerlink" title="题目一：二维数组中的查找   （数组）"></a>题目一：二维数组中的查找   （数组）</h2><p><strong>题目描述:</strong>在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p>
 <p><strong>思路：</strong>矩阵从左到右，从上到下都是有序的，因此，先查找目标数target在二维数组中的哪一行，通过判断是否在该行的第一个数和最后一个数之间，如果是，则定位到了行，因为该行是有序的，所以接下来通过二分查找，即可查找成功。</p>
 <p><strong>注：</strong>时间复杂度的话，查找行花了O(n), 二分查找O(logn),总共应该O(n)+O(logn),奇怪的是我使用普通的遍历查找，运行时间更更少！这不科学，二分查找效率应该更高，这应该是数据量小导致的。</p>
@@ -68,18 +106,18 @@ n=8&amp;7         0000
     
     <summary type="html">
     
-      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;牛客网剑指offer题目汇总，记录自己刷题历程，原文链接：&lt;a href=&quot;https://www.nowcoder.com/ta/coding-interviews&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;点击查看&lt;/a&gt;&lt;/p&gt;
+      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;牛客网剑指offer题目汇总，记录自己刷题历程，原文链接：&lt;a href=&quot;https://www.nowcoder.com/ta/coding-interviews&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;点击查看&lt;/a&gt;&lt;br&gt;
     
     </summary>
     
       <category term="刷题" scheme="http://www.wangxinri.cn/categories/%E5%88%B7%E9%A2%98/"/>
     
     
+      <category term="编程" scheme="http://www.wangxinri.cn/tags/%E7%BC%96%E7%A8%8B/"/>
+    
       <category term="剑指offer" scheme="http://www.wangxinri.cn/tags/%E5%89%91%E6%8C%87offer/"/>
     
       <category term="刷题" scheme="http://www.wangxinri.cn/tags/%E5%88%B7%E9%A2%98/"/>
-    
-      <category term="编程" scheme="http://www.wangxinri.cn/tags/%E7%BC%96%E7%A8%8B/"/>
     
   </entry>
   
@@ -88,15 +126,16 @@ n=8&amp;7         0000
     <link href="http://www.wangxinri.cn/2017/08/18/Machine%20Learning/"/>
     <id>http://www.wangxinri.cn/2017/08/18/Machine Learning/</id>
     <published>2017-08-18T01:56:53.389Z</published>
-    <updated>2017-08-18T03:02:06.708Z</updated>
+    <updated>2017-08-22T01:06:31.243Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="机器学习课程"><a href="#机器学习课程" class="headerlink" title="机器学习课程"></a>机器学习课程</h1><h2 id="一、机器学习的动机与应用"><a href="#一、机器学习的动机与应用" class="headerlink" title="一、机器学习的动机与应用"></a>一、机器学习的动机与应用</h2><p>监督学习</p>
+    <content type="html"><![CDATA[<h1 id="机器学习课程"><a href="#机器学习课程" class="headerlink" title="机器学习课程"></a>机器学习课程</h1><a id="more"></a>
+<h2 id="一、机器学习的动机与应用"><a href="#一、机器学习的动机与应用" class="headerlink" title="一、机器学习的动机与应用"></a>一、机器学习的动机与应用</h2><p>监督学习</p>
 <p>无监督学习与聚类算法</p>
 <h2 id="二、监督学习应用：梯度下降"><a href="#二、监督学习应用：梯度下降" class="headerlink" title="二、监督学习应用：梯度下降"></a>二、监督学习应用：梯度下降</h2><h3 id="1-线性回归"><a href="#1-线性回归" class="headerlink" title="1.线性回归"></a>1.线性回归</h3><h3 id="2-梯度下降"><a href="#2-梯度下降" class="headerlink" title="2.梯度下降"></a>2.梯度下降</h3><h3 id="3-正规方程组"><a href="#3-正规方程组" class="headerlink" title="3.正规方程组"></a>3.正规方程组</h3>]]></content>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;机器学习课程&quot;&gt;&lt;a href=&quot;#机器学习课程&quot; class=&quot;headerlink&quot; title=&quot;机器学习课程&quot;&gt;&lt;/a&gt;机器学习课程&lt;/h1&gt;&lt;h2 id=&quot;一、机器学习的动机与应用&quot;&gt;&lt;a href=&quot;#一、机器学习的动机与应用&quot; class=&quot;head
+      &lt;h1 id=&quot;机器学习课程&quot;&gt;&lt;a href=&quot;#机器学习课程&quot; class=&quot;headerlink&quot; title=&quot;机器学习课程&quot;&gt;&lt;/a&gt;机器学习课程&lt;/h1&gt;
     
     </summary>
     
@@ -108,11 +147,9 @@ n=8&amp;7         0000
     <link href="http://www.wangxinri.cn/2017/08/12/%E6%A0%B7%E5%85%88/"/>
     <id>http://www.wangxinri.cn/2017/08/12/样先/</id>
     <published>2017-08-12T11:59:25.000Z</published>
-    <updated>2017-08-15T12:39:57.806Z</updated>
+    <updated>2017-08-22T01:07:05.549Z</updated>
     
-    <content type="html"><![CDATA[<p>　　仅以此记录样先发给我的新年贺词，时刻向兄弟学习！（侵犯他的隐私我不管，哈哈）</p>
-<a id="more"></a>
-<p>新日左右：</p>
+    <content type="html"><![CDATA[<p>　　仅以此记录样先发给我的新年贺词，时刻向兄弟学习！（侵犯他的隐私我不管，哈哈）<br><a id="more"></a><br>新日左右：</p>
 <p>　　余中求学生涯，惟君与余真正共事三年。初始，吾二人低而普通，待到分班，高而重点，止一年耳。忆往昔高中奋斗岁月，直叫人倍感追忆。</p>
 <p>　　予闻朱子言，为学譬如熬肉，先须用猛火煮，然后用慢火温。盖士人读书，第一要有志，第二要有识，第三要有恒。有志则断不甘为下流；有识则知学问无尽，不敢以一得自足，如河伯之观海，如井蛙之窥天，皆无识者也；有恒则断无不成之事。余注曰：“有志者，不在其小也。大者如孙、毛以救天下万民于水火为己任，周之为中华崛起而读书，小者以达一己之私，一举手，一投足。然小志者，亦有其蔽也。志小则为己，为己则时怠，怠则退而求其次，盖不知人自忍之大乎。呜呼！”此亦余之不足也，与老奸共勉。</p>
 <p>　　大学确定考研否？准备否？书仍看否？新年细语，浅见孤陋，内心反复，诚惶诚恐。顺问近好。代问伯父、伯母好。</p>
@@ -125,7 +162,7 @@ n=8&amp;7         0000
     
     <summary type="html">
     
-      &lt;p&gt;　　仅以此记录样先发给我的新年贺词，时刻向兄弟学习！（侵犯他的隐私我不管，哈哈）&lt;/p&gt;
+      &lt;p&gt;　　仅以此记录样先发给我的新年贺词，时刻向兄弟学习！（侵犯他的隐私我不管，哈哈）&lt;br&gt;
     
     </summary>
     
