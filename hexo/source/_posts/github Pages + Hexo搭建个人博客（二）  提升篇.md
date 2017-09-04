@@ -157,6 +157,59 @@ menu:
 
 ```
 
+## 5. 调整首页**文档摘要**和**阅读全文**按钮高度并删除居中灰色线条
+
+1.调整文档摘要的高度
+
+在/next/source/css/_common/components/post/post-meta.styl中修改**margin**的值
+
+```css
+.posts-expand .post-meta {
+  margin: 3px 0 10px 0;
+  color: $grey-dark;
+```
+
+2.调整阅读全文按钮高度
+
+在\next\source\css\_common\components\post\post-button.styl中修改**margin-top**的值
+
+```css
+.post-button {
+  margin-top: 10px;
+  .btn {
+```
+
+3.去除首页文档与文档之间居中灰色的线条
+
+在\next\source\css\_common\components\post\post-eof.styl中注释掉如下样式
+
+```css
+.posts-expand {
+  .post-eof {
+  /*
+    display: block;
+    margin: $post-eof-margin-top auto $post-eof-margin-bottom;
+    width: 8%;
+    height: 1px;
+    background: $grey-light;
+    text-align: center;
+  */
+  }
+}
+```
+
+最终效果如下：
+![](http://ou6yob3zd.bkt.clouddn.com/20170904100438.png)
+
+## 6. 归档页博文列表高度调整
+
+在\next\source\css\_common\components\post\post-collapse.styl中修改.post
+
+```css
+  .post { margin: 0px 0; }
+```
+
+
 到这的时候，主题应该也优化的差不多，接下来就是写博客和管理了，加油搞起。
 
 # 四、博客管理维护
