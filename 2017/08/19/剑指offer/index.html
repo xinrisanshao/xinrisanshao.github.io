@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="编程,剑指offer,刷题," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="新日三少的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="前言牛客网剑指offer题目汇总，记录自己刷题历程，原文链接：点击查看">
+<meta name="keywords" content="编程,剑指offer,刷题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="牛客网-剑指offer">
+<meta property="og:url" content="http://www.wangxinri.cn/2017/08/19/剑指offer/index.html">
+<meta property="og:site_name" content="新日三少的博客">
+<meta property="og:description" content="前言牛客网剑指offer题目汇总，记录自己刷题历程，原文链接：点击查看">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://ou6yob3zd.bkt.clouddn.com/20170819204904.png">
+<meta property="og:updated_time" content="2017-12-07T07:59:00.084Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="牛客网-剑指offer">
+<meta name="twitter:description" content="前言牛客网剑指offer题目汇总，记录自己刷题历程，原文链接：点击查看">
+<meta name="twitter:image" content="http://ou6yob3zd.bkt.clouddn.com/20170819204904.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.wangxinri.cn/2017/08/19/剑指offer/"/>
+
+
+
+
+
+  <title>牛客网-剑指offer | 新日三少的博客</title>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=63306720";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+	
+	<a href="https://github.com/xinrisanshao"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新日三少的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Big big pig</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photo">
+          <a href="/photo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-image"></i> <br />
+            
+            照片
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.wangxinri.cn/2017/08/19/剑指offer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="新日三少">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新日三少的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">牛客网-剑指offer</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-19T09:30:25+08:00">
+                2017-08-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/刷题/" itemprop="url" rel="index">
+                    <span itemprop="name">刷题</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  3,064
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  13
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>牛客网剑指offer题目汇总，记录自己刷题历程，原文链接：<a href="https://www.nowcoder.com/ta/coding-interviews" target="_blank" rel="external">点击查看</a><br><a id="more"></a></p>
+<h2 id="题目一：二维数组中的查找-（数组）"><a href="#题目一：二维数组中的查找-（数组）" class="headerlink" title="题目一：二维数组中的查找   （数组）"></a>题目一：二维数组中的查找   （数组）</h2><p><strong>题目描述:</strong>在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p>
+<p><strong>思路：</strong>矩阵从左到右，从上到下都是有序的，因此，先查找目标数target在二维数组中的哪一行，通过判断是否在该行的第一个数和最后一个数之间，如果是，则定位到了行，因为该行是有序的，所以接下来通过二分查找，即可查找成功。</p>
+<p><strong>注：</strong>时间复杂度的话，查找行花了O(n), 二分查找O(logn),总共应该O(n)+O(logn),奇怪的是我使用普通的遍历查找，运行时间更更少！这不科学，二分查找效率应该更高，这应该是数据量小导致的。</p>
+<p><strong>代码：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">Find</span><span class="params">(<span class="keyword">int</span> target, <span class="keyword">int</span> [][] array)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span>(array[<span class="number">0</span>].length==<span class="number">0</span>) &#123; <span class="comment">//[[]]的情况</span></div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;   <span class="comment">//判断二维数组是否为空</span></div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;array.length;i++) &#123;</div><div class="line">            <span class="comment">// 找出target所在二维数组的行</span></div><div class="line">            <span class="keyword">if</span>(target&gt;=array[i][<span class="number">0</span>]&amp;&amp;target&lt;=array[i][array[i].length-<span class="number">1</span>]) &#123;</div><div class="line">                <span class="comment">//找到所在行之后，因为该行是有序的，此时使用二分查找即可</span></div><div class="line">                <span class="keyword">int</span> low = <span class="number">0</span>;</div><div class="line">                <span class="keyword">int</span> high = array[i].length-<span class="number">1</span>;</div><div class="line">                <span class="keyword">int</span> mid;</div><div class="line">                <span class="keyword">while</span>(low&lt;=high) &#123;</div><div class="line">                    mid = (high + low)/<span class="number">2</span>;</div><div class="line">                    <span class="keyword">if</span>(array[i][mid]&gt;target) &#123;</div><div class="line">                        high = mid - <span class="number">1</span>;</div><div class="line">                    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(array[i][mid]&lt;target)&#123;</div><div class="line">                        low = mid + <span class="number">1</span>;</div><div class="line">                    &#125;<span class="keyword">else</span> &#123;</div><div class="line">                        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="题目二：替换空格-（字符串）"><a href="#题目二：替换空格-（字符串）" class="headerlink" title="题目二：替换空格  （字符串）"></a>题目二：替换空格  （字符串）</h2><p><strong>题目描述:</strong>请实现一个函数，将一个字符串中的空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。</p>
+<p><strong>思路：</strong></p>
+<p><strong>第一种：</strong> 直接用StringBuffer提供的replace函数。(不可取，得自己搞)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">replace(<span class="keyword">int</span> start, <span class="keyword">int</span> end, String str);</div></pre></td></tr></table></figure>
+<p>Replaces the characters in a substring of this sequence with characters in the specified String.</p>
+<p><strong>第二种：</strong> 先统计出空格的个数，然后计算得到替换后的字符串的长度，然后重新更新字符串的长度，此时，<strong>从后向前</strong>遍历字符串，如果是空格，替换，如果不是空格，赋原值，知道遍历结束。</p>
+<p><strong>注：</strong>从后往前，每个空格后面的字符只需要移动一次。从前往后，当遇到第一个空格时，要移动第一个空格后所有的字符一次；当遇到第二个空格时，要移动第二个空格后所有的字符一次；以此类推。所以总的移动次数会更多。</p>
+<p><strong>代码：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">replaceSpace</span><span class="params">(StringBuffer str)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> oldlength = str.length()-<span class="number">1</span>;</div><div class="line">        <span class="keyword">int</span> newlength = oldlength;  <span class="comment">//替换之后新数组的大小</span></div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;str.length();i++) &#123;</div><div class="line">            <span class="keyword">if</span>(str.charAt(i)==<span class="string">' '</span>)&#123;</div><div class="line">                newlength += <span class="number">2</span>;   <span class="comment">//由一个' '变为"%20",长度增加2</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        str.setLength(newlength+<span class="number">1</span>);  <span class="comment">//扩展str的长度,多余的位置是空字符</span></div><div class="line">        <span class="comment">//此时oldlength和newlength都是数组的长度-1</span></div><div class="line">        <span class="keyword">for</span>(;oldlength&gt;=<span class="number">0</span>&amp;&amp;oldlength&lt;newlength;oldlength--)&#123;</div><div class="line">            <span class="keyword">if</span>(str.charAt(oldlength)==<span class="string">' '</span>)&#123;</div><div class="line">                str.setCharAt(newlength--, <span class="string">'0'</span>);</div><div class="line">                str.setCharAt(newlength--, <span class="string">'2'</span>);</div><div class="line">                str.setCharAt(newlength--, <span class="string">'%'</span>);</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                str.setCharAt(newlength--, str.charAt(oldlength));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> str.toString();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="题目三：从尾到头打印链表-（链表）"><a href="#题目三：从尾到头打印链表-（链表）" class="headerlink" title="题目三：从尾到头打印链表 （链表）"></a>题目三：从尾到头打印链表 （链表）</h2><p><strong>题目描述:</strong>输入一个链表，从尾到头打印链表每个节点的值。</p>
+<p><strong>思路：</strong></p>
+<p><strong>第一种：</strong> 遍历链表，将链表存入Arraylist数组vals中，然后对vals进行反转。(确实很low)</p>
+<p><strong>第二种：</strong> 使用递归思想，递归到最后一个结点，然后层层返回，此时依次add进vals数组中。</p>
+<p><strong>代码：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">*    public class ListNode &#123;</span></div><div class="line"><span class="comment">*        int val;</span></div><div class="line"><span class="comment">*        ListNode next = null;</span></div><div class="line"><span class="comment">*</span></div><div class="line"><span class="comment">*        ListNode(int val) &#123;</span></div><div class="line"><span class="comment">*            this.val = val;</span></div><div class="line"><span class="comment">*        &#125;</span></div><div class="line"><span class="comment">*    &#125;</span></div><div class="line"><span class="comment">*</span></div><div class="line"><span class="comment">*/</span></div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> ArrayList&lt;Integer&gt; <span class="title">printListFromTailToHead</span><span class="params">(ListNode listNode)</span> </span>&#123;</div><div class="line">        ArrayList&lt;Integer&gt; vals = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        <span class="keyword">int</span> count=<span class="number">0</span>;</div><div class="line">        <span class="keyword">while</span>(listNode != <span class="keyword">null</span>) &#123;</div><div class="line">            vals.add(listNode.val);</div><div class="line">            listNode = listNode.next;</div><div class="line">            count++;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;count/<span class="number">2</span>;i++) &#123;</div><div class="line">            <span class="keyword">int</span> tem = vals.get(i);</div><div class="line">            vals.set(i, vals.get(count-i-<span class="number">1</span>));</div><div class="line">            vals.set(count-i-<span class="number">1</span>, tem);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> vals;  </div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">linklist</span></span>&#123;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> ArrayList&lt;Integer&gt; vals = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printListFromTailToHead</span><span class="params">(ListNode listNode)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span>(listNode != <span class="keyword">null</span>) &#123;</div><div class="line">            printListFromTailToHead(listNode.next);</div><div class="line">    	    vals.add(listNode.val);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//return val; 返回val不需要，因为vals本身就相当于全局变量一样，每次迭代更新的都是同一个vals。</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://ou6yob3zd.bkt.clouddn.com/20170819204904.png" alt=""></p>
+<h2 id="题目四：重建二叉树-（树）"><a href="#题目四：重建二叉树-（树）" class="headerlink" title="题目四：重建二叉树 （树）"></a>题目四：重建二叉树 （树）</h2><h2 id="题目五：用两个栈实现队列-（栈、队列）"><a href="#题目五：用两个栈实现队列-（栈、队列）" class="headerlink" title="题目五：用两个栈实现队列 （栈、队列）"></a>题目五：用两个栈实现队列 （栈、队列）</h2><p><strong>题目描述:</strong>用两个栈来实现一个队列，完成队列的Push和Pop操作。 队列中的元素为int类型。</p>
+<p><strong>思路：</strong></p>
+<p>入队push:将元素进栈A。</p>
+<p>出队pop:判断栈B是否为空，如果为空，则将栈A中所有元素pop，并push进栈B，然后栈B出站。</p>
+<p><strong>注：</strong> 1 push，将数据直接压入stack1即可；2 pop,将stack1中的数据弹出压入到stack2中，则数据顺序相反，为保证最新进入的数据一致处于栈顶，只有将stack2中的数据全部pop后，才能继续将stack1中的数据压入到stack2中，继续做pop。</p>
+<p><strong>代码：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    Stack&lt;Integer&gt; stack1 = <span class="keyword">new</span> Stack&lt;Integer&gt;();</div><div class="line">    Stack&lt;Integer&gt; stack2 = <span class="keyword">new</span> Stack&lt;Integer&gt;();</div><div class="line">     </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> node)</span> </span>&#123;</div><div class="line">        stack1.push(node);</div><div class="line">    &#125;</div><div class="line">     </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">while</span>(stack1.empty()&amp;&amp;stack2.empty())&#123;</div><div class="line">            System.out.println(<span class="string">"队列为空!"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span>(stack2.empty())&#123;</div><div class="line">            <span class="keyword">while</span>(!stack1.empty())&#123;</div><div class="line">                stack2.push(stack1.pop());</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> stack2.pop();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="题目十一：二进制中1的个数-（位运算）"><a href="#题目十一：二进制中1的个数-（位运算）" class="headerlink" title="题目十一：二进制中1的个数 （位运算）"></a>题目十一：二进制中1的个数 （位运算）</h2><p><strong>题目描述:</strong>输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</p>
+<p><strong>思路：</strong></p>
+<p><strong>方法一：</strong> 通过n&amp;n-1可以消除整数最右边的1。多次执行n=n&amp;n-1，最终n为0时，表示所有的1都被消除了，消除1所执行的次数即为1的个数。</p>
+<p><strong>分析：</strong>为啥n&amp;n-1可以消除整数最右边的1？ 如果一个整数不为0，那么这个整数至少有一位是1。如果我们把这个整数减1，那么原来处在整数最右边的1就会变成0，原来在最右边1后面的所有的0都会变成1（如果最右边的1后面还有0的话）。其余所有位将不会受到影响。我们发现减1的结果是把从最右边的1开始的所有位都取反了，这个时候将n于n-1做与运算，从原来整数最右边一个1那一位开始所有位都会变成0。也就是说，把一个整数减去1，再和原整数做与运算，会把该整数最右边一个1变为0，那么一个整数的二进制有多少个1，就可以进行多少次这样的操作。</p>
+<pre><code>n=12          1100 
+n-1=11        1011
+n=12&amp;11       1000
+n=8           1000
+n-1=7         0111
+n=8&amp;7         0000
+</code></pre><p><strong>代码：</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">NumberOf1</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;  </div><div class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line">    <span class="keyword">while</span>(n!=<span class="number">0</span>)&#123;</div><div class="line">        n &amp;= n-<span class="number">1</span>;</div><div class="line">        count++;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> count;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>更多参考点击：<a href="http://www.cnblogs.com/graphics/archive/2010/06/21/1752421.html" target="_blank" rel="external">算法-求二进制数中1的个数</a></p>
+<h2 id="题目十二：数值的整数次方-（代码的完整性）"><a href="#题目十二：数值的整数次方-（代码的完整性）" class="headerlink" title="题目十二：数值的整数次方 （代码的完整性）"></a>题目十二：数值的整数次方 （代码的完整性）</h2><p><strong>题目：</strong>给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。</p>
+<p><strong>思路：</strong></p>
+<p><strong>方法一：</strong>估计是个人都能想出来，假设要求a^b，只需将a连乘b次，此时的时间复杂度是O(b)。</p>
+<p><strong>方法二：</strong> <strong>快速幂</strong>，快速幂能将复杂度降至O(logb)，确实是快了不少。</p>
+<p>原理：假设我们要求a^b，b拆成二进制时，该二进制数第i位的权值为2^(i-1)，如下：</p>
+<p>a^11 = a^(1011) = a^(1000+0010+0001) = a^(2^0 + 2^1 + 2^3) = a^(2^0)*a^(2^1)*a^(2^3)</p>
+<p>通过使用&amp;和&gt;&gt;位运算操作，依次遍历指数二进制表示中的每一位，我们发现，结果为每一位值为1时，也即a^(2^i)的累乘，此时，相邻位的值都是前一个值的翻倍。</p>
+<p>更多信息：<a href="http://www.cnblogs.com/CXCXCXC/p/4641812.html" target="_blank" rel="external">快速幂</a></p>
+<p><strong>代码：</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">Power</span><span class="params">(<span class="keyword">double</span> base, <span class="keyword">int</span> exponent)</span> </span>&#123;</div><div class="line">        <span class="keyword">double</span> result = <span class="number">1.0</span>;</div><div class="line">        <span class="keyword">int</span> e = exponent;</div><div class="line">        exponent = Math.abs(exponent);</div><div class="line">        <span class="keyword">if</span>(exponent == <span class="number">0</span>)&#123;</div><div class="line">            <span class="keyword">return</span> result;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">while</span>(exponent!=<span class="number">0</span>)&#123;</div><div class="line">            <span class="keyword">if</span>((exponent&amp;<span class="number">1</span>)==<span class="number">1</span>)&#123;</div><div class="line">                result *= base;</div><div class="line">            &#125;</div><div class="line">            base *= base;    <span class="comment">//每移动一位，该为代表的乘数都翻倍</span></div><div class="line">            exponent = exponent &gt;&gt; <span class="number">1</span>;  <span class="comment">//右移一位</span></div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> e&gt;<span class="number">0</span>?result:<span class="number">1</span>/result;    </div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="题目十三：调整数组顺序使奇数位于偶数前面-（数组）"><a href="#题目十三：调整数组顺序使奇数位于偶数前面-（数组）" class="headerlink" title="题目十三：调整数组顺序使奇数位于偶数前面 （数组）"></a>题目十三：调整数组顺序使奇数位于偶数前面 （数组）</h2><p><strong>题目描述:</strong>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
+<p><strong>思路：</strong></p>
+<p><strong>方法一：</strong> 插入排序的思想。从第二个数开始，之前的数（也就只有一个数）是已经排好序的，此时如果第二个数是奇数的话，我们只需要插入到之前序列中所有偶数之前，如果是偶数的话，则不需要插入；继续第三个数，依次遍历完数组即可。</p>
+<p><strong>方法二：</strong>重新定义一个vector，从前往后遍历vector,遇到奇数push_back；再遍历一遍vector，遇到偶数push_back,以空间换时间，这就不实现了，easy。</p>
+<p><strong>代码：</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reOrderArray</span><span class="params">(<span class="keyword">int</span> [] array)</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;array.length;i++)&#123;</div><div class="line">    	    <span class="keyword">if</span>(array[i]%<span class="number">2</span>==<span class="number">0</span>)&#123;  <span class="comment">//偶数的话，继续下一个数</span></div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">    	    &#125;<span class="keyword">else</span>&#123;   </div><div class="line">                <span class="keyword">int</span> tem = array[i];  <span class="comment">//保存待插入到偶数之前的奇数</span></div><div class="line">                <span class="keyword">int</span> j;</div><div class="line">                <span class="keyword">for</span>(j=i-<span class="number">1</span>;j&gt;=<span class="number">0</span>&amp;&amp;(array[j]%<span class="number">2</span>==<span class="number">0</span>);j--)&#123;  <span class="comment">//找到偶数之前插入的位置</span></div><div class="line">                    array[j+<span class="number">1</span>] = array[j];  <span class="comment">//偶数集体后移一位</span></div><div class="line">                &#125;</div><div class="line">                array[j+<span class="number">1</span>] = tem;  <span class="comment">//将奇数插入到该位置上</span></div><div class="line">            &#125;</div><div class="line">    	&#125;      </div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="题目十四：链表中倒数第k个结点"><a href="#题目十四：链表中倒数第k个结点" class="headerlink" title="题目十四：链表中倒数第k个结点"></a>题目十四：链表中倒数第k个结点</h2><p><strong>题目描述:</strong>输入一个链表，输出该链表中倒数第k个结点。</p>
+<p><strong>思路：</strong> 定义两个指针p1,p2，分别指向表头，再定义count=0,表示p1在第0个结点，此时p1开始遍历链表，每经过一个结点count++，当count&gt;=k时，p2开始遍历链表，直到p1遍历结束，此时p2指向的结点即为倒数第k个结点。</p>
+<p><strong>代码：</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"><span class="comment">public class ListNode &#123;</span></div><div class="line"><span class="comment">    int val;</span></div><div class="line"><span class="comment">    ListNode next = null;</span></div><div class="line"><span class="comment"> </span></div><div class="line"><span class="comment">    ListNode(int val) &#123;</span></div><div class="line"><span class="comment">        this.val = val;</span></div><div class="line"><span class="comment">    &#125;</span></div><div class="line"><span class="comment">&#125;*/</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">FindKthToTail</span><span class="params">(ListNode head,<span class="keyword">int</span> k)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line">        ListNode p = head;</div><div class="line">        ListNode node = <span class="keyword">null</span>;  <span class="comment">//head为空，返回null</span></div><div class="line">        <span class="keyword">if</span>(k&lt;=<span class="number">0</span>) <span class="keyword">return</span> node;  <span class="comment">//k&lt;=0无效，返回null</span></div><div class="line">        <span class="keyword">while</span>(head!=<span class="keyword">null</span>)&#123;</div><div class="line">            count++;</div><div class="line">            head = head.next;</div><div class="line">            <span class="keyword">if</span>(count &gt;= k) &#123;  <span class="comment">//相对第一个元素为k-1的间隔时,head和p同时往后走</span></div><div class="line">                node = p;</div><div class="line">                p = p.next;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> node;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="题目十五：反转链表"><a href="#题目十五：反转链表" class="headerlink" title="题目十五：反转链表"></a>题目十五：反转链表</h2><p><strong>题目描述:</strong>输入一个链表，反转链表后，输出链表的所有元素。</p>
+<p><strong>思路：</strong> 依次遍历每个结点，同时通过头插法再重新创建新的链表</p>
+<p><strong>注：</strong>可以利用之前的结点，而不需要重新创建新的结点，以后改进。</p>
+<p><strong>代码：</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"><span class="comment">public class ListNode &#123;</span></div><div class="line"><span class="comment">    int val;</span></div><div class="line"><span class="comment">    ListNode next = null;</span></div><div class="line"><span class="comment"> </span></div><div class="line"><span class="comment">    ListNode(int val) &#123;</span></div><div class="line"><span class="comment">        this.val = val;</span></div><div class="line"><span class="comment">    &#125;</span></div><div class="line"><span class="comment">&#125;*/</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">ReverseList</span><span class="params">(ListNode head)</span> </span>&#123;</div><div class="line">        ListNode p = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> p;</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            p = <span class="keyword">new</span> ListNode(head.val);</div><div class="line">        &#125;</div><div class="line">        ListNode q = head.next;</div><div class="line">        <span class="keyword">while</span>(q!=<span class="keyword">null</span>)&#123;</div><div class="line">            ListNode s = <span class="keyword">new</span> ListNode(q.val);</div><div class="line">            s.next = p;</div><div class="line">            p = s;</div><div class="line">            q = q.next;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> p;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="题目十六：合并两个排序的链表"><a href="#题目十六：合并两个排序的链表" class="headerlink" title="题目十六：合并两个排序的链表"></a>题目十六：合并两个排序的链表</h2><p><strong>题目描述:</strong>输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。</p>
+<p><strong>思路：</strong> 当两个链表list1，list2（指向第一个结点）不空时，比较list1.val和list2.val的值，较小的作为合并后的第一个结点，假设list1.val较小，此时list1 = list1.next，继续比较list1.val和list2.val，直到某一个链表遍历结束，将没遍历结束的链表添加到合并后链表末尾。</p>
+<p><strong>注：</strong>可以利用之前的结点，而不需要重新创建新的结点，这样，最后直接指向没遍历结束的链表即可，同时也节省了创建新的结点的空间，后续改进。</p>
+<p><strong>代码：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"><span class="comment">public class ListNode &#123;</span></div><div class="line"><span class="comment">    int val;</span></div><div class="line"><span class="comment">    ListNode next = null;</span></div><div class="line"><span class="comment"> </span></div><div class="line"><span class="comment">    ListNode(int val) &#123;</span></div><div class="line"><span class="comment">        this.val = val;</span></div><div class="line"><span class="comment">    &#125;</span></div><div class="line"><span class="comment">&#125;*/</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">Merge</span><span class="params">(ListNode list1,ListNode list2)</span> </span>&#123;</div><div class="line">        ListNode p = <span class="keyword">new</span> ListNode(<span class="number">0</span>);  <span class="comment">//创建一个头结点,数据域初始化为0，不存储数据,指针域为null</span></div><div class="line">        ListNode head = p ;  <span class="comment">//头指针,指向头结点</span></div><div class="line">        <span class="keyword">if</span>(list1 == <span class="keyword">null</span> &amp;&amp; list2 == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">while</span>(list1!=<span class="keyword">null</span> &amp;&amp; list2!=<span class="keyword">null</span>)&#123;</div><div class="line">            <span class="keyword">if</span>(list1.val &lt; list2.val)&#123;</div><div class="line">                ListNode s = <span class="keyword">new</span> ListNode(list1.val);</div><div class="line">                p.next = s;</div><div class="line">                p = s;</div><div class="line">                list1 = list1.next;</div><div class="line">                 </div><div class="line">            &#125;<span class="keyword">else</span> &#123;</div><div class="line">                ListNode s = <span class="keyword">new</span> ListNode(list2.val);</div><div class="line">                p.next = s;</div><div class="line">                p = s;</div><div class="line">                list2 = list2.next;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">while</span>(list1!=<span class="keyword">null</span>)&#123;</div><div class="line">            ListNode s = <span class="keyword">new</span> ListNode(list1.val);</div><div class="line">            p.next = s;</div><div class="line">            p = s;</div><div class="line">            list1 = list1.next;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">while</span>(list2!=<span class="keyword">null</span>)&#123;</div><div class="line">            ListNode s = <span class="keyword">new</span> ListNode(list2.val);</div><div class="line">            p.next = s;</div><div class="line">            p = s;</div><div class="line">            list2 = list2.next;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> head.next;  <span class="comment">//头结点不存储元素,head.next指向第一个元素节点，返回 </span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+	
+	<div>
+     
+       <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+     
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div align="center">
+    
+     <div class="">
+      <p><span>
+      <b>本文地址：</b><a href="/2017/08/19/剑指offer/" title="牛客网-剑指offer">http://www.wangxinri.cn/2017/08/19/剑指offer/</a><br/><b>转载请注明出处，谢谢！</b>
+     </span></p>
+  </div>
+ 
+  </div>
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+	<div>梦想夹带眼泪，咸咸的汗水！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.jpg" alt="新日三少 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpg" alt="新日三少 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/编程/" rel="tag"><i class="fa fa-tag"></i> 编程</a>
+          
+            <a href="/tags/剑指offer/" rel="tag"><i class="fa fa-tag"></i> 剑指offer</a>
+          
+            <a href="/tags/刷题/" rel="tag"><i class="fa fa-tag"></i> 刷题</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/12/样先/" rel="next" title="样先">
+                <i class="fa fa-chevron-left"></i> 样先
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/21/个人总结之排序算法/" rel="prev" title="个人总结之排序算法">
+                个人总结之排序算法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yOTk0Mi82NTA3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="新日三少" />
+          <p class="site-author-name" itemprop="name">新日三少</p>
+           
+              <p class="site-description motion-element" itemprop="description">Love Coding,Enjoy Life</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xinrisanshao" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/u012878150" target="_blank" title="CSDN">
+                  
+                    <i class="fa fa-fw fa-crosshairs"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://alvincat.github.io/" title="双哥的博客" target="_blank">双哥的博客</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目一：二维数组中的查找-（数组）"><span class="nav-number">1.1.</span> <span class="nav-text">题目一：二维数组中的查找   （数组）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目二：替换空格-（字符串）"><span class="nav-number">1.2.</span> <span class="nav-text">题目二：替换空格  （字符串）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目三：从尾到头打印链表-（链表）"><span class="nav-number">1.3.</span> <span class="nav-text">题目三：从尾到头打印链表 （链表）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目四：重建二叉树-（树）"><span class="nav-number">1.4.</span> <span class="nav-text">题目四：重建二叉树 （树）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目五：用两个栈实现队列-（栈、队列）"><span class="nav-number">1.5.</span> <span class="nav-text">题目五：用两个栈实现队列 （栈、队列）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目十一：二进制中1的个数-（位运算）"><span class="nav-number">1.6.</span> <span class="nav-text">题目十一：二进制中1的个数 （位运算）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目十二：数值的整数次方-（代码的完整性）"><span class="nav-number">1.7.</span> <span class="nav-text">题目十二：数值的整数次方 （代码的完整性）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目十三：调整数组顺序使奇数位于偶数前面-（数组）"><span class="nav-number">1.8.</span> <span class="nav-text">题目十三：调整数组顺序使奇数位于偶数前面 （数组）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目十四：链表中倒数第k个结点"><span class="nav-number">1.9.</span> <span class="nav-text">题目十四：链表中倒数第k个结点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目十五：反转链表"><span class="nav-number">1.10.</span> <span class="nav-text">题目十五：反转链表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目十六：合并两个排序的链表"><span class="nav-number">1.11.</span> <span class="nav-text">题目十六：合并两个排序的链表</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+	    
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div style="color:red" class="copyright" >
+  
+  &copy;  2017 - 
+  <span  itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">新日三少</span>
+</div>
+
+
+
+<!--
+<div style="color:red" class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div style="color:red" class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+-->
+
+<div style="color:red" class="powered-by">
+  <i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+    访客数:<span id="busuanzi_value_site_uv"></span>
+  </span>
+</div>
+
+
+<div style="color:red" class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count" >全站共10.8k字</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
