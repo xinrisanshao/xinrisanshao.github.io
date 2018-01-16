@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.wangxinri.cn/"/>
-  <updated>2017-12-07T07:59:00.081Z</updated>
+  <updated>2018-01-16T03:05:09.282Z</updated>
   <id>http://www.wangxinri.cn/</id>
   
   <author>
@@ -14,6 +14,127 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>引用&amp;指针&amp;const</title>
+    <link href="http://www.wangxinri.cn/2017/09/01/%E5%BC%95%E7%94%A8&amp;%E6%8C%87%E9%92%88&amp;const/"/>
+    <id>http://www.wangxinri.cn/2017/09/01/引用&amp;指针&amp;const/</id>
+    <published>2017-09-01T11:59:25.000Z</published>
+    <updated>2018-01-16T03:05:09.282Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　本文详细讲解了引用与指针的用法及具体区别，同时探讨了const限定符的基本用法。<br><a id="more"></a></p>
+<h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><p>一条声明语句由一个<strong>基本数据类型</strong>和紧随其后的一个<strong>声明符</strong>列表组成。每个声明符命名了一个变量并指定该变量为与基本数据类型有关的某种类型。</p>
+<pre><code>int a;
+基本数据类型   声明符（其实就是变量名）
+//更复杂的声明符 ----接下来的指针和引用
+int *b;   //指针可以不初始化，没语法错误
+int &amp;b = a;     //引用必须初始化
+</code></pre><p><strong>引用</strong>（reference）为对象起了另外一个名字，引用类型引用另外一种类型，通过将声明符号写成&amp;d的形式来定义引用类型，其中d是声明的变量名。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> ival = <span class="number">1024</span>;</div><div class="line"><span class="keyword">int</span> &amp;refVal = ival; <span class="comment">//refVal指向ival(是ival的另一个名字)</span></div><div class="line"><span class="keyword">int</span> &amp;refVal2;   <span class="comment">//报错，引用必须初始化</span></div></pre></td></tr></table></figure>
+<p>一般初始化变量时，初始值会被拷贝到新建的对象中。然而定义引用时，程序把引用和它的初始值<strong>绑定</strong>在一起，而不是将初始值拷贝给引用。一旦初始化完成。引用将和它的初始值对象一直绑定在一起。<strong>因为无法令引用重新绑定到另外一个对象，因此引用必须初始化。</strong></p>
+<h2 id="引用注意细节"><a href="#引用注意细节" class="headerlink" title="引用注意细节"></a>引用注意细节</h2><ul>
+<li>无法令引用重新绑定到另外一个对象，因此引用必须初始化。</li>
+<li>引用并非对象，相反的，它只是为一个已经存在的对象所起的另外一个名字，即引用即别名。</li>
+<li>引用本身不是对象，所以不能定义引用的引用。</li>
+<li>引用的类型要和绑定的对象严格匹配。而且，引用只能绑定在对象上，而不能与字面值或某个表达式的计算结果绑定在一起。（<strong>两种例外，一种是对常量的引用 const int &amp;</strong>）</li>
+</ul>
+<pre><code>int &amp;refVal4 = 10;  //错误，引用类型的初始值必须是一个对象
+double dval = 3.14;
+int &amp;refVal5 = dval;  //错误：此处引用类型初始值必须是int型对象
+</code></pre><h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">int</span> a = <span class="number">2</span>;</div><div class="line">    <span class="keyword">int</span> c = <span class="number">4</span>;</div><div class="line">    <span class="keyword">int</span> &amp;b = a;  <span class="comment">//b是a的引用，即b是a的别名</span></div><div class="line">    <span class="comment">//&amp;b = c;  错误,无法令引用重新绑定到另外一个对象上</span></div><div class="line">    <span class="built_in">cout</span>&lt;&lt;a&lt;&lt;<span class="string">" "</span>&lt;&lt;b&lt;&lt;<span class="string">" "</span>&lt;&lt;&amp;a&lt;&lt;<span class="string">" "</span>&lt;&lt;&amp;b&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    a = <span class="number">5</span>;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;a&lt;&lt;<span class="string">" "</span>&lt;&lt;b&lt;&lt;<span class="string">" "</span>&lt;&lt;&amp;a&lt;&lt;<span class="string">" "</span>&lt;&lt;&amp;b&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    b = <span class="number">6</span>;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;a&lt;&lt;<span class="string">" "</span>&lt;&lt;b&lt;&lt;<span class="string">" "</span>&lt;&lt;&amp;a&lt;&lt;<span class="string">" "</span>&lt;&lt;&amp;b&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    a = c;    <span class="comment">//将a的值改变，b的值也相应改变，但&amp;a和&amp;b还是一样的</span></div><div class="line">    <span class="built_in">cout</span>&lt;&lt;a&lt;&lt;<span class="string">" "</span>&lt;&lt;b&lt;&lt;<span class="string">" "</span>&lt;&lt;c&lt;&lt;<span class="string">" "</span>&lt;&lt;&amp;a&lt;&lt;<span class="string">" "</span>&lt;&lt;&amp;b&lt;&lt;<span class="string">" "</span>&lt;&lt;&amp;c&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    b = c;   <span class="comment">//同上</span></div><div class="line">    <span class="built_in">cout</span>&lt;&lt;a&lt;&lt;<span class="string">" "</span>&lt;&lt;b&lt;&lt;<span class="string">" "</span>&lt;&lt;c&lt;&lt;<span class="string">" "</span>&lt;&lt;&amp;a&lt;&lt;<span class="string">" "</span>&lt;&lt;&amp;b&lt;&lt;<span class="string">" "</span>&lt;&lt;&amp;c&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<pre><code>2  2  0x28fef8  0x28fef8
+5  5  0x28fef8  0x28fef8
+6  6  0x28fef8  0x28fef8
+4  4  0x28fef8  0x28fef8 0x28fef4
+4  4  0x28fef8  0x28fef8 0x28fef4
+</code></pre><h1 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h1><p><strong>指针</strong>是“指向”另外一种类型的复合类型。与引用类似，指针也实现了对其他对象的间接访问。然而指针与引用相比又有很多不同点。</p>
+<p><strong>指针和引用的不同点</strong>：</p>
+<ul>
+<li>指针本身就是一个对象，允许对指针赋值和拷贝，而且在指针的生命周期内它可以先后指向几个不同的对象。</li>
+<li>指针无须在定义时赋初值。和其他内置类型一样，在块作用域内定义的指针如果没有被初始化，也将拥有一个不确定的值。</li>
+</ul>
+<h2 id="获取对象的地址"><a href="#获取对象的地址" class="headerlink" title="获取对象的地址"></a>获取对象的地址</h2><p>指针存放某个对象的地址，要想获取该地址，需要使用取地址符（&amp;）.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> ival = <span class="number">42</span>;</div><div class="line"><span class="keyword">int</span> *p = &amp;ival;  <span class="comment">//指针变量p存放变量ival的地址,也即p是指向变量ival的指针</span></div></pre></td></tr></table></figure>
+<h2 id="注意细节"><a href="#注意细节" class="headerlink" title="注意细节"></a>注意细节</h2><ul>
+<li>引用不是对象，没有实际地址，所有不能定义指向引用的指针。</li>
+<li>指针的类型要和它指向的对象严格匹配(<strong>两种例外，一种是指向常量的指针</strong>)，因为在声明语句中指针的类型实际上被用于指定它所指向对象的类型，所以二者必须匹配。如果指针指向了一个其他类型的对象，对该对象的操作将发生错误。</li>
+</ul>
+<h2 id="指针值"><a href="#指针值" class="headerlink" title="指针值"></a>指针值</h2><p>指针的值（即地址）应属下列4种状态之一：</p>
+<ol>
+<li>指向一个对象</li>
+<li>指向紧邻对象所占空间的下一个位置   </li>
+<li>空指针，意味着指针没有指向任何对象</li>
+<li>无效指针，也就是上述情况之外的其他值（比如指针未初始化，指针的值也就指向的地址为指针变量内存空间的当前内容，是一个随机值）</li>
+</ol>
+<p><strong>注意</strong>：指针没有指向任何具体对象，所以试图访问此类指针对象的行为不被允许，虽然编译可能通过，但如果这样做了，后果无法预计。</p>
+<h2 id="利用指针访问对象"><a href="#利用指针访问对象" class="headerlink" title="利用指针访问对象"></a>利用指针访问对象</h2><p>使用<strong>解引用符</strong>（操作符*）来访问该对象。解引用操作仅适用于那些确实指向了某个对象的有效指针。</p>
+<h2 id="空指针"><a href="#空指针" class="headerlink" title="空指针"></a>空指针</h2><p>空指针不指向任何对象，在试图使用一个指针之前代码可以首先检查它是否为空。以下列出几个生成空指针的方法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> *p1 = <span class="literal">nullptr</span>;    <span class="comment">//等价于int *p1 = 0;</span></div><div class="line"><span class="keyword">int</span> *p2 = <span class="number">0</span>;   <span class="comment">//直接将p2初始化为字面常量0</span></div><div class="line"><span class="keyword">int</span> *p3 = <span class="literal">NULL</span>;    <span class="comment">//等价于int *p1 = 0;</span></div></pre></td></tr></table></figure>
+<p>C++程序最好使用nullptr,同时尽量避免使用NULL。</p>
+<ul>
+<li>把int变量直接赋给指针是错误的操作，即使int变量的值恰好等于0也不行。</li>
+</ul>
+<pre><code>int zero = 0 ,*p;
+pi = zero;       // 错误：不能把int变量直接赋给指针
+</code></pre><p><strong>note</strong>:<strong>建立初始化所有指针</strong></p>
+<p><strong>原因</strong>：在大多数编译器环境下，如果使用了未经初始化的指针，则该指针所占内存空间的当前内容将被看作一个地址值（即该地址值是一个随机数）。访问该指针，相当于去访问一个本不存在的位置上的本不存在的对象。糟糕的是，如果指针所占内存空间中恰好有内容，而这些内容又被当作了某个地址，我们就很难分清它到底是合法的还是非法的了。</p>
+<p>因此建议初始化所有的指针，并且在可能的情况下，尽量等定义了对象之后再定义指向它的指针。如果实在不清楚指针应该指向何处，就把它初始化为nullptr或者0，这样程序就能检测并知道它没有指向任何具体的对象了。</p>
+<h2 id="void-指针"><a href="#void-指针" class="headerlink" title="void* 指针"></a>void* 指针</h2><p><strong>void*</strong> <strong>是一种特殊的指针类型，可用于存放任意对象的地址</strong>。一个void*指针存放着一个地址，这一点和其他指针类似。不同的是，我们对该地址中到底是个什么类型的对象并不了解：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">double</span> obj = <span class="number">3.14</span>, *pd = &amp;obj;  <span class="comment">// 正确：void*能存放任意类型对象的地址</span></div><div class="line"><span class="keyword">void</span> *pv = &amp;obj;      <span class="comment">// obj可以是任意类型的对象</span></div><div class="line">pv = pd;             <span class="comment">// pv可以存放任意类型的指针</span></div></pre></td></tr></table></figure>
+<p>利用void<em>指针能做的事儿比较有限：拿它和别的指针比较、作为函数的输入或输出，或者赋给另外一个void</em>指针。不能直接操作void*指针所指的对象，因为我们并不知道这个对象到底是什么类型，也就无法确定能在这个对象上做哪些操作。</p>
+<p>概括说来，<strong>以void*的视角来看内存空间也就仅仅是内存空间，没办法访问内存空间中所存的对象</strong></p>
+<h2 id="代码示例-1"><a href="#代码示例-1" class="headerlink" title="代码示例"></a>代码示例</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">double</span> obj = <span class="number">3.14</span>,*pd = &amp;obj;</div><div class="line">    <span class="keyword">void</span> *pv = &amp;obj;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;&amp;obj&lt;&lt;<span class="string">" "</span>&lt;&lt;obj&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;&amp;pd&lt;&lt;<span class="string">" "</span>&lt;&lt;pd&lt;&lt;<span class="string">" "</span>&lt;&lt;*pd&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;&amp;pv&lt;&lt;<span class="string">" "</span>&lt;&lt;pv&lt;&lt;<span class="string">" "</span>&lt;&lt;<span class="built_in">endl</span>;  <span class="comment">//不能直接操作void* 指针所指的对象，即*pv是不合法的</span></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<pre><code>0x28ff08   3.14
+0x28ff04   0x28ff08   3.14
+0x28ff00   0x28ff08 
+</code></pre><h2 id="理解复合类型的声明"><a href="#理解复合类型的声明" class="headerlink" title="理解复合类型的声明"></a>理解复合类型的声明</h2><p>修饰符（<em>或&amp;）和变量标识符写在一起，修饰符(</em>或者&amp;)都是修饰变量的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> *p1,*p2;   <span class="comment">//p1和p2都是指向int的指针</span></div></pre></td></tr></table></figure>
+<h2 id="指向指针的指针"><a href="#指向指针的指针" class="headerlink" title="指向指针的指针"></a>指向指针的指针</h2><p>指针是内存中的对象，像其他对象一样也有自己的地址，因此允许把指针的地址再存放到另一个指针当中。</p>
+<p>通过<em>的个数可以区分指针的级别。也就是说，<strong>表示指向指针的指针，</strong></em>表示指向指针的指针的指，依次类推：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> ival = <span class="number">1024</span>;</div><div class="line"><span class="keyword">int</span> *pi = &amp;ival;   <span class="comment">//pi指向一个int型的数</span></div><div class="line"><span class="keyword">int</span> **ppi = &amp;pi;   <span class="comment">//ppi指向一个int型的指针</span></div><div class="line"></div><div class="line"><span class="comment">//解引用</span></div><div class="line"><span class="built_in">cout</span>&lt;&lt;ival&lt;&lt;<span class="string">" "</span>&lt;&lt;*pi&lt;&lt;<span class="string">" "</span>&lt;&lt;**ppi&lt;&lt;<span class="built_in">endl</span>;</div></pre></td></tr></table></figure>
+<h2 id="指向指针的引用"><a href="#指向指针的引用" class="headerlink" title="指向指针的引用"></a>指向指针的引用</h2><p>引用本身不是对象，因此<strong>不能定义指向引用的指针</strong>。但指针是对象，所以<strong>存在对指针的引用</strong>。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> i = <span class="number">42</span>;</div><div class="line"><span class="keyword">int</span> *p;   <span class="comment">//p是一个int型指针</span></div><div class="line"><span class="keyword">int</span> *&amp;r = p;   <span class="comment">//r是一个对指针p的引用,  此时r和p指针同名</span></div><div class="line"></div><div class="line">r = &amp;i;   <span class="comment">//r引用了一个指针，因此给r赋值&amp;i就是令指向i</span></div><div class="line">*r = <span class="number">0</span>;   <span class="comment">//解引用r得到i，也就是p指向的对象，将i的值改为0</span></div></pre></td></tr></table></figure>
+<p>要理解r的类型到底是什么，最简单的方法就是<strong>从右向左阅读r的定义</strong>。<strong>离变量名最近的符号（此例中是&amp;r的符号&amp;）对变量的类型有最直接的影响</strong>，因此r是一个引用。<strong>声明符的其余部分用以确定r引用的类型是什么</strong>，此例中的符号*说明r引用的是一个指针。最后，声明的基本数据类型部分指出r引用的是一个int型指针。</p>
+<h1 id="const限定符"><a href="#const限定符" class="headerlink" title="const限定符"></a>const限定符</h1><h2 id="const定义"><a href="#const定义" class="headerlink" title="const定义"></a>const定义</h2><p>有时我们希望定义这样一种变量，它的值不能被改变。为了满足这一要求，可以用关键字<strong>const</strong>对变量的类型加以限制：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> bufSize = <span class="number">512</span>;     <span class="comment">//输入缓冲区大小</span></div></pre></td></tr></table></figure>
+<p>这样就把bufSize定义成了一个常量。任何试图为bufSize赋值的行为都将引发错误。</p>
+<p><strong>因为const对象一旦创建后其值就不能再改变，所以const对象必须初始化。</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> i = get_size();    <span class="comment">//正确：运行时初始化</span></div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> j = <span class="number">42</span>;            <span class="comment">//正确：编译时初始化</span></div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> k;                 <span class="comment">//错误：k是一个未经初始化的常量</span></div></pre></td></tr></table></figure>
+<p><strong>const类型能参与的操作</strong>：只能在const类型的对象上执行不改变其内容的操作。再不改变const对象的操作中还有一种是初始化。</p>
+<h2 id="默认状态下，const对象仅在文件内有效"><a href="#默认状态下，const对象仅在文件内有效" class="headerlink" title="默认状态下，const对象仅在文件内有效"></a>默认状态下，const对象仅在文件内有效</h2><p>当以编译时初始化的方式定义一个const对象时，就如对bufSize的定义一样：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> bufSize = <span class="number">512</span>;     <span class="comment">//输入缓冲区大小</span></div></pre></td></tr></table></figure>
+<p>编译器将在编译过程中把用到该变量的地方都替换成对应的值也就是说，编译器会找到代码中所有用到bufSize的地方，然后用512替换。</p>
+<p><strong>默认情况下，const对象被设定为仅在文件内有效。当多个文件中出现同名的const变量时，不同文件中分别定义了独立的变量。</strong></p>
+<p>某些时候有这样一种const变量，它的初始值不是一个常量表达式，但又确实有必要在文件间共享。这种情况下，我们不希望编译器为每个文件分别生成独立的变量。相反，我们想让这类const对象像其他（非常量）对象一样工作，也就是说，<strong>只在一个文件中定义const，而在多个文件中声明并使用它。</strong></p>
+<font color="red"><strong>解决办法：</strong></font>  对于const变量不管是声明还是定义都添加extern关键字，这样只需要定义一次就可以了：<br><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//file1.cpp定义并初始化和一个常量，该常量能被其他文件访问</span></div><div class="line"><span class="keyword">extern</span> <span class="keyword">const</span> <span class="keyword">int</span> bufferSize = function();</div><div class="line"><span class="comment">//file1.h头文件</span></div><div class="line"><span class="keyword">extern</span> <span class="keyword">const</span> <span class="keyword">int</span> bufferSize; <span class="comment">//与file1.cpp中定义的是同一个</span></div></pre></td></tr></table></figure><br><br><strong>note</strong>：如果想在多个文件之间共享const对象，必须在变量的定义之前添加extern关键字。<br><br>## const引用<br><br>可以把引用绑定到const对象上，就像绑定其他对象上一样，我们称之为<strong>对常量的引用</strong>（reference to const）。与普通引用不同的是，对常量的引用不能被用作修改它所绑定的对象。<br><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> ci = <span class="number">1024</span>;</div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;r1 = ci;    <span class="comment">//正确：引用及其对应的对象都是常量</span></div><div class="line">r1 = <span class="number">42</span>;               <span class="comment">//错误：r1时对常量的引用</span></div><div class="line"><span class="keyword">int</span> &amp;r2 = ci;          <span class="comment">//错误：试图让一个非常量引用指向一个常量对象</span></div></pre></td></tr></table></figure><br><br>因为不允许直接为ci赋值，当然也就是不能通过引用去改变ci。因此，对r2的初始化也是错误的。假设该初始化合法，则可以通过r2来改变它引用对象的值，这显然是不正确。<br><br>## <font color="red"><strong>初始化和对const的引用</strong></font> 
+
+<font color="red">引用的类型必须与其所引用对象的类型一致，但是有两个例外。</font><strong>第一种例外就是在初始化常量引用时允许用任意表达式作为初始值，只要该表达式的结果能抓换成引用的类型即可。</strong> 尤其，<strong>允许为一个常量引用绑定非常量的对象、字面值，甚至是个一般表达式</strong>：<br><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> i = <span class="number">42</span>;    </div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;r1 = i;       <span class="comment">//允许将const int &amp;绑定到一个普通int对象上</span></div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;r2 = <span class="number">42</span>;      <span class="comment">//正确：r1是一个常量引用</span></div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;r3 = r1*<span class="number">2</span>;    <span class="comment">//正确：r3是一个常量引用</span></div><div class="line"><span class="keyword">int</span> &amp;r4 = r1*<span class="number">2</span>;          <span class="comment">//错误：r4是一个普通的非常量y</span></div></pre></td></tr></table></figure><br><br>如果int &amp;r4 = r1<em>2合法，那么就可以通过r4改变r1的值，而r1是常量引用。<br><br>常量引用被绑定到另外一种类型上时到底发生了什么：<br><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">double</span> dval = <span class="number">3.14</span>;</div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;ri = dval;</div><div class="line"></div><div class="line"><span class="comment">//为了确保ri绑定一个整数，编译器把上述代码变成了如下形式：</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> temp = dval;  <span class="comment">//由双精度浮点数生成一个临时的整形常量</span></div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;ri = temp;   <span class="comment">//让ri绑定这个临时量</span></div></pre></td></tr></table></figure><br><br><font color="red"><strong>总结</strong>：</font> 常量引用（const &amp;）可以绑定到const常量上，也可以绑定到int变量上，但是让一个非常量引用指向一个常量对象是不对的。<br><br>## 对const的引用可能引用一个并非const的对象<br><br>必须认识到，常量引用仅对引用可参与的操作做出了限定，对于引用的对象本身是不是一个常量未做限定。因为对象也可能是个非常量，所以允许通过其他途径改变它的值：<br><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> i = <span class="number">42</span>;</div><div class="line"><span class="keyword">int</span> &amp;r1 = i;                 <span class="comment">// 引用r1绑定对象i</span></div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;r2 = i； <span class="comment">// r2也绑定对象i，但是不允许通过r2修改i的值</span></div><div class="line">r1 = <span class="number">0</span>;    <span class="comment">// r1并非常量引用，i的值修改为0</span></div><div class="line">r2 = <span class="number">0</span>;    <span class="comment">// 错误：r2是一个常量引用</span></div></pre></td></tr></table></figure><br><br>r2绑定（非常量）整数i是合法的行为。然而，不允许通过r2修改i的值。尽管如此，i的值仍然允许通过其他途径修改，既可以直接给i赋值，也可以通过像r1一样绑定到i的其他引用来修改。<br><br>## 指针和const(指向常量的指针 const double </em>cptr)<br><br><strong>指向常量的指针（pointer to const）不能用于改变其所指对象的值</strong>。要想存放常量对象的地址，只能使用指向常量的指针。<br><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> <span class="keyword">double</span> pi = <span class="number">3.14</span>;   <span class="comment">//pi是一个常量，它的值不能改变</span></div><div class="line"><span class="keyword">double</span> *ptr = &amp;pi;        <span class="comment">//错误，ptr是一个普通指针</span></div><div class="line"><span class="keyword">const</span> <span class="keyword">double</span> *cptr = &amp;pi; <span class="comment">//正确：cptr可以指向一个双精度常量</span></div><div class="line">*cptr = <span class="number">42</span>;               <span class="comment">//错误：不能给*cptr赋值</span></div><div class="line"><span class="keyword">double</span> dval = <span class="number">3.2</span>;</div><div class="line">cptr = &amp;dval;            <span class="comment">//对的</span></div></pre></td></tr></table></figure><br><br><font color="red"><strong>注意：</strong></font>之前提到，指针的类型必须与其所指对象的类型一致，但是有两个例外。第一个就是允许令一个指向常量的指针指向一个非常量对象：<br><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">double</span> dval = <span class="number">3.14</span>;</div><div class="line"><span class="keyword">const</span> <span class="keyword">double</span> *ptr = &amp;dval;</div></pre></td></tr></table></figure><br><br>和常量引用一样，指向常量的指针也没有规定其所指的对象必须是一个常量。<font color="red"><strong>所谓指向常量的指针仅仅要求不能通过该指针改变对象的值，而没有规定那个对象的值不能通过其他途径改变</strong>。</font>
+
+<h2 id="const指针（常量指针-int-const-curErr）"><a href="#const指针（常量指针-int-const-curErr）" class="headerlink" title="const指针（常量指针 int *const curErr）"></a>const指针（常量指针 int *const curErr）</h2><p>指针是对象而引用不是，因此就像其他对象类型一样，允许把指针本身定为常量。<strong>常量指针必须初始化，而且一旦初始化完成，则它的值（也就是存放在指针中的那个地址）就不能改变了</strong>。把*放在const关键字之前用以说明指针是一个常量，这样的书写形式隐含着一层意味， 即不变的是指针本身的值而非指向的那个值：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> errNumb = <span class="number">0</span>;</div><div class="line"><span class="keyword">int</span> *<span class="keyword">const</span> curErr = &amp;errNumb;  <span class="comment">//curErr将一直指向errNumb</span></div><div class="line"><span class="keyword">const</span> <span class="keyword">double</span> pi = <span class="number">3.14159</span>;</div><div class="line"><span class="keyword">const</span> <span class="keyword">double</span> *<span class="keyword">const</span> pip = &amp;pi;  <span class="comment">//pip是一个指向常量对象的常量指针</span></div></pre></td></tr></table></figure>
+<p><strong>从右向左阅读</strong></p>
+<p>此例中，离curErr最近的符号是const,意味着curErr本身是一个常量对象，对象的类型由声明符的其余部分确定。声明符中的下一个符号是*，意思是curErr是一个常量指针。最后，该声明语句的基本数据类型部分确定了常量指针指向的是一个int对象。与之相似，我们也能推断出，pip是一个常量指针，它所指向的对象是一个双精度浮点型常量。</p>
+<p>指针本身是一个常量并不意味着不能通过指针修改其所值对象的值，能否这样做完全依赖于所指对象的类型。例如，pip是一个指向常量的常量指针，则不论是pip所指的对象值还是pip自己存储的那个地址都不能改变。相反的，curErr指向的是一个一般的非常量整数，那么就完全可以用curErr去修改errNumb的值：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">*pip = <span class="number">2.72</span>; <span class="comment">// 错误：pip是一个指向常量的指针</span></div><div class="line"><span class="comment">//如果curErr所指的对象（也就是errNumb）的值不为0</span></div><div class="line"><span class="keyword">if</span>(*curErr)</div><div class="line">&#123;</div><div class="line">    errorHandler();</div><div class="line">    *curErr = <span class="number">0</span>;  <span class="comment">//正确，把curErr所值得对象的值重置</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>指向常量的指针（const doubel <em>cptr）不能用于改变其所指向对象的值，但是可以改变指针本身的值，而常量指针（int </em>const curErr）必须初始化，而且一旦初始化完成，则它的值（也就是存放在指针中的那个地址）就不能在改变了，但是可以修改其所指向对象的值。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> <span class="keyword">double</span> pi = <span class="number">3.14</span></div><div class="line"><span class="keyword">const</span> <span class="keyword">double</span> *<span class="keyword">const</span> pip = &amp;pi;</div></pre></td></tr></table></figure>
+<p>则此时pip是一个指向常量的常量指针，则不论是pip所指的对象值还是pip自己存储的那个地址都不能被改变。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　本文详细讲解了引用与指针的用法及具体区别，同时探讨了const限定符的基本用法。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="C++" scheme="http://www.wangxinri.cn/categories/C/"/>
+    
+    
+      <category term="C++ Primers" scheme="http://www.wangxinri.cn/tags/C-Primers/"/>
+    
+      <category term="C++基础知识" scheme="http://www.wangxinri.cn/tags/C-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+    
+  </entry>
   
   <entry>
     <title>个人总结之排序算法</title>
@@ -200,81 +321,6 @@ n=8&amp;7         0000
   </entry>
   
   <entry>
-    <title>github Pages + Hexo搭建个人博客（一）  初级篇</title>
-    <link href="http://www.wangxinri.cn/2017/08/07/github%20Pages%20+%20Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89%20%20%E5%88%9D%E7%BA%A7%E7%AF%87/"/>
-    <id>http://www.wangxinri.cn/2017/08/07/github Pages + Hexo搭建个人博客（一）  初级篇/</id>
-    <published>2017-08-07T13:59:00.000Z</published>
-    <updated>2018-01-16T02:47:25.800Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>之前一直是在有道云上做一些笔记的，上周末在网上看到了一些别人搭建的个人博客，顿时感兴趣起来，然后自己就瞎捣鼓了几天，最终搭建成功了，哈哈。在这个过程中发现，搭建一个网站还是比较简单的，难的是管理博客，更难的是写博客！！！<br><a id="more"></a><br>这个过程中，注册了自己的第一个github账号（很失败有木有，太out了），同时也了解了一些git的版本控制，还知道了Markdown这种标记语言，后面的这些博客都是用这个标记语言写的，还是很有收获的。</p>
-<p>今天特地总结一下使用github Pages + Hexo搭建个人博客的过程，以备不时之需。这里不谈理论，只谈过程，理论自己也不是很清楚，就不瞎说了，以后慢慢熟悉了，在补充！</p>
-<h1 id="二、环境准备"><a href="#二、环境准备" class="headerlink" title="二、环境准备"></a>二、环境准备</h1><h2 id="1-注册github账号"><a href="#1-注册github账号" class="headerlink" title="1. 注册github账号"></a>1. 注册github账号</h2><p>这个就不多说了，账号注册好后，登陆，在首页右边有一个 <strong>+</strong> 号图标，点击之后，选择New repository进行仓库的创建。Repository name命名为username.github.io（username是你的账号名，记住一定要这样命令哦)，点击Create repository，创建成功。</p>
-<h2 id="2-安装Git"><a href="#2-安装Git" class="headerlink" title="2. 安装Git"></a>2. 安装Git</h2><p>我们之所以要安装git，是因为后面我们要用到git命令，将生成的静态博客网页等信息推送至github仓库，我们的git使用一般由两种方式，一种是<strong>图形化界面（GUI）</strong>,另外一种是通过<strong>命令行</strong>。这里我选择安装前者，带界面的，菜鸟嘛，不会git命令，先熟悉熟悉流程，顺带在这个过程中在了解git的一些常用命令。另外安装前者，在桌面上会生成两个图标， <strong>GitHub和Git Shell</strong>,这两个图标分别是图形界面和命令行工具，意思就是我们不仅可以使用图形界面的工具管理我们github上的仓库，同时也可以使用命令行的形式管理，自由切换，爽歪歪！</p>
-<p>Github for Windows: <a href="http://download.csdn.net/detail/devsplash/9666012" target="_blank" rel="external">点击下载</a></p>
-<p>下载安装完后，桌面上生成<strong>GitHub和Git Shell</strong>两个图标，然后点击<strong>GitHub</strong>图标，输入前面注册的github账号和密码，登录完成，ok，暂时先这样，接着往下走。</p>
-<p>Github for Windows 安装配置使用教程: <a href="http://blog.csdn.net/chenxun_2010/article/details/43670651" target="_blank" rel="external">参考</a></p>
-<h2 id="3-安装Node-js"><a href="#3-安装Node-js" class="headerlink" title="3. 安装Node.js"></a>3. 安装Node.js</h2><p>安装Node.js,因为Hexo是一个基于Node.js的静态博客程序，所以首先安装Node.js。</p>
-<p>点击进入<a href="https://nodejs.org/en/" target="_blank" rel="external">Node.js官网</a></p>
-<p>我们选择左边的通用版，点击下载后，设置安装路径然后默认安装就可以了。</p>
-<h2 id="4-安装Hexo"><a href="#4-安装Hexo" class="headerlink" title="4. 安装Hexo"></a>4. 安装Hexo</h2><p>以上环境配好了之后，那么恭喜您！接下来只需要使用npm即可完成Hexo的安装。</p>
-<p>打开终端，输入：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install -g hexo-cli</div></pre></td></tr></table></figure>
-<p>如果执行这条命令时长时间未成功，那么请先使用下面的命令将npm镜像源更改为国内的镜像，再执行上面的安装命令，因为国外的镜像源很有可能被墙了。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm config <span class="built_in">set</span> registry https://registry.npm.taobao.org</div></pre></td></tr></table></figure>
-<p>安装好Hexo以后，在终端输入：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo</div></pre></td></tr></table></figure>
-<p>若出现下图，说明hexo安装成功：</p>
-<p><img src="http://ou6yob3zd.bkt.clouddn.com/20170806141617.png" alt=""></p>
-<h1 id="三、使用Hexo建站"><a href="#三、使用Hexo建站" class="headerlink" title="三、使用Hexo建站"></a>三、使用Hexo建站</h1><h2 id="1-初始化博客"><a href="#1-初始化博客" class="headerlink" title="1. 初始化博客"></a>1. 初始化博客</h2><p>新建一个网站。如果没有设置 folder ，Hexo 默认在目前的文件夹建立网站。比如我在终端进入到G:Github目录，输入hexo init hexo，则在该目录下创建了hexo博客文件夹。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo init [folder]</div></pre></td></tr></table></figure>
-<p>接下来进入到博客文件夹，这里是E:Github/hexo，执行如下命令，根据该目录下的package.json中既定的dependencies配置安装所有的依赖包</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install</div></pre></td></tr></table></figure>
-<h2 id="2-配置"><a href="#2-配置" class="headerlink" title="2. 配置"></a>2. 配置</h2><p>网站的主配置文件为hexo根目录下的<strong>_config.yml</strong>文件：</p>
-<p>默认配置如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div></pre></td><td class="code"><pre><div class="line"># Hexo Configuration</div><div class="line">## Docs: https://hexo.io/docs/configuration.html</div><div class="line">## Source: https://github.com/hexojs/hexo/</div><div class="line"></div><div class="line"># Site</div><div class="line">title: Hexo</div><div class="line">subtitle:</div><div class="line">description:</div><div class="line">author: John Doe</div><div class="line">language:</div><div class="line">timezone:</div><div class="line"></div><div class="line"># URL</div><div class="line">## If your site is put in a subdirectory, set url as &apos;http://yoursite.com/child&apos; and root as &apos;/child/&apos;</div><div class="line">url: http://yoursite.com</div><div class="line">root: /</div><div class="line">permalink: :year/:month/:day/:title/</div><div class="line">permalink_defaults:</div><div class="line"></div><div class="line"># Directory</div><div class="line">source_dir: source</div><div class="line">public_dir: public</div><div class="line">tag_dir: tags</div><div class="line">archive_dir: archives</div><div class="line">category_dir: categories</div><div class="line">code_dir: downloads/code</div><div class="line">i18n_dir: :lang</div><div class="line">skip_render:</div><div class="line"></div><div class="line"># Writing</div><div class="line">new_post_name: :title.md # File name of new posts</div><div class="line">default_layout: post</div><div class="line">titlecase: false # Transform title into titlecase</div><div class="line">external_link: true # Open external links in new tab</div><div class="line">filename_case: 0</div><div class="line">render_drafts: false</div><div class="line">post_asset_folder: false</div><div class="line">relative_link: false</div><div class="line">future: true</div><div class="line">highlight:</div><div class="line">  enable: true</div><div class="line">  line_number: true</div><div class="line">  auto_detect: false</div><div class="line">  tab_replace:</div><div class="line">  </div><div class="line"># Home page setting</div><div class="line"># path: Root path for your blogs index page. (default = &apos;&apos;)</div><div class="line"># per_page: Posts displayed per page. (0 = disable pagination)</div><div class="line"># order_by: Posts order. (Order by date descending by default)</div><div class="line">index_generator:</div><div class="line">  path: &apos;&apos;</div><div class="line">  per_page: 10</div><div class="line">  order_by: -date</div><div class="line">  </div><div class="line"># Category &amp; Tag</div><div class="line">default_category: uncategorized</div><div class="line">category_map:</div><div class="line">tag_map:</div><div class="line"></div><div class="line"># Date / Time format</div><div class="line">## Hexo uses Moment.js to parse and display date</div><div class="line">## You can customize the date format as defined in</div><div class="line">## http://momentjs.com/docs/#/displaying/format/</div><div class="line">date_format: YYYY-MM-DD</div><div class="line">time_format: HH:mm:ss</div><div class="line"></div><div class="line"># Pagination</div><div class="line">## Set per_page to 0 to disable pagination</div><div class="line">per_page: 10</div><div class="line">pagination_dir: page</div><div class="line"></div><div class="line"># Extensions</div><div class="line">## Plugins: https://hexo.io/plugins/</div><div class="line">## Themes: https://hexo.io/themes/</div><div class="line">theme: landscape</div><div class="line"></div><div class="line"># Deployment</div><div class="line">## Docs: https://hexo.io/docs/deployment.html</div><div class="line">deploy:</div><div class="line">  type:</div><div class="line"></div></pre></td></tr></table></figure>
-<p>这些配置项所代表的意思可以参考Hexo中文网：<a href="https://hexo.io/zh-cn/docs/configuration.html" target="_blank" rel="external">_config.yml配置</a> ，我们需要修改的配置只有这几项，拿我自己修改的配置作为示例。</p>
-<h3 id="1-修改网站相关信息"><a href="#1-修改网站相关信息" class="headerlink" title="1). 修改网站相关信息"></a>1). 修改网站相关信息</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">title: 新日三少的博客 </div><div class="line">subtitle: Big big pig   </div><div class="line">description: Love Coding,Enjoy Life</div><div class="line">author: 新日三少</div><div class="line">language: zh-CN      <span class="comment">#themes主题文件夹下的languages下面有很多语言可选</span></div><div class="line">timezone: Asia/Shanghai</div></pre></td></tr></table></figure>
-<p><strong>注意</strong>：每一项的填写，其:后面都要保留一个空格，下同。</p>
-<h3 id="2-配置统一资源定位符（个人域名）"><a href="#2-配置统一资源定位符（个人域名）" class="headerlink" title="2). 配置统一资源定位符（个人域名）"></a>2). 配置统一资源定位符（个人域名）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">url: http://www.wangxinri.cn</div></pre></td></tr></table></figure>
-<p>对于root（根目录）、permalink（永久链接）、permalink_defaults（默认永久链接）等其他信息保持默认。<br>如无个人域名，无需修改这一项。</p>
-<h3 id="3-配置部署"><a href="#3-配置部署" class="headerlink" title="3). 配置部署"></a>3). 配置部署</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">deploy: </div><div class="line">  <span class="built_in">type</span>: git</div><div class="line">  repo: https://github.com/xinrisanshao/xinrisanshao.github.io.git</div><div class="line">  branch: master</div></pre></td></tr></table></figure>
-<p>其中repo项是之前Github上创建好的仓库的地址，，可以通过如下图所示的方式得到：</p>
-<p><img src="http://ou6yob3zd.bkt.clouddn.com/20170806151918.png" alt=""></p>
-<h2 id="3-本地发布博客"><a href="#3-本地发布博客" class="headerlink" title="3.  本地发布博客"></a>3.  本地发布博客</h2><p>接下来，在网站中建立第一篇文章，<strong>打开终端，进入到博客文件夹根目录</strong>，这里是E:Github/hexo，然后输入</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo new <span class="string">"文章标题"</span></div></pre></td></tr></table></figure>
-<p>我们可以在本地博客文件夹source-&gt;_post文件夹下看到我们新建的markdown文件。通过Markdown编辑器对我们文章进行编辑，我这采用的是Markdownpad2编辑器。</p>
-<p>MarkdownPad2：<a href="http://download.csdn.net/detail/rentongtmd/8333707" target="_blank" rel="external">点击下载</a></p>
-<p>Markdown语法：<a href="http://www.markdown.cn/" target="_blank" rel="external">Markdown中文网</a></p>
-<p>为了能够使Hexo部署到GitHub上，需要安装一个插件：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo-deployer-git --save</div></pre></td></tr></table></figure>
-<p>接下来,我们进行本地发布：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hexo generate</div><div class="line">hexo server</div></pre></td></tr></table></figure></p>
-<p>执行完后，打开浏览器，输入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:4000/</div></pre></td></tr></table></figure></p>
-<p>我们可以在浏览器端看到我们搭建好的博客和发布的文章，如果访问失败，可能端口被占用，更换端口 hexo server -p 5000 ,将默认4000端口换成5000。<br><img src="http://ou6yob3zd.bkt.clouddn.com/20170806161241.png" alt=""></p>
-<h2 id="4-发布博客至github仓库"><a href="#4-发布博客至github仓库" class="headerlink" title="4. 发布博客至github仓库"></a>4. 发布博客至github仓库</h2><p>但是毕竟我们目前发布的博客只有本机看得到，怎么让其他人看到我们写的博客呢？这时候我们来看看博客的部署。</p>
-<p>打开终端，进入到博客文件夹根目录，这里还是<strong>E:Github/hexo</strong>，执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hexo generate</div><div class="line">hexo deploy</div></pre></td></tr></table></figure>
-<p>输入我们的网址：<a href="http://xinrisanshao.github.io" target="_blank" rel="external">xinrisanshao.github.io</a> ,即可访问博客了。</p>
-<p>此时查看github中的仓库，发现我们博客文件夹根目录中的<strong>public文件夹</strong>里面的文件已经发布到仓库中了。</p>
-<p>此时搭建的博客还只是入门，外观确实一般般，接下来将更进一步，比如如何更换主题、如何管理博客等等。</p>
-<p>好累啊，先休息下，果然还是写博客最累啊。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;一、前言&quot;&gt;&lt;a href=&quot;#一、前言&quot; class=&quot;headerlink&quot; title=&quot;一、前言&quot;&gt;&lt;/a&gt;一、前言&lt;/h1&gt;&lt;p&gt;之前一直是在有道云上做一些笔记的，上周末在网上看到了一些别人搭建的个人博客，顿时感兴趣起来，然后自己就瞎捣鼓了几天，最终搭建成功了，哈哈。在这个过程中发现，搭建一个网站还是比较简单的，难的是管理博客，更难的是写博客！！！&lt;br&gt;
-    
-    </summary>
-    
-      <category term="hexo" scheme="http://www.wangxinri.cn/categories/hexo/"/>
-    
-    
-      <category term="hexo" scheme="http://www.wangxinri.cn/tags/hexo/"/>
-    
-      <category term="github" scheme="http://www.wangxinri.cn/tags/github/"/>
-    
-  </entry>
-  
-  <entry>
     <title>github Pages + Hexo搭建个人博客（二）  提升篇</title>
     <link href="http://www.wangxinri.cn/2017/08/07/github%20Pages%20+%20Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%BA%8C%EF%BC%89%20%20%E6%8F%90%E5%8D%87%E7%AF%87/"/>
     <id>http://www.wangxinri.cn/2017/08/07/github Pages + Hexo搭建个人博客（二）  提升篇/</id>
@@ -369,6 +415,81 @@ n=8&amp;7         0000
     <summary type="html">
     
       &lt;h1 id=&quot;一、前言&quot;&gt;&lt;a href=&quot;#一、前言&quot; class=&quot;headerlink&quot; title=&quot;一、前言&quot;&gt;&lt;/a&gt;一、前言&lt;/h1&gt;&lt;p&gt;在之前的&lt;strong&gt;初级篇&lt;/strong&gt;中介绍了如何搭建个人博客。本文介绍如何更换博客主题、设置第三方服务和最重要的如何管理发布博客。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="hexo" scheme="http://www.wangxinri.cn/categories/hexo/"/>
+    
+    
+      <category term="hexo" scheme="http://www.wangxinri.cn/tags/hexo/"/>
+    
+      <category term="github" scheme="http://www.wangxinri.cn/tags/github/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>github Pages + Hexo搭建个人博客（一）  初级篇</title>
+    <link href="http://www.wangxinri.cn/2017/08/06/github%20Pages%20+%20Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89%20%20%E5%88%9D%E7%BA%A7%E7%AF%87/"/>
+    <id>http://www.wangxinri.cn/2017/08/06/github Pages + Hexo搭建个人博客（一）  初级篇/</id>
+    <published>2017-08-06T13:59:00.000Z</published>
+    <updated>2018-01-16T03:08:38.007Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>之前一直是在有道云上做一些笔记的，上周末在网上看到了一些别人搭建的个人博客，顿时感兴趣起来，然后自己就瞎捣鼓了几天，最终搭建成功了，哈哈。在这个过程中发现，搭建一个网站还是比较简单的，难的是管理博客，更难的是写博客！！！<br><a id="more"></a><br>这个过程中，注册了自己的第一个github账号（很失败有木有，太out了），同时也了解了一些git的版本控制，还知道了Markdown这种标记语言，后面的这些博客都是用这个标记语言写的，还是很有收获的。</p>
+<p>今天特地总结一下使用github Pages + Hexo搭建个人博客的过程，以备不时之需。这里不谈理论，只谈过程，理论自己也不是很清楚，就不瞎说了，以后慢慢熟悉了，在补充！</p>
+<h1 id="二、环境准备"><a href="#二、环境准备" class="headerlink" title="二、环境准备"></a>二、环境准备</h1><h2 id="1-注册github账号"><a href="#1-注册github账号" class="headerlink" title="1. 注册github账号"></a>1. 注册github账号</h2><p>这个就不多说了，账号注册好后，登陆，在首页右边有一个 <strong>+</strong> 号图标，点击之后，选择New repository进行仓库的创建。Repository name命名为username.github.io（username是你的账号名，记住一定要这样命令哦)，点击Create repository，创建成功。</p>
+<h2 id="2-安装Git"><a href="#2-安装Git" class="headerlink" title="2. 安装Git"></a>2. 安装Git</h2><p>我们之所以要安装git，是因为后面我们要用到git命令，将生成的静态博客网页等信息推送至github仓库，我们的git使用一般由两种方式，一种是<strong>图形化界面（GUI）</strong>,另外一种是通过<strong>命令行</strong>。这里我选择安装前者，带界面的，菜鸟嘛，不会git命令，先熟悉熟悉流程，顺带在这个过程中在了解git的一些常用命令。另外安装前者，在桌面上会生成两个图标， <strong>GitHub和Git Shell</strong>,这两个图标分别是图形界面和命令行工具，意思就是我们不仅可以使用图形界面的工具管理我们github上的仓库，同时也可以使用命令行的形式管理，自由切换，爽歪歪！</p>
+<p>Github for Windows: <a href="http://download.csdn.net/detail/devsplash/9666012" target="_blank" rel="external">点击下载</a></p>
+<p>下载安装完后，桌面上生成<strong>GitHub和Git Shell</strong>两个图标，然后点击<strong>GitHub</strong>图标，输入前面注册的github账号和密码，登录完成，ok，暂时先这样，接着往下走。</p>
+<p>Github for Windows 安装配置使用教程: <a href="http://blog.csdn.net/chenxun_2010/article/details/43670651" target="_blank" rel="external">参考</a></p>
+<h2 id="3-安装Node-js"><a href="#3-安装Node-js" class="headerlink" title="3. 安装Node.js"></a>3. 安装Node.js</h2><p>安装Node.js,因为Hexo是一个基于Node.js的静态博客程序，所以首先安装Node.js。</p>
+<p>点击进入<a href="https://nodejs.org/en/" target="_blank" rel="external">Node.js官网</a></p>
+<p>我们选择左边的通用版，点击下载后，设置安装路径然后默认安装就可以了。</p>
+<h2 id="4-安装Hexo"><a href="#4-安装Hexo" class="headerlink" title="4. 安装Hexo"></a>4. 安装Hexo</h2><p>以上环境配好了之后，那么恭喜您！接下来只需要使用npm即可完成Hexo的安装。</p>
+<p>打开终端，输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install -g hexo-cli</div></pre></td></tr></table></figure>
+<p>如果执行这条命令时长时间未成功，那么请先使用下面的命令将npm镜像源更改为国内的镜像，再执行上面的安装命令，因为国外的镜像源很有可能被墙了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm config <span class="built_in">set</span> registry https://registry.npm.taobao.org</div></pre></td></tr></table></figure>
+<p>安装好Hexo以后，在终端输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo</div></pre></td></tr></table></figure>
+<p>若出现下图，说明hexo安装成功：</p>
+<p><img src="http://ou6yob3zd.bkt.clouddn.com/20170806141617.png" alt=""></p>
+<h1 id="三、使用Hexo建站"><a href="#三、使用Hexo建站" class="headerlink" title="三、使用Hexo建站"></a>三、使用Hexo建站</h1><h2 id="1-初始化博客"><a href="#1-初始化博客" class="headerlink" title="1. 初始化博客"></a>1. 初始化博客</h2><p>新建一个网站。如果没有设置 folder ，Hexo 默认在目前的文件夹建立网站。比如我在终端进入到G:Github目录，输入hexo init hexo，则在该目录下创建了hexo博客文件夹。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo init [folder]</div></pre></td></tr></table></figure>
+<p>接下来进入到博客文件夹，这里是E:Github/hexo，执行如下命令，根据该目录下的package.json中既定的dependencies配置安装所有的依赖包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install</div></pre></td></tr></table></figure>
+<h2 id="2-配置"><a href="#2-配置" class="headerlink" title="2. 配置"></a>2. 配置</h2><p>网站的主配置文件为hexo根目录下的<strong>_config.yml</strong>文件：</p>
+<p>默认配置如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div></pre></td><td class="code"><pre><div class="line"># Hexo Configuration</div><div class="line">## Docs: https://hexo.io/docs/configuration.html</div><div class="line">## Source: https://github.com/hexojs/hexo/</div><div class="line"></div><div class="line"># Site</div><div class="line">title: Hexo</div><div class="line">subtitle:</div><div class="line">description:</div><div class="line">author: John Doe</div><div class="line">language:</div><div class="line">timezone:</div><div class="line"></div><div class="line"># URL</div><div class="line">## If your site is put in a subdirectory, set url as &apos;http://yoursite.com/child&apos; and root as &apos;/child/&apos;</div><div class="line">url: http://yoursite.com</div><div class="line">root: /</div><div class="line">permalink: :year/:month/:day/:title/</div><div class="line">permalink_defaults:</div><div class="line"></div><div class="line"># Directory</div><div class="line">source_dir: source</div><div class="line">public_dir: public</div><div class="line">tag_dir: tags</div><div class="line">archive_dir: archives</div><div class="line">category_dir: categories</div><div class="line">code_dir: downloads/code</div><div class="line">i18n_dir: :lang</div><div class="line">skip_render:</div><div class="line"></div><div class="line"># Writing</div><div class="line">new_post_name: :title.md # File name of new posts</div><div class="line">default_layout: post</div><div class="line">titlecase: false # Transform title into titlecase</div><div class="line">external_link: true # Open external links in new tab</div><div class="line">filename_case: 0</div><div class="line">render_drafts: false</div><div class="line">post_asset_folder: false</div><div class="line">relative_link: false</div><div class="line">future: true</div><div class="line">highlight:</div><div class="line">  enable: true</div><div class="line">  line_number: true</div><div class="line">  auto_detect: false</div><div class="line">  tab_replace:</div><div class="line">  </div><div class="line"># Home page setting</div><div class="line"># path: Root path for your blogs index page. (default = &apos;&apos;)</div><div class="line"># per_page: Posts displayed per page. (0 = disable pagination)</div><div class="line"># order_by: Posts order. (Order by date descending by default)</div><div class="line">index_generator:</div><div class="line">  path: &apos;&apos;</div><div class="line">  per_page: 10</div><div class="line">  order_by: -date</div><div class="line">  </div><div class="line"># Category &amp; Tag</div><div class="line">default_category: uncategorized</div><div class="line">category_map:</div><div class="line">tag_map:</div><div class="line"></div><div class="line"># Date / Time format</div><div class="line">## Hexo uses Moment.js to parse and display date</div><div class="line">## You can customize the date format as defined in</div><div class="line">## http://momentjs.com/docs/#/displaying/format/</div><div class="line">date_format: YYYY-MM-DD</div><div class="line">time_format: HH:mm:ss</div><div class="line"></div><div class="line"># Pagination</div><div class="line">## Set per_page to 0 to disable pagination</div><div class="line">per_page: 10</div><div class="line">pagination_dir: page</div><div class="line"></div><div class="line"># Extensions</div><div class="line">## Plugins: https://hexo.io/plugins/</div><div class="line">## Themes: https://hexo.io/themes/</div><div class="line">theme: landscape</div><div class="line"></div><div class="line"># Deployment</div><div class="line">## Docs: https://hexo.io/docs/deployment.html</div><div class="line">deploy:</div><div class="line">  type:</div><div class="line"></div></pre></td></tr></table></figure>
+<p>这些配置项所代表的意思可以参考Hexo中文网：<a href="https://hexo.io/zh-cn/docs/configuration.html" target="_blank" rel="external">_config.yml配置</a> ，我们需要修改的配置只有这几项，拿我自己修改的配置作为示例。</p>
+<h3 id="1-修改网站相关信息"><a href="#1-修改网站相关信息" class="headerlink" title="1). 修改网站相关信息"></a>1). 修改网站相关信息</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">title: 新日三少的博客 </div><div class="line">subtitle: Big big pig   </div><div class="line">description: Love Coding,Enjoy Life</div><div class="line">author: 新日三少</div><div class="line">language: zh-CN      <span class="comment">#themes主题文件夹下的languages下面有很多语言可选</span></div><div class="line">timezone: Asia/Shanghai</div></pre></td></tr></table></figure>
+<p><strong>注意</strong>：每一项的填写，其:后面都要保留一个空格，下同。</p>
+<h3 id="2-配置统一资源定位符（个人域名）"><a href="#2-配置统一资源定位符（个人域名）" class="headerlink" title="2). 配置统一资源定位符（个人域名）"></a>2). 配置统一资源定位符（个人域名）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">url: http://www.wangxinri.cn</div></pre></td></tr></table></figure>
+<p>对于root（根目录）、permalink（永久链接）、permalink_defaults（默认永久链接）等其他信息保持默认。<br>如无个人域名，无需修改这一项。</p>
+<h3 id="3-配置部署"><a href="#3-配置部署" class="headerlink" title="3). 配置部署"></a>3). 配置部署</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">deploy: </div><div class="line">  <span class="built_in">type</span>: git</div><div class="line">  repo: https://github.com/xinrisanshao/xinrisanshao.github.io.git</div><div class="line">  branch: master</div></pre></td></tr></table></figure>
+<p>其中repo项是之前Github上创建好的仓库的地址，，可以通过如下图所示的方式得到：</p>
+<p><img src="http://ou6yob3zd.bkt.clouddn.com/20170806151918.png" alt=""></p>
+<h2 id="3-本地发布博客"><a href="#3-本地发布博客" class="headerlink" title="3.  本地发布博客"></a>3.  本地发布博客</h2><p>接下来，在网站中建立第一篇文章，<strong>打开终端，进入到博客文件夹根目录</strong>，这里是E:Github/hexo，然后输入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo new <span class="string">"文章标题"</span></div></pre></td></tr></table></figure>
+<p>我们可以在本地博客文件夹source-&gt;_post文件夹下看到我们新建的markdown文件。通过Markdown编辑器对我们文章进行编辑，我这采用的是Markdownpad2编辑器。</p>
+<p>MarkdownPad2：<a href="http://download.csdn.net/detail/rentongtmd/8333707" target="_blank" rel="external">点击下载</a></p>
+<p>Markdown语法：<a href="http://www.markdown.cn/" target="_blank" rel="external">Markdown中文网</a></p>
+<p>为了能够使Hexo部署到GitHub上，需要安装一个插件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo-deployer-git --save</div></pre></td></tr></table></figure>
+<p>接下来,我们进行本地发布：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hexo generate</div><div class="line">hexo server</div></pre></td></tr></table></figure></p>
+<p>执行完后，打开浏览器，输入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:4000/</div></pre></td></tr></table></figure></p>
+<p>我们可以在浏览器端看到我们搭建好的博客和发布的文章，如果访问失败，可能端口被占用，更换端口 hexo server -p 5000 ,将默认4000端口换成5000。<br><img src="http://ou6yob3zd.bkt.clouddn.com/20170806161241.png" alt=""></p>
+<h2 id="4-发布博客至github仓库"><a href="#4-发布博客至github仓库" class="headerlink" title="4. 发布博客至github仓库"></a>4. 发布博客至github仓库</h2><p>但是毕竟我们目前发布的博客只有本机看得到，怎么让其他人看到我们写的博客呢？这时候我们来看看博客的部署。</p>
+<p>打开终端，进入到博客文件夹根目录，这里还是<strong>E:Github/hexo</strong>，执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hexo generate</div><div class="line">hexo deploy</div></pre></td></tr></table></figure>
+<p>输入我们的网址：<a href="http://xinrisanshao.github.io" target="_blank" rel="external">xinrisanshao.github.io</a> ,即可访问博客了。</p>
+<p>此时查看github中的仓库，发现我们博客文件夹根目录中的<strong>public文件夹</strong>里面的文件已经发布到仓库中了。</p>
+<p>此时搭建的博客还只是入门，外观确实一般般，接下来将更进一步，比如如何更换主题、如何管理博客等等。</p>
+<p>好累啊，先休息下，果然还是写博客最累啊。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;一、前言&quot;&gt;&lt;a href=&quot;#一、前言&quot; class=&quot;headerlink&quot; title=&quot;一、前言&quot;&gt;&lt;/a&gt;一、前言&lt;/h1&gt;&lt;p&gt;之前一直是在有道云上做一些笔记的，上周末在网上看到了一些别人搭建的个人博客，顿时感兴趣起来，然后自己就瞎捣鼓了几天，最终搭建成功了，哈哈。在这个过程中发现，搭建一个网站还是比较简单的，难的是管理博客，更难的是写博客！！！&lt;br&gt;
     
     </summary>
     
