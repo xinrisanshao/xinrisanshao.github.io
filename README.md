@@ -1,3 +1,3 @@
-# xinrisanshao.github.io
-个人博客
-lalalala
+##  个人博客
+
+记录一些技术笔记，以及生活中的一些点点滴滴，留作回忆。
