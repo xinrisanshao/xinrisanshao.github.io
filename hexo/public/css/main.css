@@ -1260,7 +1260,7 @@ pre .javascript .function {
   border-radius: 50%;
 }
 .posts-collapse .post {
-  margin: 30px 0;
+  margin: 0px 0;
 }
 .posts-collapse .post-header {
   position: relative;
@@ -1370,7 +1370,7 @@ pre .javascript .function {
   font-size: 16px;
 }
 .posts-expand .post-meta {
-  margin: 3px 0 60px 0;
+  margin: 3px 0 10px 0;
   color: #999;
   font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
   font-size: 12px;
@@ -1423,7 +1423,7 @@ pre .javascript .function {
   }
 }
 .post-button {
-  margin-top: 50px;
+  margin-top: 10px;
 }
 .post-button .btn {
   color: #555;
@@ -1495,14 +1495,6 @@ pre .javascript .function {
 .post-nav-prev .fa {
   right: 0;
   left: auto;
-}
-.posts-expand .post-eof {
-  display: block;
-  margin: 80px auto 60px;
-  width: 8%;
-  height: 1px;
-  background: #ccc;
-  text-align: center;
 }
 .post:last-child .post-eof.post-eof.post-eof {
   display: none;
@@ -1803,7 +1795,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #3d1c2d;
+  background: #f17c9a;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2391,7 +2383,7 @@ pre .javascript .function {
   margin: 5px 10px;
 }
 .category-all-page .category-list-count {
-  color: #bbb;
+  color: #ff2a2a;
 }
 .category-all-page .category-list-count:before {
   display: inline;
@@ -2421,7 +2413,7 @@ pre .javascript .function {
   padding: 0 5px;
 }
 #schedule ul#event-list li.event {
-  margin: 20px 0px;
+  margin: 0px 0px;
   background: #f9f9f9;
   padding-left: 10px;
   min-height: 40px;
@@ -2451,7 +2443,7 @@ pre .javascript .function {
   color: #bbb;
   margin-left: 56px;
   padding-top: 3px;
-  padding-bottom: 6px;
+  padding-bottom: 0px;
   text-indent: -24px;
   line-height: 18px;
 }
@@ -2971,9 +2963,9 @@ body {
   background-attachment: fixed;
 }
 .post {
-  margin-top: 60px;
-  margin-bottom: 60px;
-  padding: 25px;
+  margin-top: 0px;
+  margin-bottom: 50px;
+  padding: 20px;
   -webkit-box-shadow: 0 0 5px rgba(202,203,203,0.5);
   -moz-box-shadow: 0 0 5px rgba(202,203,204,0.5);
 }
