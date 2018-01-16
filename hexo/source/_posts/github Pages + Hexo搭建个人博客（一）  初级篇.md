@@ -1,6 +1,6 @@
 ---
 title: github Pages + Hexo搭建个人博客（一）  初级篇
-date: 
+date: 2017-08-07 21:59:00
 update: 
 tags: [hexo,github]
 categories: hexo
