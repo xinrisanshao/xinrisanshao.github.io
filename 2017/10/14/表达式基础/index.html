@@ -109,7 +109,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="hexo,github," />
+  <meta name="keywords" content="C++," />
 
 
 
@@ -127,21 +127,18 @@
 
 
 
-<meta name="description" content="一、前言在之前的初级篇中介绍了如何搭建个人博客。本文介绍如何更换博客主题、设置第三方服务和最重要的如何管理发布博客。">
-<meta name="keywords" content="hexo,github">
+<meta name="description" content="一、前言介绍C++中常见的表达式。">
+<meta name="keywords" content="C++">
 <meta property="og:type" content="article">
-<meta property="og:title" content="github Pages + Hexo搭建个人博客（二）  提升篇">
-<meta property="og:url" content="http://www.wangxinri.cn/2017/08/07/github Pages + Hexo搭建个人博客（二）  提升篇/index.html">
+<meta property="og:title" content="表达式基础">
+<meta property="og:url" content="http://www.wangxinri.cn/2017/10/14/表达式基础/index.html">
 <meta property="og:site_name" content="新日三少的博客">
-<meta property="og:description" content="一、前言在之前的初级篇中介绍了如何搭建个人博客。本文介绍如何更换博客主题、设置第三方服务和最重要的如何管理发布博客。">
+<meta property="og:description" content="一、前言介绍C++中常见的表达式。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://ou6yob3zd.bkt.clouddn.com/20170808201948.png">
-<meta property="og:image" content="http://ou6yob3zd.bkt.clouddn.com/20170904100438.png">
-<meta property="og:updated_time" content="2017-12-07T07:59:00.074Z">
+<meta property="og:updated_time" content="2018-01-16T12:49:39.438Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="github Pages + Hexo搭建个人博客（二）  提升篇">
-<meta name="twitter:description" content="一、前言在之前的初级篇中介绍了如何搭建个人博客。本文介绍如何更换博客主题、设置第三方服务和最重要的如何管理发布博客。">
-<meta name="twitter:image" content="http://ou6yob3zd.bkt.clouddn.com/20170808201948.png">
+<meta name="twitter:title" content="表达式基础">
+<meta name="twitter:description" content="一、前言介绍C++中常见的表达式。">
 
 
 
@@ -169,13 +166,13 @@
 
 
 
-  <link rel="canonical" href="http://www.wangxinri.cn/2017/08/07/github Pages + Hexo搭建个人博客（二）  提升篇/"/>
+  <link rel="canonical" href="http://www.wangxinri.cn/2017/10/14/表达式基础/"/>
 
 
 
 
 
-  <title>github Pages + Hexo搭建个人博客（二）  提升篇 | 新日三少的博客</title>
+  <title>表达式基础 | 新日三少的博客</title>
   
 
 
@@ -369,7 +366,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.wangxinri.cn/2017/08/07/github Pages + Hexo搭建个人博客（二）  提升篇/">
+    <link itemprop="mainEntityOfPage" href="http://www.wangxinri.cn/2017/10/14/表达式基础/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="新日三少">
@@ -386,7 +383,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">github Pages + Hexo搭建个人博客（二）  提升篇</h1>
+          <h1 class="post-title" itemprop="name headline">表达式基础</h1>
         
 
         <div class="post-meta">
@@ -398,8 +395,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-07T12:59:25+08:00">
-                2017-08-07
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-14T22:00:00+08:00">
+                2017-10-14
               </time>
             
 
@@ -421,8 +418,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">hexo</span>
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
                   </a>
                 </span>
 
@@ -452,7 +449,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  2,701
+                  3,116
                 </span>
               
 
@@ -468,7 +465,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  10
+                  11
                 </span>
               
             </div>
@@ -486,89 +483,98 @@
       
 
       
-        <h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>在之前的<strong>初级篇</strong>中介绍了如何搭建个人博客。本文介绍如何更换博客主题、设置第三方服务和最重要的如何管理发布博客。<br><a id="more"></a></p>
-<h1 id="二、更换主题"><a href="#二、更换主题" class="headerlink" title="二、更换主题"></a>二、更换主题</h1><p>在这篇文章中，假定你已经成功安装了Hexo,并使用Hexo提供的命令创建了一个站点。</p>
-<p>在Hexo中有两份主要的配置文件，其名称都是<strong>_config.yml</strong>。其中，一份位于站点根目录下（此处为G:\GitHub\hexo），主要包含Hexo本身的配置；另一份位于主题根目录下，这份配置由主题作者提供，主要用于配置主题相关的选项。</p>
-<p>为了描述方便，在以下说明中，将前者称为<strong>站点配置文件</strong>，后者称为<strong>主题配置文件</strong>。 </p>
-<h2 id="1-安装NexT"><a href="#1-安装NexT" class="headerlink" title="1. 安装NexT"></a>1. 安装NexT</h2><p>Hexo 安装主题的方式非常简单，只需要将主题文件拷贝至站点目录的 themes 目录下， 然后修改下配置文件即可。具体到 NexT 来说，安装步骤如下。 </p>
-<h3 id="1-下载主题"><a href="#1-下载主题" class="headerlink" title="1) 下载主题"></a>1) 下载主题</h3><p>如果你熟悉Git，建议你使用<strong>克隆最新版本</strong>的方式，之后的更新可以通过<strong>git pull</strong>来快速更新，而不用再次下载压缩包替换。 （说多了都是累啊，早知道就该看官网了，我就是下载的压缩包，估计是没法快速更新了）</p>
-<p>在终端窗口下，定位到 Hexo 站点目录下。使用 Git 命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> G:\GitHub\hexo</div><div class="line">git <span class="built_in">clone</span> https://github.com/iissnan/hexo-theme-next themes/next  <span class="comment">#后面意思是clone到该目录下themes/next文件夹中</span></div></pre></td></tr></table></figure></p>
-<h3 id="2-启用主题"><a href="#2-启用主题" class="headerlink" title="2) 启用主题"></a>2) 启用主题</h3><p>与所有 Hexo 主题启用的模式一样。当克隆/下载完成后，打开<strong>站点配置文件</strong>，找到<strong>theme</strong>字段，并将其值更改为<strong>next</strong>。 </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">theme: next</div></pre></td></tr></table></figure>
-<p>此时我们在<strong>主题配置文件</strong>中设置语言。修改<strong>language</strong>字段。在主题的languages文件夹中选择语言，此处目录为G:\GitHub\hexo\themes\next\languages 。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">language: zh-Hans   <span class="comment">#选择汉语，选择其他语言填写其他值即可</span></div></pre></td></tr></table></figure>
-<p>到此，NexT主题安装完成。下一步将验证主题是否正确启用。在切换主题之后、验证之前，我们最好使用hexo clean 来清除Hexo的缓存。 </p>
-<h3 id="3-验证主题"><a href="#3-验证主题" class="headerlink" title="3) 验证主题"></a>3) 验证主题</h3><p>进入到博客文件夹根目录，此处为G:\GitHub\hexo，执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">hexo clean  <span class="comment">#更换主题，最好先清除Hexo缓存</span></div><div class="line">hexo generate  <span class="comment">#生成静态页面</span></div><div class="line">hexo server   <span class="comment"># hexo server -p **** 更换默认4000端口为****</span></div></pre></td></tr></table></figure>
-<p>此时即可使用浏览器访问 <a href="http://localhost:4000。" target="_blank" rel="external">http://localhost:4000。</a></p>
-<p>检查站点是否正确运行，如长时间访问不了，更改端口。</p>
-<p><img src="http://ou6yob3zd.bkt.clouddn.com/20170808201948.png" alt=""></p>
-<p>现在，你已经成功安装并启用了NexT主题。下一步我们将要更改一些主题的设定，包括个性化以及集成第三方服务。</p>
-<h1 id="三、主题设定"><a href="#三、主题设定" class="headerlink" title="三、主题设定"></a>三、主题设定</h1><p>NexT官网和网上资料非常丰富，就不细说了，参考如下：</p>
-<p>官方参考：<a href="http://theme-next.iissnan.com/getting-started.html" target="_blank" rel="external">NexT使用文档</a></p>
-<p>网上资源：<a href="http://blog.csdn.net/qq_33699981/article/details/72716951" target="_blank" rel="external">hexo的next主题个性化教程：打造炫酷网站</a></p>
-<p><strong>补充几点：</strong></p>
-<h2 id="1-添加评论功能"><a href="#1-添加评论功能" class="headerlink" title="1. 添加评论功能"></a>1. 添加评论功能</h2><p>我选择的是<strong>来比力</strong>，很简单，注册一个账号，妈的，是韩国的网站，发验证码竟然是韩文，通过有道词典才知道它讲的是啥，输入四位验证码回车后，然后填写相关信息，申请获取代码，然后得到安装代码中的data-uid。</p>
-<p>编辑主题配置文件， 编辑 livere_uid 字段，设置如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">livere_uid: <span class="comment">#your livere_uid</span></div></pre></td></tr></table></figure>
-<h2 id="2-修改背景图片"><a href="#2-修改背景图片" class="headerlink" title="2. 修改背景图片"></a>2. 修改背景图片</h2><p>首先找到一个背景图片放到 hexo（hexo工程文件）-&gt; themes -&gt; next -&gt; source -&gt; images 的路径下；</p>
-<p>然后进入hexo（hexo工程文件）-&gt; themes -&gt; next -&gt; source -&gt; css -&gt; _custom ，找到路径下的custom.styl文件，在文件的最上方加入如下代码就完事了。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// Custom styles.</div><div class="line">body &#123;</div><div class="line">  background:url(/images/background.jpeg);</div><div class="line">  background-attachment: fixed;   <span class="comment">#固定背景图，使得不随页面移动</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="3-修改博客内容宽度"><a href="#3-修改博客内容宽度" class="headerlink" title="3. 修改博客内容宽度"></a>3. 修改博客内容宽度</h2><p>Pisces Scheme 直接在./themes/next/source/css/_variables/custom.styl文件中添加</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$main</span>-desktop = 1200px </div><div class="line"><span class="variable">$content</span>-desktop = 900px</div></pre></td></tr></table></figure>
-<p>可以避免直接修改源码，可以解决内容宽度问题，而且在移动设备上显示正常。</p>
-<p>参考：<a href="https://github.com/iissnan/hexo-theme-next/issues/759#issuecomment-202242848" target="_blank" rel="external">感觉浏览器留白太多，代码块看起来比较麻烦</a></p>
-<h2 id="4-添加菜单栏"><a href="#4-添加菜单栏" class="headerlink" title="4. 添加菜单栏"></a>4. 添加菜单栏</h2><p>在个人网站根目录下使用hexo命令hexo new page “photo” 就直接创建了.\Hexo\source\photo\index.md<br>文件。</p>
-<p>在主题配置文件_config.yml中找到meun:字段，添加<strong>photo</strong>字段<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">menu:</div><div class="line">  home: /</div><div class="line">  categories: /categories/</div><div class="line">  tags: /tags/</div><div class="line">  archives: /archives/</div><div class="line">  photo: /photo/</div><div class="line">  about: /about/</div><div class="line">  #sitemap: /sitemap.xml</div><div class="line">  #commonweal: /404.html</div></pre></td></tr></table></figure></p>
-<p>给photo添加相应的图标，还是刚才的主题配置文件_config.yml，添加<strong>photo</strong>字段：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">menu_icons:</div><div class="line">  enable: true</div><div class="line">  #KeyMapsToMenuItemKey: NameOfTheIconFromFontAwesome</div><div class="line">  home: home</div><div class="line">  about: user</div><div class="line">  categories: th</div><div class="line">  schedule: calendar</div><div class="line">  tags: tags</div><div class="line">  archives: archive</div><div class="line">  sitemap: sitemap</div><div class="line">  commonweal: heartbeat</div><div class="line">  photo: photo</div></pre></td></tr></table></figure>
-<p>在如下图标库中选择喜欢的icon，添加相应的名称即可，这里添加为<strong>photo</strong>：<a href="http://fontawesome.io/icons/" target="_blank" rel="external">点击选择图标</a></p>
-<p>将网站中的<strong>photo</strong>字段显示为中文<strong>照片</strong>字段</p>
-<p>在\themes\next\languages\zh-Hans.yml添加：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">menu:</div><div class="line">  home: 首页</div><div class="line">  archives: 归档</div><div class="line">  categories: 分类</div><div class="line">  tags: 标签</div><div class="line">  about: 关于</div><div class="line">  search: 搜索</div><div class="line">  schedule: 日程表</div><div class="line">  sitemap: 站点地图</div><div class="line">  commonweal: 公益404</div><div class="line">  photo: 照片</div></pre></td></tr></table></figure>
-<h2 id="5-调整首页文档摘要和阅读全文按钮高度并删除居中灰色线条"><a href="#5-调整首页文档摘要和阅读全文按钮高度并删除居中灰色线条" class="headerlink" title="5. 调整首页文档摘要和阅读全文按钮高度并删除居中灰色线条"></a>5. 调整首页<strong>文档摘要</strong>和<strong>阅读全文</strong>按钮高度并删除居中灰色线条</h2><p>1.调整文档摘要的高度</p>
-<p>在/next/source/css/_common/components/post/post-meta.styl中修改<strong>margin</strong>的值</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.posts-expand</span> <span class="selector-class">.post-meta</span> &#123;</div><div class="line">  <span class="attribute">margin</span>: <span class="number">3px</span> <span class="number">0</span> <span class="number">10px</span> <span class="number">0</span>;</div><div class="line">  <span class="attribute">color</span>: $grey-dark;</div></pre></td></tr></table></figure>
-<p>2.调整阅读全文按钮高度</p>
-<p>在\next\source\css_common\components\post\post-button.styl中修改<strong>margin-top</strong>的值</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.post-button</span> &#123;</div><div class="line">  <span class="attribute">margin-top</span>: <span class="number">10px</span>;</div><div class="line">  .btn &#123;</div></pre></td></tr></table></figure>
-<p>3.去除首页文档与文档之间居中灰色的线条</p>
-<p>在\next\source\css_common\components\post\post-eof.styl中注释掉如下样式</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.posts-expand</span> &#123;</div><div class="line">  .post-eof &#123;</div><div class="line">  <span class="comment">/*</span></div><div class="line"><span class="comment">    display: block;</span></div><div class="line"><span class="comment">    margin: $post-eof-margin-top auto $post-eof-margin-bottom;</span></div><div class="line"><span class="comment">    width: 8%;</span></div><div class="line"><span class="comment">    height: 1px;</span></div><div class="line"><span class="comment">    background: $grey-light;</span></div><div class="line"><span class="comment">    text-align: center;</span></div><div class="line"><span class="comment">  */</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>最终效果如下：<br><img src="http://ou6yob3zd.bkt.clouddn.com/20170904100438.png" alt=""></p>
-<h2 id="6-归档页博文列表高度调整"><a href="#6-归档页博文列表高度调整" class="headerlink" title="6. 归档页博文列表高度调整"></a>6. 归档页博文列表高度调整</h2><p>在\next\source\css_common\components\post\post-collapse.styl中修改.post</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.post</span> &#123; <span class="attribute">margin</span>: <span class="number">0px</span> <span class="number">0</span>; &#125;</div></pre></td></tr></table></figure>
-<p>到这的时候，主题应该也优化的差不多，接下来就是写博客和管理了，加油搞起。</p>
-<h1 id="四、博客管理维护"><a href="#四、博客管理维护" class="headerlink" title="四、博客管理维护"></a>四、博客管理维护</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>Hexo部署到GitHub上的文件，是.md（你的博文）转化之后的.html（静态网页）。因此，当你重装电脑或者想在不同电脑上修改博客时，因为.md文件不存在了，就不可能了（除非你自己写html）。</p>
-<p>其实，Hexo生成的网站文件中有.gitignore文件，因此它的本意也是想我们将Hexo生成的网站文件存放到GitHub上进行管理的（而不是用U盘或者云备份啦）。这样，不仅解决了上述的问题，还可以通过git的版本控制追踪你的博文的修改过程，是极赞的。</p>
-<p><strong>注：</strong> .gitignoree文件中的内容是忽略上传至Github仓库的文件，这里我修改成如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.deploy*/    <span class="comment">#只忽略上传.deploy*/开头的文件</span></div></pre></td></tr></table></figure></p>
-<p>但是，如果每一个GitHub Pages都需要创建一个额外的仓库来存放Hexo网站文件，我感觉很麻烦（10个项目需要20个仓库）。</p>
-<p>所以，我利用了分支！！！</p>
-<p>简单地说，每个想建立GitHub Pages的仓库，起码有两个分支，一个用来存放Hexo网站的文件，一个用来发布网站。</p>
-<p>下面以我的博客作为例子详细地讲述。</p>
-<h2 id="2-博客搭建流程"><a href="#2-博客搭建流程" class="headerlink" title="2. 博客搭建流程"></a>2. 博客搭建流程</h2><p>  1.创建仓库，xinrisanshao.github.io；</p>
-<p>  2.创建两个分支：master 与 hexo；</p>
-<p>  3.设置hexo为默认分支（因为我们只需要手动管理这个分支上的Hexo网站文件）；</p>
-<p>  4.使用如下命令拷贝仓库</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> https://github.com/xinrisanshao/xinrisanshao.github.io.git</div></pre></td></tr></table></figure>
-<p>  5.在本地xinrisanshao.github.io文件夹下通过Git shell依次执行npm install hexo、hexo init、npm<br>   install 和 npm install hexo-deployer-git（此时当前分支应显示为hexo）;</p>
-<p>  6.修改_config.yml中的deploy参数，分支应为master；</p>
-<p>  7.依次执行git add .、git commit -m “…”、git push origin hexo提交网站相关的文件（Hexo网站根目录执行）；</p>
-<p>  8.执行hexo generate -d生成网站并部署到GitHub上（Hexo网站根目录执行）。</p>
-<p>这样一来，在GitHub上的xinrisanshao.github.io仓库就有两个分支，一个hexo分支用来存放网站的原始文件，一个master分支用来存放生成的静态网页。修改了博客网站原始文件，然后发布到hexo分支上进行保存，同时修改后新的静态网页deploy到master,同步更新，两者都保存至Github仓库上，不怕文件丢失了。</p>
-<p><strong>注：</strong>流程的5,6步hexo init创建的是一个新的Hexo网站文件，我们在本地配置好的Hexo+next主题的网站文件可以直接复制到.\xinrisanshao.github.io\文件夹中，直接代替5,6步创建的流程，这样就不需要我们再次重复配置了，其他的过程都是一样的。</p>
-<h2 id="3-博客管理流程"><a href="#3-博客管理流程" class="headerlink" title="3. 博客管理流程"></a>3. 博客管理流程</h2><h3 id="1-编辑与修改博客"><a href="#1-编辑与修改博客" class="headerlink" title="1. 编辑与修改博客"></a>1. 编辑与修改博客</h3><p>在本地对博客进行修改（添加新博文、修改样式等等）后，通过下面的流程进行管理：</p>
-<p>1.依次执行git add .、git commit -m “…”、git push origin hexo指令将改动推送到GitHub（此时当前分支应为hexo）；</p>
-<p>2.然后才执行hexo generate -d发布网站到master分支上。</p>
-<p>虽然两个过程顺序调转一般不会有问题，不过逻辑上这样的顺序是绝对没问题的（例如突然死机要重装了，悲催….的情况，调转顺序就有问题了）。</p>
-<h3 id="2-本地资料丢失"><a href="#2-本地资料丢失" class="headerlink" title="2. 本地资料丢失"></a>2. 本地资料丢失</h3><p>当重装电脑之后，或者想在其他电脑上修改博客，可以使用下列步骤：<br>1.首先安装Git，Node.js和Hexo。</p>
-<p>2.使用下面命令拷贝仓库（默认分支为hexo）；</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> https://github.com/xinrisanshao/xinrisanshao.github.io.git</div></pre></td></tr></table></figure>
-<p>3.因为之前的.gitignore文件只忽略了上传.deploy*/开头的文件，所以我们上传到hexo分支的是整个的Hexo网站文件，下载之后直接什么依赖配置都好了，此时即可照着编辑与修改博客流程进行博客编辑了，大功告成。</p>
-<p>以上博客管理参考：<a href="http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/#more" target="_blank" rel="external">点击查看</a></p>
-<h3 id="3-博客图片存放（补）"><a href="#3-博客图片存放（补）" class="headerlink" title="3. 博客图片存放（补）"></a>3. 博客图片存放（补）</h3><p>如果将博客的图片放在Hexo网站文件中，那么加载博客的时候会变得非常慢，此时，我们可以选择一个合适的图床存放图片，然后获得图片的链接地址，这样访问速度会变快许多。</p>
-<p>我选择的是<strong>七牛云</strong>存放图片，具体使用方法很简单，注册账号，上传图片至空间中，这些就不细说了，网上一大堆资料。</p>
-<h1 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h1><p>不想再敲了，好累！这也算是对搭建这个博客的一个总结吧，休息去。</p>
+        <h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>介绍C++中常见的表达式。</p>
+<a id="more"></a>
+<h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><h3 id="组合运算符和运算对象"><a href="#组合运算符和运算对象" class="headerlink" title="组合运算符和运算对象"></a>组合运算符和运算对象</h3><p>对于含有多个运算符的复杂表达式来说，要想理解它的含义首先要理解<strong>运算符的优先级、结合律以及运算对象的求值顺序。</strong></p>
+<h3 id="重载运算符"><a href="#重载运算符" class="headerlink" title="重载运算符"></a>重载运算符</h3><h3 id="左值和右值"><a href="#左值和右值" class="headerlink" title="左值和右值"></a>左值和右值</h3><p>左值可以位于赋值语句的左侧、右值则不能。</p>
+<p>当一个对象被用于右值的时候，用的是对象的值（内容）；当对象被用作左值的时候，用的是对象的身份（在内存中的为止）。</p>
+<h3 id="求值顺序（重点）"><a href="#求值顺序（重点）" class="headerlink" title="求值顺序（重点）"></a>求值顺序（重点）</h3><p>优先级规定了运算对象的组合方式，但是没有说明运算对象按照什么顺序求值。在大多数情况下，不会明确指定求值的顺序。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> i = f1()*f2();</div></pre></td></tr></table></figure>
+<p>我们是无法知道到底f1在f2之前调用还是f2在f1之前调用。</p>
+<p>对于那些没有指定执行顺序的运算符来讲，如果表达式指向并修改了同一个对象，将会引发错误并产生未定义行为，比如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line"><span class="built_in">cout</span>&lt;&lt;i&lt;&lt;<span class="string">" "</span>&lt;&lt;++i&lt;&lt;<span class="built_in">endl</span>;</div></pre></td></tr></table></figure>
+<p>表达是的行为不可预知，编译器执行i或者++i的顺序是未知的。</p>
+<p><strong>以下4中运算符明确规定了运算对象的求值顺序</strong>：<font color="red"><strong>&amp;&amp;(逻辑与) ||(逻辑或) ?:(条件运算符) ,(逗号运算符)。</strong></font></p>
+<h3 id="求值顺序、优先级、结合律"><a href="#求值顺序、优先级、结合律" class="headerlink" title="求值顺序、优先级、结合律"></a>求值顺序、优先级、结合律</h3><p>运算对象的求值顺序与优先级和结合律无关，在一条形如f()+g()*h()+j()的表达式中：</p>
+<ul>
+<li>优先级规定，g()的返回值和h()的返回值相乘。</li>
+<li>结合律规定，f()的返回值先与g()和h()的乘积相加，所得结果再与j()的返回值相加。</li>
+<li>对于这些函数的调用顺序没有明确规定。</li>
+</ul>
+<p>如果f、g、h和j是无关函数，它们既不会改变同一对象的状态也不执行IO任务，那么函数的调用顺序不受限制。反之，如果其中某几个函数影响同一对象，则它是一条错误的表达式，将产生未定义的行为。</p>
+<p><strong>建议：</strong> 处理复合表达式以下两条经验准则对书写复合表达式有益：</p>
+<ul>
+<li>拿不准的时候最好用括号来强制让表达式的组合关系符合程序逻辑的要求。</li>
+<li>如果改变了某个运算对象的值，在表达式的其他地方不要再使用这个运算对象。</li>
+</ul>
+<p>第2条规则有一个重要例外，当改变运算对象的子表达式本身就是另外一个子表达式的运算对象时该规则无效。例如，在表达式*++iter中，递增运算符改变iter的值，iter（已经改变）的值又是解引用运算符的运算对象。此时（或类似的情况下），求值的顺序不会成为问题，因为递增运算（即改变运算对象的子表达式）必须先求值，然后才轮到解引用运算。显然，这是一种很常见的用法，不会造成什么问题。</p>
+<h2 id="算术运算符"><a href="#算术运算符" class="headerlink" title="算术运算符"></a>算术运算符</h2><h3 id="运算符"><a href="#运算符" class="headerlink" title="%运算符"></a>%运算符</h3><p>如果m%n不等于0，则它的符号和m相同。</p>
+<pre><code>m%(-n)  等于  m%n
+(-m)%n  等于 -(m%n)
+-21 % -8 = -5
+21 % -5 = 1
+</code></pre><h2 id="逻辑和关系运算符"><a href="#逻辑和关系运算符" class="headerlink" title="逻辑和关系运算符"></a>逻辑和关系运算符</h2><p><strong>逻辑与(&amp;&amp;)和逻辑或(||)</strong> 都是先求左侧运算对象的值再求右侧运算对象的值，当且仅当左侧运算对象无法确定表达式的结果时才会计算右侧运算对象的值。这种策略称为 <strong>短路求值</strong>。</p>
+<p>text是存储这string对象的vector，要求输出string对象的内容并且在遇到空字符串或者以句号结束的字符串时进行换行。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//s是对常量的引用；元素既没有被拷贝也不会被改变</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span> &amp;s : text) &#123;  </div><div class="line">    <span class="built_in">cout</span>&lt;&lt;s;</div><div class="line">    <span class="keyword">if</span>(s.empty()||s[s.size()<span class="number">-1</span>] == <span class="string">'.'</span>)&#123;</div><div class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">" "</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>值得注意的是</strong>，s被声明成对常量的引用，因为text的元素是string对象，可能非常大，所以将s声明成引用类型可以避免对元素的拷贝；又因为不需要对string对象做写操作，所以声明成对常量的引用。</p>
+<h3 id="优先级注意"><a href="#优先级注意" class="headerlink" title="优先级注意"></a>优先级注意</h3><font color="red"> <strong>算数运算符&gt;关系运算符&gt;逻辑运算符</strong> </font>
+
+<h3 id="赋值运算符满足右结合律"><a href="#赋值运算符满足右结合律" class="headerlink" title="赋值运算符满足右结合律"></a>赋值运算符满足右结合律</h3><p>赋值运算符满足右结合律，这一点与其他二元运算符不太一样。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> ival,jval;</div><div class="line">ival = jval = <span class="number">0</span>;    <span class="comment">//正确，都被赋值为0</span></div></pre></td></tr></table></figure>
+<p>因为赋值运算符满足右结合律，所以靠右的赋值运算 jval=0作为靠左的赋值运算符的右侧运算对象。又因为<strong>赋值运算符返回的是其左侧运算对象</strong>，所以靠右的赋值运算的结果（jval=2返回的结果为左侧运算对象jval）被赋给了ival。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cout</span>&lt;&lt;(jval = <span class="number">2</span>)&lt;&lt;<span class="built_in">endl</span>;      <span class="comment">// 输出2</span></div></pre></td></tr></table></figure></p>
+<h3 id="赋值运算符优先级较低"><a href="#赋值运算符优先级较低" class="headerlink" title="赋值运算符优先级较低"></a>赋值运算符优先级较低</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> i ;</div><div class="line"><span class="comment">//一种很好的写法</span></div><div class="line"><span class="keyword">while</span>((i=get_value()) != <span class="number">42</span>) &#123;</div><div class="line">    <span class="comment">//其他处理</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>注意：</strong> 因为赋值运算符的优先级低于关系运算符的优先级，所以在条件语句中，赋值部分通常应该加上括号。</p>
+<h2 id="递增和递减运算符"><a href="#递增和递减运算符" class="headerlink" title="递增和递减运算符"></a>递增和递减运算符</h2><p>递增和递减有两种形式：前置版本和后置版本。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> i =<span class="number">0</span>,j;</div><div class="line">j = ++i;              <span class="comment">//j = 1,i = 1;   前置版本得到递增之后的值</span></div><div class="line">j = i++;              <span class="comment">//j = 1,i = 2;   后置版本得到递增之前的值</span></div></pre></td></tr></table></figure>
+<p><strong>区别：前置版本将对象本身作为左值返回，后置版本则将对象的原始副本作为右值返回。</strong></p>
+<font color="red"> <strong>建议：除非必须，否则不用递增递减运算符的后置版本</strong> </font>                      
+
+<p>有C语言背景的读者可能对优先使用前置版本递增运算符有所疑问，其实原因非常简单：前置版本的递增运算符避免了不必要的工作，它把值加1后直接返回改变了的运算对象。与之相比，<strong>后置版本需要将原始值存储下来以便于返回这个未修改的内容。如果我们不需要修改前的值，那么后置版本的操作就是一种浪费。</strong></p>
+<p>对于整数和指针类型来说，编译器可能对这种额外的工作进行一定的优化；但是对于相对复杂的迭代器类型，这种额外的工作就消耗巨大了。建议养成使用前置版本的习惯，这样不仅不需要担心性能的问题，而且更重要的是写出的代码会更符合编程的初衷。</p>
+<h2 id="混用解引用和递增运算符"><a href="#混用解引用和递增运算符" class="headerlink" title="混用解引用和递增运算符"></a>混用解引用和递增运算符</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//推荐写法</span></div><div class="line"><span class="built_in">cout</span>&lt;&lt;*iter++&lt;&lt;<span class="built_in">endl</span>;    <span class="comment">//等价于*(iter++)</span></div></pre></td></tr></table></figure>
+<p>后置运算符的优先级高于解引用运算符。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vec[ival++] &lt;= vec[ival];        <span class="comment">//未定义的错误，先求左侧的值还是先求右侧的值不确定</span></div></pre></td></tr></table></figure>
+<h2 id="成员访问运算符"><a href="#成员访问运算符" class="headerlink" title="成员访问运算符"></a>成员访问运算符</h2><p>点运算符和箭头运算符都可用与访问成员，其中，点运算符获取类对象的一个成员；箭头运算符与点运算符有关，<font color="red">表达式ptr-&gt;men等价于(*ptr)mem </font> :</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">string</span> s1 = <span class="string">"a string"</span>, *p = &amp;s1;</div><div class="line"><span class="keyword">auto</span> n = s1.size();        </div><div class="line">n = (*p).size();        <span class="comment">//运行p所指对象的size成员</span></div><div class="line">n = p-&gt;size();          <span class="comment">//等价于(*p).size()</span></div></pre></td></tr></table></figure>
+<p><strong>注意：解引用运算符的优先级低于点运算符。</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">*p.size()          <span class="comment">// 错误，p是一个指针，它没有名为size的成员</span></div></pre></td></tr></table></figure>
+<h2 id="条件运算符"><a href="#条件运算符" class="headerlink" title="条件运算符"></a>条件运算符</h2><p><strong>优先级</strong></p>
+<p><strong>条件运算符优先级高于赋值、逗号运算符，低于其他运算符。</strong></p>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">m&lt;n ? x : a+3                等价于：(m&lt;n) ?(x) :(a+3)</div><div class="line">a++&gt;=10 &amp;&amp; b--&gt;20 ? a : b    等价于：(a++&gt;=10 &amp;&amp; b--&gt;20) ? a : b</div><div class="line">x=3+a&gt;5 ? 100 : 200          等价于：x= (( 3+a&gt;5 ) ? 100 : 200 )</div></pre></td></tr></table></figure></p>
+<p><strong>结合性</strong></p>
+<p><strong>条件运算符具有右结合性。</strong></p>
+<p>当一个表达式中出现多个条件运算符时，应该将位于最右边的问号与离它最近的冒号配对，并按这一原则正确区分各条件运算符的运算对象。</p>
+<p>例如：</p>
+<pre><code> w&lt;x ? x+w : x&lt;y ? x : y
+与 w&lt;x ? x+w : ( x&lt;y ? x : y) 等价
+与 (w&lt;x ? x+w : x&lt;y) ? x : y 不等价
+</code></pre><font color="red">注意： 随着条件运算嵌套的增加，代码的可读性急剧下降。因此，条件运算符的嵌套最好别超过两到三层。 </font>
+
+
+<h2 id="位运算符（基础，待补充）"><a href="#位运算符（基础，待补充）" class="headerlink" title="位运算符（基础，待补充）"></a>位运算符（基础，待补充）</h2><p>一个使用位运算符的例子</p>
+<p>假设一个班级有30个学生,我们用一个二进制位来代表某个学生在依次测试中是否通过，显然全班的测试结果可以用一个无符号整数来表示：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">unsigned</span> <span class="keyword">long</span> quizl = <span class="number">0</span> ;          <span class="comment">//我们把这个值当成是位的集合来使用</span></div></pre></td></tr></table></figure>
+<p>将quizl类型定义位unsigned long，这样，quizl在任何机器上都将至少拥有32位；给quizl赋一个明确的初始值，使得它的每一位在开始时都有统一且固定的值。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//1UL是一个unsigned long类型的整数字面值1</span></div><div class="line"><span class="comment">//1UL&lt;&lt;27;    生成一个值，该值只有第27位为1</span></div><div class="line">quizl |= <span class="number">1U</span>L&lt;&lt;<span class="number">27</span>;        <span class="comment">//表示学生27通过了测试</span></div><div class="line"></div><div class="line">quizl &amp;= ~(<span class="number">1U</span>L&lt;&lt;<span class="number">27</span>);     <span class="comment">//学生27未通过测试</span></div><div class="line"></div><div class="line"><span class="keyword">bool</span> status = quizl &amp; (<span class="number">1U</span>L&lt;&lt;<span class="number">27</span>);   <span class="comment">//学生27是否通过了测试？</span></div></pre></td></tr></table></figure>
+<h2 id="sizeof"><a href="#sizeof" class="headerlink" title="sizeof"></a>sizeof</h2><p>sizeof运算符返回一条表达式或一个类型名字所占的字节数。sizeof运算符满足右结合律，其所得到的值是一个size_t类型的常量表达式。</p>
+<p>sizeof的三种语法形式：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">sizeof</span>(object);        <span class="comment">//sizeof(对象);</span></div><div class="line"><span class="keyword">sizeof</span>(type_name);     <span class="comment">//sizeof(类型);</span></div><div class="line"><span class="keyword">sizeof</span> object;         <span class="comment">//sizeof对象;</span></div></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> i;</div><div class="line"><span class="keyword">sizeof</span>(i);     <span class="comment">//ok</span></div><div class="line"><span class="keyword">sizeof</span> i;      <span class="comment">//ok</span></div><div class="line"><span class="keyword">sizeof</span>(<span class="keyword">int</span>);   <span class="comment">//ok</span></div><div class="line"><span class="keyword">sizeof</span> <span class="keyword">int</span>;    <span class="comment">//error</span></div></pre></td></tr></table></figure>
+<p>既然写法3可以用写法1代替，为求形式统一以及减少我们大脑的负担，第3种写法，忘掉它吧！实际上，sizeof计算对象的大小也是转换成对对象类型的计算，也就是说，同种类型的不同对象其sizeof值都是一致的。这里，对象可以进一步延伸至表达式，即sizeof可以对一个表达式求值，编译器根据表达式的最终结果类型来确定大小，一般不会对表达式进行计算。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">sizeof</span>(*p);          <span class="comment">//指针所占的空间大小，与指针指向的类型无关</span></div></pre></td></tr></table></figure>
+<p>sizeof不会实际求运算对象的值，所以即使p是一个无效（即未初始化）的指针也不会有什么影响，在sizeof的运算对象中解引用一个无效指针仍然是一种安全行为，因为指针实际并没有被真正使用。sizeof不需要真的解引用指针也能知道它所指对象的类型。</p>
+<p>C++11新标准允许我们使用作用域来获取成员的大小。通常情况下只有通过类的对象才能访问到类的成员，但是sizeof运算符无须我们提供一个具体的对象。因为要想知道类成员的大小无须真的获取该成员。</p>
+<p>sizeof运算符的结果部分地依赖于其作用的类型：</p>
+<ul>
+<li>对char或者类型为char的表达式指向sizeof运算，结果为1；</li>
+<li>对引用类型执行sizeof运算得到被引用对象所占空间的大小；</li>
+<li>对指针指向sizeof运算得到指针本身所占空间的大小；</li>
+<li>对解引用指针执行sizeof运算符得到指针指向的对象所占空间的大小，指针不需有效。</li>
+<li>对数组执行sizeof运算限制得到整个数组所占空间的大小，等价于对数组这所有的元素各执行一次sizeof运算并将所得结果求和。注意，sizeof运算不会把数组转换成指针来处理</li>
+<li>对string对象或vector对象执行sizeof运算只返回该类型固定部分的大小，不会计算对象中的元素占用了多少空间。</li>
+</ul>
+<p>因为执行sizeof运算能得到整个数组的大小，所以可以用数组的大小除以单个元素的大小得到数组中元素的个数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// sizeof(ia)/sizeof(*ia)返回ia的元素数量  </span></div><div class="line"><span class="keyword">constexpr</span> <span class="keyword">size_t</span> sz = <span class="keyword">sizeof</span>(ia)/<span class="keyword">sizeof</span>(*ia);  </div><div class="line"><span class="keyword">int</span> arr2[sz];   <span class="comment">// 正确：sizeof返回一个常量表达式</span></div></pre></td></tr></table></figure>
+<p>因为sizeof的返回值是一个常量表达式，所以我们可以用sizeof的结果声明数组的维度。</p>
 
       
     </div>
@@ -597,7 +603,7 @@
     
      <div class="">
       <p><span>
-      <b>本文地址：</b><a href="/2017/08/07/github Pages + Hexo搭建个人博客（二）  提升篇/" title="github Pages + Hexo搭建个人博客（二）  提升篇">http://www.wangxinri.cn/2017/08/07/github Pages + Hexo搭建个人博客（二）  提升篇/</a><br/><b>转载请注明出处，谢谢！</b>
+      <b>本文地址：</b><a href="/2017/10/14/表达式基础/" title="表达式基础">http://www.wangxinri.cn/2017/10/14/表达式基础/</a><br/><b>转载请注明出处，谢谢！</b>
      </span></p>
   </div>
  
@@ -638,9 +644,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hexo/" rel="tag"><i class="fa fa-tag"></i> hexo</a>
-          
-            <a href="/tags/github/" rel="tag"><i class="fa fa-tag"></i> github</a>
+            <a href="/tags/C/" rel="tag"><i class="fa fa-tag"></i> C++</a>
           
         </div>
       
@@ -653,8 +657,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/08/06/github Pages + Hexo搭建个人博客（一）  初级篇/" rel="next" title="github Pages + Hexo搭建个人博客（一）  初级篇">
-                <i class="fa fa-chevron-left"></i> github Pages + Hexo搭建个人博客（一）  初级篇
+              <a href="/2017/10/14/数组&指针&string/" rel="next" title="数组&指针&string">
+                <i class="fa fa-chevron-left"></i> 数组&指针&string
               </a>
             
           </div>
@@ -663,8 +667,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/08/12/样先/" rel="prev" title="样先">
-                样先 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/10/15/try语句块和异常处理/" rel="prev" title="try语句块和异常处理">
+                try语句块和异常处理 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -861,7 +865,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、前言"><span class="nav-number">1.</span> <span class="nav-text">一、前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、更换主题"><span class="nav-number">2.</span> <span class="nav-text">二、更换主题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-安装NexT"><span class="nav-number">2.1.</span> <span class="nav-text">1. 安装NexT</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-下载主题"><span class="nav-number">2.1.1.</span> <span class="nav-text">1) 下载主题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-启用主题"><span class="nav-number">2.1.2.</span> <span class="nav-text">2) 启用主题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-验证主题"><span class="nav-number">2.1.3.</span> <span class="nav-text">3) 验证主题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、主题设定"><span class="nav-number">3.</span> <span class="nav-text">三、主题设定</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-添加评论功能"><span class="nav-number">3.1.</span> <span class="nav-text">1. 添加评论功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-修改背景图片"><span class="nav-number">3.2.</span> <span class="nav-text">2. 修改背景图片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-修改博客内容宽度"><span class="nav-number">3.3.</span> <span class="nav-text">3. 修改博客内容宽度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-添加菜单栏"><span class="nav-number">3.4.</span> <span class="nav-text">4. 添加菜单栏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-调整首页文档摘要和阅读全文按钮高度并删除居中灰色线条"><span class="nav-number">3.5.</span> <span class="nav-text">5. 调整首页文档摘要和阅读全文按钮高度并删除居中灰色线条</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-归档页博文列表高度调整"><span class="nav-number">3.6.</span> <span class="nav-text">6. 归档页博文列表高度调整</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、博客管理维护"><span class="nav-number">4.</span> <span class="nav-text">四、博客管理维护</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-概述"><span class="nav-number">4.1.</span> <span class="nav-text">1. 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-博客搭建流程"><span class="nav-number">4.2.</span> <span class="nav-text">2. 博客搭建流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-博客管理流程"><span class="nav-number">4.3.</span> <span class="nav-text">3. 博客管理流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-编辑与修改博客"><span class="nav-number">4.3.1.</span> <span class="nav-text">1. 编辑与修改博客</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-本地资料丢失"><span class="nav-number">4.3.2.</span> <span class="nav-text">2. 本地资料丢失</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-博客图片存放（补）"><span class="nav-number">4.3.3.</span> <span class="nav-text">3. 博客图片存放（补）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、总结"><span class="nav-number">5.</span> <span class="nav-text">五、总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、前言"><span class="nav-number">1.</span> <span class="nav-text">一、前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础概念"><span class="nav-number">1.1.</span> <span class="nav-text">基础概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#组合运算符和运算对象"><span class="nav-number">1.1.1.</span> <span class="nav-text">组合运算符和运算对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重载运算符"><span class="nav-number">1.1.2.</span> <span class="nav-text">重载运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#左值和右值"><span class="nav-number">1.1.3.</span> <span class="nav-text">左值和右值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#求值顺序（重点）"><span class="nav-number">1.1.4.</span> <span class="nav-text">求值顺序（重点）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#求值顺序、优先级、结合律"><span class="nav-number">1.1.5.</span> <span class="nav-text">求值顺序、优先级、结合律</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算术运算符"><span class="nav-number">1.2.</span> <span class="nav-text">算术运算符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#运算符"><span class="nav-number">1.2.1.</span> <span class="nav-text">%运算符</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#逻辑和关系运算符"><span class="nav-number">1.3.</span> <span class="nav-text">逻辑和关系运算符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优先级注意"><span class="nav-number">1.3.1.</span> <span class="nav-text">优先级注意</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#赋值运算符满足右结合律"><span class="nav-number">1.3.2.</span> <span class="nav-text">赋值运算符满足右结合律</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#赋值运算符优先级较低"><span class="nav-number">1.3.3.</span> <span class="nav-text">赋值运算符优先级较低</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#递增和递减运算符"><span class="nav-number">1.4.</span> <span class="nav-text">递增和递减运算符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#混用解引用和递增运算符"><span class="nav-number">1.5.</span> <span class="nav-text">混用解引用和递增运算符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#成员访问运算符"><span class="nav-number">1.6.</span> <span class="nav-text">成员访问运算符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#条件运算符"><span class="nav-number">1.7.</span> <span class="nav-text">条件运算符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#位运算符（基础，待补充）"><span class="nav-number">1.8.</span> <span class="nav-text">位运算符（基础，待补充）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sizeof"><span class="nav-number">1.9.</span> <span class="nav-text">sizeof</span></a></li></ol></li></ol></div>
             
 
           </div>
