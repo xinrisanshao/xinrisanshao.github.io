@@ -109,7 +109,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="enjoy life" />
+  <meta name="keywords" content="异常处理," />
 
 
 
@@ -127,16 +127,18 @@
 
 
 
-<meta name="description" content="Love Coding,Enjoy Life">
-<meta property="og:type" content="website">
-<meta property="og:title" content="新日三少的博客">
-<meta property="og:url" content="http://www.wangxinri.cn/tags/C-Primers/index.html">
+<meta name="description" content="一、前言简单介绍try语句块和异常处理。">
+<meta name="keywords" content="异常处理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="try语句块和异常处理">
+<meta property="og:url" content="http://www.wangxinri.cn/2017/10/15/try语句块和异常处理/index.html">
 <meta property="og:site_name" content="新日三少的博客">
-<meta property="og:description" content="Love Coding,Enjoy Life">
+<meta property="og:description" content="一、前言简单介绍try语句块和异常处理。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-16T12:52:54.455Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="新日三少的博客">
-<meta name="twitter:description" content="Love Coding,Enjoy Life">
+<meta name="twitter:title" content="try语句块和异常处理">
+<meta name="twitter:description" content="一、前言简单介绍try语句块和异常处理。">
 
 
 
@@ -164,13 +166,13 @@
 
 
 
-  <link rel="canonical" href="http://www.wangxinri.cn/tags/C-Primers/"/>
+  <link rel="canonical" href="http://www.wangxinri.cn/2017/10/15/try语句块和异常处理/"/>
 
 
 
 
 
-  <title>标签: C++ Primers | 新日三少的博客</title>
+  <title>try语句块和异常处理 | 新日三少的博客</title>
   
 
 
@@ -204,7 +206,7 @@
     
   
 
-  <div class="container sidebar-position-left  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 	
 	<a href="https://github.com/xinrisanshao"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
@@ -354,44 +356,286 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h1>C++ Primers<small>标签</small>
-      </h1>
-    </div>
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.wangxinri.cn/2017/10/15/try语句块和异常处理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="新日三少">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新日三少的博客">
+    </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">try语句块和异常处理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-15T10:59:00+08:00">
+                2017-10-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  663
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  3
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
       
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+      
+        <h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>简单介绍try语句块和异常处理。</p>
+<a id="more"></a>
+<h1 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h1><p>异常处理机制为程序中异常检测和异常处理这两部分的协作提供了支持。在C++语言中，异常处理包括：</p>
+<ul>
+<li><strong>throw表达式</strong>（throw expression），异常检测部分使用throw表达式来表示它遇到的了无法处理的问题，我们说throw引发了异常。</li>
+<li><strong>try语句块</strong>（try block）,异常处理部分使用try语句处理异常。try语句块以关键字try开始，并以一个或多个catch字句结束。try语句块中代码抛出的异常通常会被某个catch字句处理。因为<strong>catch字句”处理“异常，所以它们也被称作异常处理代码</strong>。</li>
+<li><strong>一套异常类</strong>（exception class），用于在throw表达式和相关的catch字句之间传递异常具体信息。</li>
+</ul>
+<h2 id="throw表达式"><a href="#throw表达式" class="headerlink" title="throw表达式"></a>throw表达式</h2><p>程序的异常检测部分使用throw表达式引发一个异常。throw表达式包含关键字throw和紧随其后的一个表达式，其中表达式的类型就是抛出的异常类型。throw表达式后面通常紧跟一个分号，从而构成一条表达式语句。</p>
+<h2 id="try语句块"><a href="#try语句块" class="headerlink" title="try语句块"></a>try语句块</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span>&#123;</div><div class="line">    program-staments</div><div class="line">&#125;<span class="keyword">catch</span>(exception-declaration)&#123;</div><div class="line">    handler-staments</div><div class="line">&#125;<span class="keyword">catch</span>(exception-declaration)&#123;</div><div class="line">    handler-staments</div><div class="line">&#125; ...</div></pre></td></tr></table></figure>
+<p><strong>代码示例</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;string&gt;</div><div class="line">#include &lt;vector&gt;</div><div class="line">#include &lt;stdexcept&gt;   //标准异常库</div><div class="line">using namespace std;</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    int a,b;</div><div class="line">    cout&lt;&lt;&quot;请输入相除的两个整数：&quot;;</div><div class="line">    while(cin&gt;&gt;a&gt;&gt;b)</div><div class="line">    &#123;</div><div class="line">        try</div><div class="line">        &#123;</div><div class="line">            if (b == 0) throw std::runtime_error(&quot;被除数不能为0&quot;);//runtime_error异常类:只有在运行时才能检测出的问题</div><div class="line">            cout&lt;&lt;static_cast&lt;double&gt;(a)/b&lt;&lt;endl;//考虑到不可以整除产生小数的情况,先将a强制转化为double类型</div><div class="line">        &#125;</div><div class="line">        catch (runtime_error err)//err是runtime_error类的一个实例</div><div class="line">        &#123;</div><div class="line">            cout &lt;&lt; err.what() ;</div><div class="line">            //实例的成员函数，返回内容由编译其决定</div><div class="line">            cout &lt;&lt; &quot;\n是否需要重新输入? Enter y or n:&quot; &lt;&lt; endl;</div><div class="line">            char c;</div><div class="line">            cin &gt;&gt; c;</div><div class="line">            if (!cin || c == &apos;n&apos;)</div><div class="line">                break;//break只能用在开关体或者循环体中</div><div class="line">        &#125;//简单来说try是检测异常的，如果产生了异常，就throw(抛出)一个异常，然后被catch到，进行异常的处理</div><div class="line">        //如果没有catch部分，仅有try，仍然会报错</div><div class="line">        cout&lt;&lt;&quot;请输入相除的两个整数：&quot;;</div><div class="line">    &#125;</div><div class="line">    return 0 ;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>输出结果：</p>
+<pre><code>请输入相除的两个整数：2 4
+0.5
+请输入相除的两个整数：2 0
+被除数不能为0
+是否需要重新输入?
+n
+</code></pre><p>简单来说try是检测异常的，如果产生了异常，就throw(抛出)一个异常，然后被catch到，进行异常的处理，如果没有catch部分，仅有try，仍然会报错。</p>
 
-      <h2 class="post-title">
+      
+    </div>
+	
+	<div>
+     
+       <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+     
+    </div>
+
+    <div>
+      
         
-            <a class="post-title-link" href="/2017/09/01/引用&指针&const/" itemprop="url">
-              
-                <span itemprop="name">引用&指针&const</span>
-              
-            </a>
+
+      
+    </div>
+
+    <div>
+      
         
-      </h2>
+  <div align="center">
+    
+     <div class="">
+      <p><span>
+      <b>本文地址：</b><a href="/2017/10/15/try语句块和异常处理/" title="try语句块和异常处理">http://www.wangxinri.cn/2017/10/15/try语句块和异常处理/</a><br/><b>转载请注明出处，谢谢！</b>
+     </span></p>
+  </div>
+ 
+  </div>
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+	<div>梦想夹带眼泪，咸咸的汗水！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.jpg" alt="新日三少 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpg" alt="新日三少 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-09-01T19:59:25+08:00"
-              content="2017-09-01" >
-          09-01
-        </time>
-      </div>
 
-    </header>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/异常处理/" rel="tag"><i class="fa fa-tag"></i> 异常处理</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/14/表达式基础/" rel="next" title="表达式基础">
+                <i class="fa fa-chevron-left"></i> 表达式基础
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/19/函数基础/" rel="prev" title="函数基础">
+                函数基础 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </article>
 
 
-    
-  </div>
 
-  
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
 
 
           </div>
@@ -399,6 +643,12 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yOTk0Mi82NTA3"></div>
+    
+  </div>
+
 
         </div>
         
@@ -419,8 +669,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -523,6 +782,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、前言"><span class="nav-number">1.</span> <span class="nav-text">一、前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#异常"><span class="nav-number">2.</span> <span class="nav-text">异常</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#throw表达式"><span class="nav-number">2.1.</span> <span class="nav-text">throw表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#try语句块"><span class="nav-number">2.2.</span> <span class="nav-text">try语句块</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -660,10 +935,10 @@
 
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-  
+
 
   
 
@@ -692,6 +967,17 @@
 
 
 
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 
