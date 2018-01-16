@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.wangxinri.cn/"/>
-  <updated>2017-12-07T07:59:00.066Z</updated>
+  <updated>2018-01-16T02:14:28.874Z</updated>
   <id>http://www.wangxinri.cn/</id>
   
   <author>
@@ -14,6 +14,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="http://www.wangxinri.cn/2018/01/16/Machine%20Learning/"/>
+    <id>http://www.wangxinri.cn/2018/01/16/Machine Learning/</id>
+    <published>2018-01-16T02:14:28.825Z</published>
+    <updated>2018-01-16T02:14:28.874Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="机器学习课程"><a href="#机器学习课程" class="headerlink" title="机器学习课程"></a>机器学习课程</h1><a id="more"></a>
+<h2 id="一、机器学习的动机与应用"><a href="#一、机器学习的动机与应用" class="headerlink" title="一、机器学习的动机与应用"></a>一、机器学习的动机与应用</h2><p>监督学习</p>
+<p>无监督学习与聚类算法</p>
+<h2 id="二、监督学习应用：梯度下降"><a href="#二、监督学习应用：梯度下降" class="headerlink" title="二、监督学习应用：梯度下降"></a>二、监督学习应用：梯度下降</h2><h3 id="1-线性回归"><a href="#1-线性回归" class="headerlink" title="1.线性回归"></a>1.线性回归</h3><h3 id="2-梯度下降"><a href="#2-梯度下降" class="headerlink" title="2.梯度下降"></a>2.梯度下降</h3><h3 id="3-正规方程组"><a href="#3-正规方程组" class="headerlink" title="3.正规方程组"></a>3.正规方程组</h3>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;机器学习课程&quot;&gt;&lt;a href=&quot;#机器学习课程&quot; class=&quot;headerlink&quot; title=&quot;机器学习课程&quot;&gt;&lt;/a&gt;机器学习课程&lt;/h1&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>github Pages + Hexo搭建个人博客（一）  初级篇</title>
