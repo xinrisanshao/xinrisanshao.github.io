@@ -51,6 +51,7 @@ menu:
   tags: /tags/
   archives: /archives/
   photo: /photo/
+  resume: /resume/
   about: /about/
   #sitemap: /sitemap.xml
   #commonweal: /404.html
@@ -71,7 +72,9 @@ menu_icons:
   archives: archive
   sitemap: sitemap
   commonweal: heartbeat
-  photo: image
+  photo: photo
+  resume: id-card
+  
 
 # ---------------------------------------------------------------
 # Scheme Settings

@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="static成员,C++,类定义," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="新日三少的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="一、前言介绍一些类的基本概念，包括类的基本思想，函数成员和数据成员，static成员，友元等。">
+<meta name="keywords" content="static成员,C++,类定义">
+<meta property="og:type" content="article">
+<meta property="og:title" content="类的基本概念">
+<meta property="og:url" content="http://www.wangxinri.cn/2017/10/22/类的基本概念/index.html">
+<meta property="og:site_name" content="新日三少的博客">
+<meta property="og:description" content="一、前言介绍一些类的基本概念，包括类的基本思想，函数成员和数据成员，static成员，友元等。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-17T12:39:40.280Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="类的基本概念">
+<meta name="twitter:description" content="一、前言介绍一些类的基本概念，包括类的基本思想，函数成员和数据成员，static成员，友元等。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.wangxinri.cn/2017/10/22/类的基本概念/"/>
+
+
+
+
+
+  <title>类的基本概念 | 新日三少的博客</title>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=63306720";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+	
+	<a href="https://github.com/xinrisanshao"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新日三少的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Big big pig</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photo">
+          <a href="/photo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-image"></i> <br />
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.wangxinri.cn/2017/10/22/类的基本概念/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="新日三少">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新日三少的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">类的基本概念</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-22T21:59:00+08:00">
+                2017-10-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  4,772
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  18
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>介绍一些类的基本概念，包括类的基本思想，函数成员和数据成员，static成员，友元等。<br><a id="more"></a></p>
+<h1 id="类"><a href="#类" class="headerlink" title="类"></a>类</h1><p>类的基本思想是<strong>数据抽象和封装</strong>。数据抽象是一种依赖于接口和实现分离的编程技术。类的接口包括用户所能执行的操作：类的实现则包括类的数据成员、负责接口实现的函数体以及定义类所需的各种私有函数。</p>
+<p>封装实现了类的接口和实现的分离。封装后的类隐藏了它的实现细节，也就是说，类的用户只能使用接口而无法访问实现部分。</p>
+<h2 id="定义成员函数"><a href="#定义成员函数" class="headerlink" title="定义成员函数"></a>定义成员函数</h2><p>尽管所有成员函数都必须在类的内部声明，但是成员函数体可以定义在类内也可以定义在类外。</p>
+<p>Sales_data的一个成员函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="built_in">string</span> <span class="title">isbn</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> bookNo;&#125;</div></pre></td></tr></table></figure>
+<h2 id="引入this指针"><a href="#引入this指针" class="headerlink" title="引入this指针"></a>引入this指针</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Sales_data total;</div><div class="line">total.isbn();</div></pre></td></tr></table></figure>
+<p>在这里，使用点运算符来访问total对象的isbn成员，然后再调用它。</p>
+<p>当我们调用成员函数时，实际上是在替某个对象调用它。它隐式地指向调用该函数的对象的成员。实际上隐式地返回 total.bookNo。</p>
+<p>成员函数通过一个名为<strong>this</strong>的额外参数来访问调用它的那个对象。<strong>当我们调用一个成员函数时，用请求该函数的对象地址初始化this。</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">total.isbn()</div></pre></td></tr></table></figure>
+<p>相当于：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//伪代码，用于说明调用成员函数的实际执行过程</span></div><div class="line">Sales_data::isbn(&amp;total)</div></pre></td></tr></table></figure>
+<p>其中调用Sales_data的isbn成员时传入了total地址。</p>
+<p>this是一个常量指针，我们不允许改变。</p>
+<h2 id="引入const成员函数"><a href="#引入const成员函数" class="headerlink" title="引入const成员函数"></a>引入const成员函数</h2><p>默认情况下，this的类型是指向类类型非常量版本的常量指针。意味着（在默认情况下）我们不能把this绑定到一个常量对象上。<strong>这一情况也就使我们不能在一个常量对象上调用普通的成员函数。</strong></p>
+<p><strong>C++允许把const关键字放在成员函数的参数列表之后，此时，紧跟在参数列表后面的const表示this是一个指向常量的指针</strong>（const Sales_data <em>const this）。<em>*像这样使用const的成员函数被称作常量成员函数</em></em>。</p>
+<p>因为this是指向常量的指针，所以常量成员函数不能改变调用它的对象的内存。</p>
+<p><strong>常量对象、以及常量对象的引用或指针都只能调用常量成员函数。</strong> ，非常量对象可以调用常量成员函数。</p>
+<h2 id="类作用域和成员函数"><a href="#类作用域和成员函数" class="headerlink" title="类作用域和成员函数"></a>类作用域和成员函数</h2><p>编译器分两步处理类：<strong>首先编译成员的声明，然后才轮到成员函数体。</strong> 因此，成员函数体可以随意使用类中的其他成员而无须在意这些成员出现的次序。</p>
+<p><strong>类外部定义的成员的名字必须包含它所属的类名。</strong></p>
+<h2 id="定义类相关的非成员函数"><a href="#定义类相关的非成员函数" class="headerlink" title="定义类相关的非成员函数"></a>定义类相关的非成员函数</h2><p>一般来说，如果非成员函数是类接口的组成部分，则这些函数的声明应该与类在同一个头文件内。在这种方式下，用户使用接口的任何部分都只需要引入一个文件。</p>
+<h2 id="点运算符和箭头运算符（-gt"><a href="#点运算符和箭头运算符（-gt" class="headerlink" title="点运算符和箭头运算符（.  -&gt;)"></a>点运算符和箭头运算符（.  -&gt;)</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Person p1 ,*p2;</div><div class="line">p1.getname();   <span class="comment">//针对于对象来使用的</span></div><div class="line">p2-&gt;getname();   <span class="comment">//针对于指针来使用的，等价于*p2.getname();</span></div></pre></td></tr></table></figure>
+<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><p>类通过一个或几个特殊的成员函数来控制其对象的初始化过程，这些函数叫做<strong>构造函数</strong>。</p>
+<p><strong>构造函数不能被声明成const。</strong> 当我们创建类的一个const对象时，直到构造函数完成初始化过程，对象才真正取得其“常量”属性，因此，构造函数在const对象的构造过程中可以向其写值。</p>
+<p>只有当类没有声明任何构造函数时，编译器才会自动地生成默认构造函数。</p>
+<p>知识点1：构造函数—特殊的成员函数，用来控制对象的初始化过程。无返回类型，可重载，不能被声明为const.</p>
+<p>知识点2：若无，则有默认的构造函数，是编译器自己隐式的定义的。又称合成的默认构造函数。</p>
+<p>知识点3：某些类是不能使用默认的构造函数的，以下三个原因：</p>
+<p>1：在未声明任何构造函数的前提下，类内对象的初始化将不受控制</p>
+<p>2：合成的默认构造函数可能会造成不必要的错误，如若没有类内初始值来初始化成员，可能这些成员将是未定义的。</p>
+<p>3：如果类中包含了一个其他类类型的成员，且这个成员的类型没有默认构造函数，那么编译器将无法初始化该对象。</p>
+<p>所以，在撰写类的时候，最好定义一个自己的构造函数。</p>
+<h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>;</span>  <span class="comment">//前向声明Person类</span></div><div class="line"><span class="function">istream&amp; <span class="title">read</span><span class="params">(istream&amp; is,Person&amp; person)</span></span>;  <span class="comment">//声明read函数</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>&#123;</span></div><div class="line"><span class="keyword">public</span>:</div><div class="line">    Person() = <span class="keyword">default</span>;     <span class="comment">//默认构造函数  等价于Person()&#123;&#125;;</span></div><div class="line">    Person(<span class="built_in">string</span> name,<span class="built_in">string</span> address);   <span class="comment">//重载构造函数</span></div><div class="line">    Person(istream &amp;is)&#123;   <span class="comment">//重载构造函数，通过调用非成员函数read对其进行赋值</span></div><div class="line">        read(is,*<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">const</span> <span class="built_in">string</span>&amp; <span class="title">getname</span><span class="params">()</span></span>&#123;</div><div class="line">         <span class="keyword">return</span> <span class="keyword">this</span>-&gt;name;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">const</span> <span class="built_in">string</span>&amp; <span class="title">getaddress</span><span class="params">()</span></span>&#123;</div><div class="line">         <span class="keyword">return</span> <span class="keyword">this</span>-&gt;address;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setname</span><span class="params">(<span class="built_in">string</span> name)</span></span>&#123;</div><div class="line">        <span class="keyword">this</span>-&gt;name = name;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setaddress</span><span class="params">(<span class="built_in">string</span> address)</span></span>&#123;</div><div class="line">        <span class="keyword">this</span>-&gt;address = address;</div><div class="line">    &#125;</div><div class="line">    <span class="function">Person&amp; <span class="title">combine</span><span class="params">(<span class="keyword">const</span> Person &amp;person)</span></span>;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">    <span class="built_in">string</span> name;</div><div class="line">    <span class="built_in">string</span> address;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">void</span> Person::show()&#123;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"name:"</span>&lt;&lt;<span class="keyword">this</span>-&gt;name&lt;&lt;<span class="string">" address:"</span>&lt;&lt;<span class="keyword">this</span>-&gt;address&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">&#125;</div><div class="line">Person::Person(<span class="built_in">string</span> name,<span class="built_in">string</span> address):name(name),address(address)&#123;</div><div class="line">&#125;</div><div class="line">Person&amp; Person::combine(<span class="keyword">const</span> Person &amp;person)&#123;</div><div class="line">    name += person.name;</div><div class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function">istream&amp; <span class="title">read</span><span class="params">(istream&amp; is,Person&amp; person)</span></span>&#123;   <span class="comment">//非成员函数</span></div><div class="line">    <span class="built_in">string</span> name ,address;</div><div class="line">    is&gt;&gt;name&gt;&gt;address;</div><div class="line">    person.setname(name);</div><div class="line">    person.setaddress(address);</div><div class="line">    <span class="keyword">return</span> is;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="function">Person <span class="title">p1</span><span class="params">(<span class="string">"wangxinri"</span>,<span class="string">"cqu"</span>)</span></span>;</div><div class="line">    p1.show();</div><div class="line">    <span class="function">Person <span class="title">p2</span><span class="params">(<span class="string">"ri"</span>,<span class="string">"cqu"</span>)</span></span>;</div><div class="line">    p1.combine(p2);</div><div class="line">    p1.show();</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;p2.getname()&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;p2.getaddress()&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="function">Person <span class="title">p3</span><span class="params">(<span class="built_in">cin</span>)</span></span>;</div><div class="line">    p3.show();</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="拷贝、赋值和析构"><a href="#拷贝、赋值和析构" class="headerlink" title="拷贝、赋值和析构"></a>拷贝、赋值和析构</h2><p>如果我们不主动定义这些操作，则编译器将替我们合成它们。一般来说，编译器生成的版本将对对象的每个成员执行拷贝、赋值和销毁操作。</p>
+<p>对于某些类来说合成的版本无法正常工作，管理动态内存的类通常不能依赖于上述操作的合成版本。</p>
+<p>使用vector或者string的类能避免分配和释放内存带来的复杂性。如果类包含vector或者string成员，则其拷贝、赋值和销毁的合成版本能够正常工作。</p>
+<h1 id="类的静态成员"><a href="#类的静态成员" class="headerlink" title="类的静态成员"></a>类的静态成员</h1><p><strong>有的时候类需要它的一些成员与类本身直接相关，而不是与类的各个对象保持关联</strong>。例如，一个银行账号类可能需要一个数据成员来表示当前的基准利率。在此例中，我们希望利率与类关联，而非与类的每个对象关联。从实现效率的角度来看，没必要每个对象都存储利率信息。而且更加重要的是，一旦利率浮动，我们希望所有的对象都能使用新值。</p>
+<h2 id="声明静态成员"><a href="#声明静态成员" class="headerlink" title="声明静态成员"></a>声明静态成员</h2><p>我们通过在成员的声明之前加上关键字static使得其与类关联在一起，和其他成员一样，静态成员可以使public得或private的。静态数据成员的类型可以使常量、引用、指针、类类型等。</p>
+<p>举个例子，我们定义一个类，用它表示银行的账户记录：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Account</span>&#123;</span></div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">calculate</span><span class="params">()</span> </span>&#123;amount+=amount*interestRate;&#125;</div><div class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">double</span> <span class="title">rate</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> interestRate;&#125;</div><div class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">rate</span><span class="params">(<span class="keyword">double</span>)</span></span>;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">    <span class="built_in">std</span>::<span class="built_in">string</span> owner;</div><div class="line">    <span class="keyword">double</span> amount;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">double</span> interestRate;</div><div class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">double</span> <span class="title">initRate</span><span class="params">()</span></span>;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p><strong>类的静态成员存在于任何对象之外，对象中不包含任何与静态数据成员有关的数据。</strong> 因此，每个Account对象将包含两个数据成员：owner和amount。只存在一个interestRate对象而且它被所有Account对象共享。</p>
+<p><strong>类似的，静态成员函数也不与任何对象绑定在一起，它们不包含this指针。作为结果，静态成员函数不能声明成const的（const是用来修饰this指针类型的），而且我们也不能在static函数体内使用this指针，这一限制既适用于this的显式使用，也对调用非静态成员的隐式使用有效。静态成员函数不可以调用类的非静态成员。因为静态成员函数不含this指针。静态成员函数不可以同时声明为 virtual、const、volatile函数。</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">base</span>&#123;</span>   </div><div class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">func1</span><span class="params">()</span></span>;<span class="comment">//错误   </span></div><div class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">func2</span><span class="params">()</span> <span class="keyword">const</span></span>;<span class="comment">//错误   </span></div><div class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">func3</span><span class="params">()</span> <span class="keyword">volatile</span></span>;<span class="comment">//错误   </span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h2 id="使用类的静态成员"><a href="#使用类的静态成员" class="headerlink" title="使用类的静态成员"></a>使用类的静态成员</h2><p>我们使用作用域运算符直接访问静态成员：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">double</span> r;</div><div class="line">r=Account::rate();   <span class="comment">//使用作用域运算符访问静态成员</span></div></pre></td></tr></table></figure></p>
+<p>虽然静态成员不属于类的某个对象，但是我们仍然可以使用类的对象、引用或者指针类访问静态成员：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Account ac1;</div><div class="line">Account *ac2=&amp;ac1;</div><div class="line"><span class="comment">//调用静态成员函数rate的等价形式</span></div><div class="line">r=ac1.rate();   <span class="comment">//通过Account的对象或引用</span></div><div class="line">r=ac2-&gt;rate();   <span class="comment">//通过指向Account对象的指针</span></div></pre></td></tr></table></figure></p>
+<p>成员函数不用通过作用域运算符就能直接使用静态成员。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Account</span>&#123;</span></div><div class="line"><span class="keyword">public</span>:</div><div class="line">　　<span class="function"><span class="keyword">void</span> <span class="title">calculate</span><span class="params">()</span> </span>&#123;amount+=amount*interestRate;&#125;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">　　<span class="keyword">static</span> <span class="keyword">double</span> interestRate;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h2 id="定义静态成员"><a href="#定义静态成员" class="headerlink" title="定义静态成员"></a>定义静态成员</h2><p>和其他的成员函数一样，<strong>我们既可以在类的内部也可以在类的外部定义静态成员函数。当在类的外部定义静态成员时，不能重复static关键字，该关键字只出现在类内部的声明语句</strong>：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> Account::rate(<span class="keyword">double</span> newRate)</div><div class="line">&#123;</div><div class="line">　　interestRate=newRate;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>和类的所有成员一样，当我们指向类外部的静态成员时，必须指明成员所属的类名。static关键字则只出现在类内部的声明语句中。</strong></p>
+<p>因为静态数据成员不属于类的任何一个对象，所以它们并不是在创建类的对象时被定义的。这意味着它们不是由类的构造函数初始化的。<strong>而且一般来说，我们不能在类的内部初始化静态数据成员。相反的，必须在类的外部定义和初始化每个静态成员。和其他对象一样，一个静态数据成员只能定义一次。</strong></p>
+<p>类似于全局变量，静态数据成员定义在任何函数之外，因此一旦它被定义，就将一直存在于程序的整个生命周期中。</p>
+<p>我们定义静态数据成员的方式和在类的外部定义成员函数差不多。我们需要指定对象的类型名，然后是类名、作用域运算符以及成员自己的名字：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//定义并初始化一个静态成员</span></div><div class="line"><span class="keyword">double</span> Account::interestRate=initRate();</div></pre></td></tr></table></figure>
+<p>这条语句定义了名为interestRate的对象，该对象是类Account的静态成员，其类型是double。从类名开始，这条定义语句的剩余部分就都位于类的作用域之内了。因此，我们可以直接使用initRate函数。注意，虽然initRate是私有的，我们也能使用它初始化interestRate。和其他成员的定义一样，interestRate的定义也可以访问类的私有成员。</p>
+<p><strong>要想确保对象只定义一次，最好的办法是把静态数据成员的定义与其他非内联函数的定义放在同一文件中</strong>。</p>
+<h2 id="静态成员的类内初始化（一般来讲，我们在类的外部定义和初始化）"><a href="#静态成员的类内初始化（一般来讲，我们在类的外部定义和初始化）" class="headerlink" title="静态成员的类内初始化（一般来讲，我们在类的外部定义和初始化）"></a>静态成员的类内初始化（一般来讲，我们在类的外部定义和初始化）</h2><p>通常情况下，类的静态成员不应该在类的内部初始化。然而，我们可以为静态成员提供const整数类型的类内初始值，不过要求静态成员必须是字面值常量类型的constexpr。初始值必须是常量表达式，因为这些成员本身就是常量表达式，所以它们能用在所有适用于常量表达式的地方。例如，我们可以用一个初始化了的静态数据成员执行数组成员的维度：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Account</span>&#123;</span></div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">double</span> <span class="title">rate</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> interestRate;&#125;</div><div class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">rate</span><span class="params">(<span class="keyword">double</span>)</span></span>;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keyword">int</span> period=<span class="number">30</span>;</div><div class="line">    <span class="keyword">double</span> daily_tbl[period]; <span class="comment">//period是常量表达式</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p><strong>如果在类的内部提供了一个初始值，则成员的定义不能再指定一个初始值了</strong>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//一个不带初始值的静态成员的定义</span></div><div class="line"><span class="keyword">constexpr</span> <span class="keyword">int</span> Account::period;  <span class="comment">//初始值在类的定义内提供</span></div></pre></td></tr></table></figure>
+<font color="red"><strong>即使一个常量静态数据成员在类内部被初始化了，通常情况下也应该在类的外部定义一下该成员</strong>。 </font>
+
+<h2 id="静态成员能用于某些场景，而普遍成员不能"><a href="#静态成员能用于某些场景，而普遍成员不能" class="headerlink" title="静态成员能用于某些场景，而普遍成员不能"></a>静态成员能用于某些场景，而普遍成员不能</h2><p>如我们所见，静态成员独立于任何对象。因为，在某些非静态数据成员可能非法的场合，静态 成员却可以正常地使用。举个例子，<strong>静态数据成员可以是不完全类型。特别地，静态数据成员的类型可以就是它所属的类类型。而非静态数据成员则受到限制，只能声明成它所属类的指针或引用。</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bar</span>&#123;</span></div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="comment">//......</span></div><div class="line"><span class="keyword">private</span>:</div><div class="line">    <span class="keyword">static</span> Bar mem1;  <span class="comment">//正确：静态成员可以是不完全类型</span></div><div class="line">    Bar *mem2;         <span class="comment">//正确：指针成员可以使不完全类型</span></div><div class="line">    Bar mem3;         <span class="comment">//错误：数据成员必须是完全类型</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p><strong>静态成员和普通成员的另一个区别是我们可以使用静态成员作为默认实参</strong>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Screen</span>&#123;</span></div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="comment">//bkground 不是一个在类中稍后定义的静态成员</span></div><div class="line">    <span class="function">Screen &amp;<span class="title">clear</span><span class="params">(<span class="keyword">char</span> =bkground)</span></span>;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">char</span> bkground;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>非静态数据成员不能作为默认实参，因为它的值本身属于对象的一部分，这么做的结果是无法真正提供一个对象以从中获取成员的值，最终引发错误。</p>
+<h2 id="简单代码示例"><a href="#简单代码示例" class="headerlink" title="简单代码示例"></a>简单代码示例</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Account</span>&#123;</span></div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">double</span> <span class="title">rate</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> interestRate; &#125;</div><div class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">rate</span><span class="params">(<span class="keyword">double</span> Rate)</span></span>;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">    <span class="built_in">string</span> owner;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">double</span> interestRate ;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> aa = <span class="number">0</span>;  <span class="comment">//正确</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keyword">int</span> bb = <span class="number">0</span>;  <span class="comment">//正确，constexpr类型可以类内初始化</span></div><div class="line">    <span class="comment">//static double cc = 0;  //错误</span></div><div class="line">&#125;;</div><div class="line"><span class="comment">//外层定义static成员不需要加上static</span></div><div class="line"><span class="keyword">double</span> Account::interestRate = <span class="number">1.0</span>;   <span class="comment">//定义并初始化一个成员</span></div><div class="line"><span class="keyword">void</span> Account::rate(<span class="keyword">double</span> Rate)&#123;</div><div class="line">    interestRate = Rate;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    Account a1,a2;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;a1.rate()&lt;&lt;<span class="string">" "</span>&lt;&lt;a2.rate()&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    a1.rate(<span class="number">2.0</span>);</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;a1.rate()&lt;&lt;<span class="string">" "</span>&lt;&lt;a2.rate()&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="友元（friend）"><a href="#友元（friend）" class="headerlink" title="友元（friend）"></a>友元（friend）</h1><p>友元：类允许其他类或者函数访问其非公有成员，方法是令其他类或者函数成为它的<strong>友元（friend)</strong>。如果类想把一个函数作为它的友元，只需要增加一条以friend关键字开始的函数声明语句即可。</p>
+<p>友元函数只能出现在类定义的内部，但是在类内出现的位置不限。友元不是类的成员函数也不受它所在区域访问控制级别的约束。</p>
+<p>一般来说，最好在类定义开始或者结束前的位置集中声明友元。</p>
+<h2 id="友元的声明"><a href="#友元的声明" class="headerlink" title="友元的声明"></a>友元的声明</h2><p>友元的声明仅仅指定了访问的权限，而非一个通常意义上的函数声明，如果我们希望类的用户能够调用某个友元函数，那么我们就必须在友元声明之外再专门对函数进行一次声明。</p>
+<h2 id="友元再探"><a href="#友元再探" class="headerlink" title="友元再探"></a>友元再探</h2><p>类还可以把其他的类定义成友元，也可以把其他类（之前已定义过的）的成员函数定义成友元。此外，友元函数能定义在类的内部，这样的函数时隐式内联的。</p>
+<h2 id="类之间的友元关系"><a href="#类之间的友元关系" class="headerlink" title="类之间的友元关系"></a>类之间的友元关系</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Screen</span>&#123;</span></div><div class="line">    <span class="comment">//Window_megr的成员可以访问Screen类的私有部分。</span></div><div class="line">    <span class="keyword">friend</span> <span class="class"><span class="keyword">class</span> <span class="title">Window_megr</span>;</span>  把Window_megr指定成Screen的友元</div><div class="line">    <span class="comment">//Screen类的剩余部分</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果一个类指定了友元类，则友元类的成员函数可以访问此类包括非公有成员在内的所有成员。</p>
+<p>必须注意的是，友元关系不存在传递性。也就是说，如果Window_mgr有它自己的友元，则这些友元并不能理所当然地具有访问Screen的特权。</p>
+<h2 id="令成员函数作为友元"><a href="#令成员函数作为友元" class="headerlink" title="令成员函数作为友元"></a>令成员函数作为友元</h2><p>除了令整个Window_mgr作为友元之外，Screen还可以只为Window_mgr成员函数clear提供访问权限。当把一个成员函数声明成友元时，我们必须明确指出该成员函数属于哪个类：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Screen</span>&#123;</span></div><div class="line">    <span class="comment">//Window_mgr::clear必须在Screen类之前被声明</span></div><div class="line">    <span class="keyword">friend</span> <span class="keyword">void</span> Window_mgr::clear(ScreenIndex);</div><div class="line">    <span class="comment">//Screen类的剩余部分</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>要想令某个成员函数作为友元，我们必须仔细组织程序的结构以满足声明和定义的彼此依赖关系。在这个例子中，我们必须按照如下方式设计程序：</p>
+<ul>
+<li>首先定义Window_mgr类，其中声明clear函数，但是不能定义它。在clear使用Screen的成员之前必须先声明Screen。</li>
+<li>接下来定义Screen，包括对于clear的友元声明</li>
+<li>最后定义clear，此时它才可以使用Screen的成员。</li>
+</ul>
+<h2 id="函数重载和友元"><a href="#函数重载和友元" class="headerlink" title="函数重载和友元"></a>函数重载和友元</h2><p>尽管重载函数的名字相同，但他们仍然是不同的函数。因此，如果一个类想把一组重载函数声明成它的友元，它需要对这组函数中的每一个分别声明：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//重载的storeOn函数</span></div><div class="line"><span class="function"><span class="keyword">extern</span> ostream&amp; <span class="title">storeOn</span><span class="params">(ostream＆ ,Screen &amp;)</span></span>;</div><div class="line"><span class="function"><span class="keyword">extern</span> BitMap &amp;<span class="title">storeOn</span><span class="params">(BitMap&amp; ,Screen &amp;)</span></span>;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Screen</span>&#123;</span></div><div class="line">    <span class="comment">//StoreOnde ostream版本能访问Screen对象的私有部分</span></div><div class="line">    <span class="keyword">friend</span> ostream::<span class="function">ostream&amp; <span class="title">storeOn</span><span class="params">(ostream&amp; ,Screen)</span></span>;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>Screen类把接受ostream&amp;的storeOn函数声明成它的友元，但是接受BitMap&amp;作为参数的版本仍然不能访问Screen。</p>
+<h2 id="友元声明和作用域"><a href="#友元声明和作用域" class="headerlink" title="友元声明和作用域"></a>友元声明和作用域</h2><p>类和非成员函数的声明不是必须在它们的友元声明之前。当一个名字第一次出现在一个友元声明中时，我们隐式地假定该名字在当前作用域中是可见的。然而，友元本身不一定真的声明在当前作用域中。</p>
+<p>甚至<strong>就算在类的内部定义该函数，我们也必须在类的外部提供相应的声明从而使得函数可见。</strong> 换句话说，即使我们仅仅是用声明友元的类的成员调用该友元函数，它也必须是被声明过的：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">X</span>&#123;</span></div><div class="line">    <span class="function"><span class="keyword">friend</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">()</span> </span>&#123; <span class="comment">/*友元函数可以定义在类的内部*/</span>&#125;</div><div class="line">    X() &#123;f();&#125;  <span class="comment">//错误：f还没有被声明</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">g</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">h</span><span class="params">()</span></span>;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">void</span> X::g()&#123;<span class="keyword">return</span> f();&#125;  <span class="comment">//错误：f还没有被声明</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span></span>;   <span class="comment">//声明那个定义在X中的函数</span></div><div class="line"><span class="keyword">void</span> X::h() &#123;<span class="keyword">return</span> f();&#125;  <span class="comment">//正确：现在f的声明在作用域中了</span></div></pre></td></tr></table></figure>
+<p>关于这段代码最重要的是理解友元声明的作用是影响访问权限，它本身并非普通意义上的声明。</p>
+<h2 id="简单友元类示例"><a href="#简单友元类示例" class="headerlink" title="简单友元类示例"></a>简单友元类示例</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">student</span>&#123;</span></div><div class="line"><span class="keyword">friend</span> <span class="class"><span class="keyword">class</span> <span class="title">teacher</span>;</span></div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show_info</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"name:"</span>&lt;&lt;name&lt;&lt;<span class="string">" address"</span>&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    &#125;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">    <span class="built_in">string</span> name = <span class="string">"xin"</span>;</div><div class="line">    <span class="built_in">string</span> address = <span class="string">"cqu"</span>;</div><div class="line">&#125;;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">teacher</span>&#123;</span></div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show_info</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"name:"</span>&lt;&lt;name&lt;&lt;<span class="string">" address"</span>&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">showStudent</span><span class="params">(student &amp;STD)</span></span>;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">    <span class="built_in">string</span> name;</div><div class="line">    <span class="built_in">string</span> address;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">void</span> teacher::showStudent(student &amp;STD)&#123;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;STD.name&lt;&lt;<span class="string">" "</span>&lt;&lt;STD.address&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    student STD;</div><div class="line">    STD.show_info();</div><div class="line">    teacher TEA;</div><div class="line">    TEA.showStudent(STD);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+	
+	<div>
+     
+       <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+     
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div align="center">
+    
+     <div class="">
+      <p><span>
+      <b>本文地址：</b><a href="/2017/10/22/类的基本概念/" title="类的基本概念">http://www.wangxinri.cn/2017/10/22/类的基本概念/</a><br/><b>转载请注明出处，谢谢！</b>
+     </span></p>
+  </div>
+ 
+  </div>
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+	<div>梦想夹带眼泪，咸咸的汗水！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.jpg" alt="新日三少 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpg" alt="新日三少 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/static成员/" rel="tag"><i class="fa fa-tag"></i> static成员</a>
+          
+            <a href="/tags/C/" rel="tag"><i class="fa fa-tag"></i> C++</a>
+          
+            <a href="/tags/类定义/" rel="tag"><i class="fa fa-tag"></i> 类定义</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/19/函数基础/" rel="next" title="函数基础">
+                <i class="fa fa-chevron-left"></i> 函数基础
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/23/IO流与string流/" rel="prev" title="I/O流与string流">
+                I/O流与string流 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yOTk0Mi82NTA3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="新日三少" />
+          <p class="site-author-name" itemprop="name">新日三少</p>
+           
+              <p class="site-description motion-element" itemprop="description">Love Coding,Enjoy Life</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xinrisanshao" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/u012878150" target="_blank" title="CSDN">
+                  
+                    <i class="fa fa-fw fa-crosshairs"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://alvincat.github.io/" title="双哥的博客" target="_blank">双哥的博客</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、前言"><span class="nav-number">1.</span> <span class="nav-text">一、前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#类"><span class="nav-number">2.</span> <span class="nav-text">类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义成员函数"><span class="nav-number">2.1.</span> <span class="nav-text">定义成员函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引入this指针"><span class="nav-number">2.2.</span> <span class="nav-text">引入this指针</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引入const成员函数"><span class="nav-number">2.3.</span> <span class="nav-text">引入const成员函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类作用域和成员函数"><span class="nav-number">2.4.</span> <span class="nav-text">类作用域和成员函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义类相关的非成员函数"><span class="nav-number">2.5.</span> <span class="nav-text">定义类相关的非成员函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#点运算符和箭头运算符（-gt"><span class="nav-number">2.6.</span> <span class="nav-text">点运算符和箭头运算符（.  ->)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造函数"><span class="nav-number">2.7.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码示例"><span class="nav-number">2.8.</span> <span class="nav-text">代码示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拷贝、赋值和析构"><span class="nav-number">2.9.</span> <span class="nav-text">拷贝、赋值和析构</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#类的静态成员"><span class="nav-number">3.</span> <span class="nav-text">类的静态成员</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#声明静态成员"><span class="nav-number">3.1.</span> <span class="nav-text">声明静态成员</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用类的静态成员"><span class="nav-number">3.2.</span> <span class="nav-text">使用类的静态成员</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义静态成员"><span class="nav-number">3.3.</span> <span class="nav-text">定义静态成员</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态成员的类内初始化（一般来讲，我们在类的外部定义和初始化）"><span class="nav-number">3.4.</span> <span class="nav-text">静态成员的类内初始化（一般来讲，我们在类的外部定义和初始化）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态成员能用于某些场景，而普遍成员不能"><span class="nav-number">3.5.</span> <span class="nav-text">静态成员能用于某些场景，而普遍成员不能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单代码示例"><span class="nav-number">3.6.</span> <span class="nav-text">简单代码示例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#友元（friend）"><span class="nav-number">4.</span> <span class="nav-text">友元（friend）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#友元的声明"><span class="nav-number">4.1.</span> <span class="nav-text">友元的声明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#友元再探"><span class="nav-number">4.2.</span> <span class="nav-text">友元再探</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类之间的友元关系"><span class="nav-number">4.3.</span> <span class="nav-text">类之间的友元关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#令成员函数作为友元"><span class="nav-number">4.4.</span> <span class="nav-text">令成员函数作为友元</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数重载和友元"><span class="nav-number">4.5.</span> <span class="nav-text">函数重载和友元</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#友元声明和作用域"><span class="nav-number">4.6.</span> <span class="nav-text">友元声明和作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单友元类示例"><span class="nav-number">4.7.</span> <span class="nav-text">简单友元类示例</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+	    
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div style="color:red" class="copyright" >
+  
+  &copy;  2017 - 
+  <span  itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">新日三少</span>
+</div>
+
+
+
+<!--
+<div style="color:red" class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div style="color:red" class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+-->
+
+<div style="color:red" class="powered-by">
+  <i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+    访客数:<span id="busuanzi_value_site_uv"></span>
+  </span>
+</div>
+
+
+<div style="color:red" class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count" >全站共40.3k字</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
