@@ -3,6 +3,74 @@
 
 
     
+    
+    
+  <url>
+    <loc>http://www.wangxinri.cn/2017/10/26/%E9%A1%BA%E5%BA%8F%E5%AE%B9%E5%99%A8%E6%A6%82%E8%BF%B0/</loc>
+    <lastmod>2018-01-17T12:43:10.734Z</lastmod>
+    <data>
+        <display>
+        <title>顺序容器概述</title>
+        <pubTime>2017-10-26T13:59:00.000Z</pubTime>
+        
+        <tag>顺序容器</tag>
+         
+         
+           
+             
+              <breadCrumb title="C++" url="http://www.wangxinri.cn/categories/C/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.wangxinri.cn/2017/10/23/IO%E6%B5%81%E4%B8%8Estring%E6%B5%81/</loc>
+    <lastmod>2018-01-17T12:39:54.849Z</lastmod>
+    <data>
+        <display>
+        <title>I/O流与string流</title>
+        <pubTime>2017-10-23T13:59:00.000Z</pubTime>
+        
+        <tag>I/O流</tag>
+         
+        <tag>string流</tag>
+         
+         
+           
+             
+              <breadCrumb title="C++" url="http://www.wangxinri.cn/categories/C/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.wangxinri.cn/2017/10/22/%E7%B1%BB%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</loc>
+    <lastmod>2018-01-17T12:39:40.280Z</lastmod>
+    <data>
+        <display>
+        <title>类的基本概念</title>
+        <pubTime>2017-10-22T13:59:00.000Z</pubTime>
+        
+        <tag>static成员</tag>
+         
+        <tag>C++</tag>
+         
+        <tag>类定义</tag>
+         
+         
+           
+             
+              <breadCrumb title="C++" url="http://www.wangxinri.cn/categories/C/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://www.wangxinri.cn/2017/10/19/%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80/</loc>
     <lastmod>2018-01-16T13:11:28.527Z</lastmod>
@@ -84,7 +152,6 @@
     </data>
     </url>
 
-    
     
   <url>
     <loc>http://www.wangxinri.cn/2017/09/01/%E5%BC%95%E7%94%A8&%E6%8C%87%E9%92%88&const/</loc>
