@@ -127,18 +127,18 @@
 
 
 
-<meta name="description" content="虚函数在C++语言中，当我们使用基类的引用或指针调用一个虚成员函数时会执行动态绑定。因为我们知道运行时才能知道到底调用了那个版本的虚函数，所以所有的虚函数都必须有定义。通常情况下，如果我们不适用某个函数，则无须为该函数提供定义。但是我们必须为每一个虚函数都提供定义，而不管它是否被用到了，这是因为编译器也无法确定到底会使用那个虚函数。 对虚函数的调用可能在运行时才被解析当某个虚函数通过指针或引用调用">
+<meta name="description" content="虚函数在C++语言中，当我们使用基类的引用或指针调用一个虚成员函数时会执行动态绑定。因为我们知道运行时才能知道到底调用了那个版本的虚函数，所以所有的虚函数都必须有定义。通常情况下，如果我们不适用某个函数，则无须为该函数提供定义。但是我们必须为每一个虚函数都提供定义，而不管它是否被用到了，这是因为编译器也无法确定到底会使用那个虚函数。">
 <meta name="keywords" content="虚函数">
 <meta property="og:type" content="article">
 <meta property="og:title" content="虚函数与抽象基类">
 <meta property="og:url" content="http://www.wangxinri.cn/2017/11/23/虚函数与抽象基类/index.html">
 <meta property="og:site_name" content="新日三少的博客">
-<meta property="og:description" content="虚函数在C++语言中，当我们使用基类的引用或指针调用一个虚成员函数时会执行动态绑定。因为我们知道运行时才能知道到底调用了那个版本的虚函数，所以所有的虚函数都必须有定义。通常情况下，如果我们不适用某个函数，则无须为该函数提供定义。但是我们必须为每一个虚函数都提供定义，而不管它是否被用到了，这是因为编译器也无法确定到底会使用那个虚函数。 对虚函数的调用可能在运行时才被解析当某个虚函数通过指针或引用调用">
+<meta property="og:description" content="虚函数在C++语言中，当我们使用基类的引用或指针调用一个虚成员函数时会执行动态绑定。因为我们知道运行时才能知道到底调用了那个版本的虚函数，所以所有的虚函数都必须有定义。通常情况下，如果我们不适用某个函数，则无须为该函数提供定义。但是我们必须为每一个虚函数都提供定义，而不管它是否被用到了，这是因为编译器也无法确定到底会使用那个虚函数。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-22T14:01:41.150Z">
+<meta property="og:updated_time" content="2018-02-23T00:58:41.576Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="虚函数与抽象基类">
-<meta name="twitter:description" content="虚函数在C++语言中，当我们使用基类的引用或指针调用一个虚成员函数时会执行动态绑定。因为我们知道运行时才能知道到底调用了那个版本的虚函数，所以所有的虚函数都必须有定义。通常情况下，如果我们不适用某个函数，则无须为该函数提供定义。但是我们必须为每一个虚函数都提供定义，而不管它是否被用到了，这是因为编译器也无法确定到底会使用那个虚函数。 对虚函数的调用可能在运行时才被解析当某个虚函数通过指针或引用调用">
+<meta name="twitter:description" content="虚函数在C++语言中，当我们使用基类的引用或指针调用一个虚成员函数时会执行动态绑定。因为我们知道运行时才能知道到底调用了那个版本的虚函数，所以所有的虚函数都必须有定义。通常情况下，如果我们不适用某个函数，则无须为该函数提供定义。但是我们必须为每一个虚函数都提供定义，而不管它是否被用到了，这是因为编译器也无法确定到底会使用那个虚函数。">
 
 
 
@@ -494,6 +494,7 @@
 
       
         <h2 id="虚函数"><a href="#虚函数" class="headerlink" title="虚函数"></a>虚函数</h2><p>在C++语言中，当我们使用基类的引用或指针调用一个虚成员函数时会执行动态绑定。因为我们知道运行时才能知道到底调用了那个版本的虚函数，<strong>所以所有的虚函数都必须有定义</strong>。通常情况下，如果我们不适用某个函数，则无须为该函数提供定义。但是我们必须为每一个虚函数都提供定义，而不管它是否被用到了，这是因为编译器也无法确定到底会使用那个虚函数。</p>
+<a id="more"></a>
 <h3 id="对虚函数的调用可能在运行时才被解析"><a href="#对虚函数的调用可能在运行时才被解析" class="headerlink" title="对虚函数的调用可能在运行时才被解析"></a>对虚函数的调用可能在运行时才被解析</h3><p>当某个虚函数通过指针或引用调用时，编译器产生的代码直到运行时才能确定应该调用哪个版本的函数。被调用的函数是与绑定到指针或引用上的对象的动态类型相匹配的哪一个。</p>
 <p>必须要搞清楚一点是，动态绑定只有当我们通过指针或引用调用虚函数时才会发生。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">base = derived;     <span class="comment">//把derived的Quote部分拷贝给base</span></div><div class="line">base.net_price(<span class="number">20</span>);     <span class="comment">//调用Quote::net_price</span></div></pre></td></tr></table></figure>
