@@ -352,9 +352,10 @@
     <link href="http://www.wangxinri.cn/2017/11/23/%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E4%B8%8E%E7%BB%A7%E6%89%BF/"/>
     <id>http://www.wangxinri.cn/2017/11/23/访问控制与继承/</id>
     <published>2017-11-23T02:59:00.000Z</published>
-    <updated>2018-02-23T04:05:48.806Z</updated>
+    <updated>2018-02-23T08:13:10.483Z</updated>
     
     <content type="html"><![CDATA[<h2 id="访问控制与继承"><a href="#访问控制与继承" class="headerlink" title="访问控制与继承"></a>访问控制与继承</h2><p>每个类分别控制自己的成员初始化过程，与之类似，每个类还分别控制着其成员对于派生类来说是否可访问（accessible）。</p>
+<a id="more"></a>
 <h3 id="受保护的成员"><a href="#受保护的成员" class="headerlink" title="受保护的成员"></a>受保护的成员</h3><ul>
 <li>和私有成员类似，受保护的成员对于类的用户来说是不可访问的。</li>
 <li>和共有成员类似，受保护的成员对于派生类的成员和友元来说是可访问的。</li>
@@ -389,7 +390,7 @@
     
     <summary type="html">
     
-      &lt;h2 id=&quot;访问控制与继承&quot;&gt;&lt;a href=&quot;#访问控制与继承&quot; class=&quot;headerlink&quot; title=&quot;访问控制与继承&quot;&gt;&lt;/a&gt;访问控制与继承&lt;/h2&gt;&lt;p&gt;每个类分别控制自己的成员初始化过程，与之类似，每个类还分别控制着其成员对于派生类来说是否可访问（ac
+      &lt;h2 id=&quot;访问控制与继承&quot;&gt;&lt;a href=&quot;#访问控制与继承&quot; class=&quot;headerlink&quot; title=&quot;访问控制与继承&quot;&gt;&lt;/a&gt;访问控制与继承&lt;/h2&gt;&lt;p&gt;每个类分别控制自己的成员初始化过程，与之类似，每个类还分别控制着其成员对于派生类来说是否可访问（accessible）。&lt;/p&gt;
     
     </summary>
     
