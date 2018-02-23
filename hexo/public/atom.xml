@@ -244,9 +244,10 @@
     <link href="http://www.wangxinri.cn/2017/12/01/%E6%A8%A1%E6%9D%BF%E5%8F%82%E6%95%B0%E4%B8%8E%E6%88%90%E5%91%98%E6%A8%A1%E7%89%88/"/>
     <id>http://www.wangxinri.cn/2017/12/01/模板参数与成员模版/</id>
     <published>2017-12-01T02:49:00.000Z</published>
-    <updated>2018-02-23T07:30:33.422Z</updated>
+    <updated>2018-02-23T08:08:23.493Z</updated>
     
     <content type="html"><![CDATA[<h2 id="模板参数"><a href="#模板参数" class="headerlink" title="模板参数"></a>模板参数</h2><h3 id="模板参数与作用域"><a href="#模板参数与作用域" class="headerlink" title="模板参数与作用域"></a>模板参数与作用域</h3><p>模板参数遵循普通的作用域规则。一个模板参数名的可用范围是在其声明之后，至模板声明或定义结束之前。与任何其他名字一样，模板参数会隐藏外层作用域中声明的相同名字。但是，与大多数其他上下文不同，在模板内不能重用模板参数名：</p>
+<a id="more"></a>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="keyword">double</span> A;</div><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> A,<span class="keyword">typename</span> B&gt; </div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(A a, B b)</span></span>&#123;</div><div class="line">    A tmp = a;         <span class="comment">//tmp的类型为模板参数A的类型，而非double</span></div><div class="line">    <span class="keyword">double</span> B;         <span class="comment">//错误：重声明模板参数B</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>由于参数名不能重用，所以一个模板参数名在一个特定模板参数列表中只能出现一次：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//错误：非法重用模板参数名V</span></div><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> V, <span class="keyword">typename</span> V&gt;   <span class="comment">//...</span></div></pre></td></tr></table></figure>
@@ -288,7 +289,7 @@
     
     <summary type="html">
     
-      &lt;h2 id=&quot;模板参数&quot;&gt;&lt;a href=&quot;#模板参数&quot; class=&quot;headerlink&quot; title=&quot;模板参数&quot;&gt;&lt;/a&gt;模板参数&lt;/h2&gt;&lt;h3 id=&quot;模板参数与作用域&quot;&gt;&lt;a href=&quot;#模板参数与作用域&quot; class=&quot;headerlink&quot; title=&quot;模
+      &lt;h2 id=&quot;模板参数&quot;&gt;&lt;a href=&quot;#模板参数&quot; class=&quot;headerlink&quot; title=&quot;模板参数&quot;&gt;&lt;/a&gt;模板参数&lt;/h2&gt;&lt;h3 id=&quot;模板参数与作用域&quot;&gt;&lt;a href=&quot;#模板参数与作用域&quot; class=&quot;headerlink&quot; title=&quot;模板参数与作用域&quot;&gt;&lt;/a&gt;模板参数与作用域&lt;/h3&gt;&lt;p&gt;模板参数遵循普通的作用域规则。一个模板参数名的可用范围是在其声明之后，至模板声明或定义结束之前。与任何其他名字一样，模板参数会隐藏外层作用域中声明的相同名字。但是，与大多数其他上下文不同，在模板内不能重用模板参数名：&lt;/p&gt;
     
     </summary>
     
