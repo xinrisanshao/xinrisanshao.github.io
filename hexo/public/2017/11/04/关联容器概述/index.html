@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="关联容器," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="新日三少的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="一、前言关联容器分为有序关联容器和无序关联容器，有序关联容器按关键字有序保存元素，底层数据结构为红黑树；无序关联容器底层数据结构是hashtable，因此是无序的。">
+<meta name="keywords" content="关联容器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关联容器概述">
+<meta property="og:url" content="http://www.wangxinri.cn/2017/11/04/关联容器概述/index.html">
+<meta property="og:site_name" content="新日三少的博客">
+<meta property="og:description" content="一、前言关联容器分为有序关联容器和无序关联容器，有序关联容器按关键字有序保存元素，底层数据结构为红黑树；无序关联容器底层数据结构是hashtable，因此是无序的。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-02-22T12:01:26.900Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关联容器概述">
+<meta name="twitter:description" content="一、前言关联容器分为有序关联容器和无序关联容器，有序关联容器按关键字有序保存元素，底层数据结构为红黑树；无序关联容器底层数据结构是hashtable，因此是无序的。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.wangxinri.cn/2017/11/04/关联容器概述/"/>
+
+
+
+
+
+  <title>关联容器概述 | 新日三少的博客</title>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=63306720";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+	
+	<a href="https://github.com/xinrisanshao"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新日三少的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Big big pig</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photo">
+          <a href="/photo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-photo"></i> <br />
+            
+            照片
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resume">
+          <a href="/resume/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-id-card"></i> <br />
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.wangxinri.cn/2017/11/04/关联容器概述/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="新日三少">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新日三少的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">关联容器概述</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-04T21:59:00+08:00">
+                2017-11-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  4,595
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  17
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>关联容器分为有序关联容器和无序关联容器，有序关联容器按关键字有序保存元素，底层数据结构为红黑树；无序关联容器底层数据结构是hashtable，因此是无序的。<br><a id="more"></a></p>
+<h2 id="关联容器"><a href="#关联容器" class="headerlink" title="关联容器"></a>关联容器</h2><p>关联容器和顺序容器有着根本的不同：关联容器中的元素是按关键字来保存和访问的。与之相对，顺序容器中的元素是按它们在容器中的位置来顺序保存和访问的。</p>
+<p>虽然关联容器的很多行为与顺序容器相同，但其不同之处反映了关键字的作用。</p>
+<p>关联容器支持高效的关键字查找和访问。两个主要的关联容器类型是map和set。map中的元素是一些关键字-值对：关键字起到索引的作用，值则表示与索引相关联的数据。set中每个元素包含一个关键字；set支持高效的关键字查询操作——检查一个给定关键字是否在set中。例如，在某些文本处理过程中，可以用一个set来保存想要忽略的单词。字典则是一个很好的使用map的例子：可以将单词作为关键字，将单词释义作为值。</p>
+<p>标准库提供8个关联容器，如下表所示。这8个容器间的不同体现在三个维度上：每个容器 <strong>（1）或者是一个set，或者是一个map；（2）或者要求不重复的关键字，或者允许重复关键字；（3）按顺序保存元素，或无序保存。允许重复关键字的容器的名字中都包含单词multi；不保存关键字按顺序存储的容器的名字都以单词unordered开头</strong>。因此一个unordered_multi_set是一个允许重复关键字，元素无序保存的集合，而一个set则是一个要求不重复关键字，有序存储的集合。无序容器使用哈希函数来组织元素。</p>
+<p>类型map和multimap定义在头文件map中；set和multiset定义在头文件set中；无序容器则定义在头文件unordered_map和unordered_set中。</p>
+<p> <strong>关联容器类型</strong> </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">按关键字有序保存元素</div><div class="line"><span class="built_in">map</span> 　　　　　　　　关联数组：保存关键字-值对</div><div class="line"><span class="built_in">set</span>　　　　　　　　　关键字即值，即只保存关键字的容器</div><div class="line"><span class="built_in">multimap</span>　　　　　　关键字可重复出现的<span class="built_in">map</span></div><div class="line"><span class="built_in">multiset</span>　　　　　　   关键字可重复出现的<span class="built_in">set</span></div><div class="line">无序容器</div><div class="line"><span class="built_in">unordered_map</span>　　　用哈希函数组织的<span class="built_in">map</span></div><div class="line"><span class="built_in">unordered_set</span>　　　　用哈希函数组织的<span class="built_in">set</span></div><div class="line"><span class="built_in">unordered_multimap</span>　　哈希组织的<span class="built_in">map</span>；关键字可以重复出现</div><div class="line"><span class="built_in">unordered_multiset</span>　　  哈希组织的<span class="built_in">set</span>；关键字可以重复出现</div></pre></td></tr></table></figure>
+<h2 id="关联容器概述"><a href="#关联容器概述" class="headerlink" title="关联容器概述"></a>关联容器概述</h2><p>关联容器不支持顺序容器的位置相关的操作，例如push_front或push_back。原因是关联容器中元素是根据关键字存储的，这些操作对关联容器没有意义。而且，关联容器也不支持构造函数或插入操作这些接受一个元素值和一个数量值的操作。</p>
+<p>除了顺序容器相同的操作之外，关联容器还支持一些顺序容器不支持的操作和类型别名。此外，无序容器还提供了一些用来调整哈希性能的操作。</p>
+<p><strong>关联容器的迭代器都是双向的（可读写，多遍扫描，可递增递减）</strong>。</p>
+<h3 id="定义关联容器"><a href="#定义关联容器" class="headerlink" title="定义关联容器"></a>定义关联容器</h3><p>当定义一个map时，必须既指明关键字类型又指明值类型。而定义一个set时，只需指明关键字类型，因为set中没有值。每个关联容器都定义了一个默认构造函数，它创建一个指定类型的空容器，我们也可以将关联容器初始化为另一个同类型容器的拷贝，或是从一个值范围来初始化关联容器，只要这些值可以转化为容器中所需类型就可以。在新标准下，我们也可以对关联容器进行值初始化：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="keyword">size_t</span>&gt; word_count ; <span class="comment">//空容器</span></div><div class="line"><span class="comment">//列表初始化</span></div><div class="line"><span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt; exclude=&#123;<span class="string">"the"</span>,<span class="string">"but"</span>,<span class="string">"and"</span>,<span class="string">"or"</span>,<span class="string">"an"</span>,<span class="string">"a"</span>,<span class="string">"The"</span>,<span class="string">"But"</span>,<span class="string">"And"</span>,<span class="string">"Or"</span>,<span class="string">"An"</span>,<span class="string">"A"</span>&#125;;</div><div class="line"><span class="comment">//三个元素；authors将姓映射到名</span></div><div class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="built_in">string</span>&gt; autors=&#123; &#123;<span class="string">"Joyce"</span>,<span class="string">"James"</span>&#125;,</div><div class="line">　　　　　　　　　　　　  &#123;<span class="string">"Austen"</span>,<span class="string">"Jane"</span>&#125;,</div><div class="line">　　　　　　　　　　　　  &#123;<span class="string">"Dickens"</span>,<span class="string">"Charles"</span>&#125;&#125;;</div></pre></td></tr></table></figure>
+<p>与以往一样，初始化器必须能转换为容器中元素的类型。对于set，元素类型就是关键字类型。<br>当初始化一个map时，必须提供关键字类型和值类型，我们将每个关键字-值对包围在花括号中：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">　&#123;key,value&#125;</div></pre></td></tr></table></figure></p>
+<p>来指出它们一起构成了map中的一个元素。在每个花括号中，关键字是第一个元素，值是第二个。因此，anthors将姓映射到名，初始化它包括三个元素。</p>
+<h3 id="初始化multimap或multiset"><a href="#初始化multimap或multiset" class="headerlink" title="初始化multimap或multiset"></a>初始化multimap或multiset</h3><p>一个map或set中的关键字必须是唯一的，即，对于一个给定的关键字，只能有一个元素的关键字等于它。容器multimap和multiset没有此限制，它们都允许多个元素具有相同的关键字。</p>
+<h3 id="关键字类型的要求"><a href="#关键字类型的要求" class="headerlink" title="关键字类型的要求"></a>关键字类型的要求</h3><p>关联容器对其关键字类型有一些限制。对于无序容器中关键字的要求，我们后面介绍。对于有序容器——map、multimap、set以及multiset，关键字类型必须定义元素比较的方法。默认情况下，标准库使用关键字类型的&lt;运算符来比较两个关键字。在集合类型中，关键字类型就是元素类型，在映射类型中，关键字类型是元素的第一部分的类型。因此，word_count的关键字类型是string。类似的，exclude的关键字类型也是string。</p>
+<h3 id="有序容器的关键字类型"><a href="#有序容器的关键字类型" class="headerlink" title="有序容器的关键字类型"></a>有序容器的关键字类型</h3><p>可以向一个算法提供我们自己定义的比较操作，与之类似，也可以提供自己定义的操作来代替关键字上的&lt;运算符。所提供的操作必须在关键字类型上定义一个严格弱序。可以将严格弱序看作“小于等于”，虽然实际定义的操作可能是一个复杂的函数。无论我们怎样定义比较函数，它必须具备如下基本性质：</p>
+<ul>
+<li>两个关键字不能同时“小于等于”对方：如果k1“小于等于”k2，那么k2绝不能“小于等于”k1.</li>
+<li>如果k1“小于等于”k2，且k2“小于等于”k3，那么k1必须“小于等于”k3</li>
+<li>如果存在两个关键字，任何一个都不“小于等于”另一个，那么我们称这两个关键字是“等价”的。如果k1“等价与”k2，且k2“等价于”k3，那么k1必须“等价于”k3.</li>
+</ul>
+<p>如果两个关键字是等价的（即，任何一个都不“小于等于”另一个），那么容器将它们视作相等来处理。当用作map关键字时，只能有一个元素与这个关键字关联，我们可以用两者中任意一个来访问对应的值。</p>
+<h3 id="使用关键字的比较函数"><a href="#使用关键字的比较函数" class="headerlink" title="使用关键字的比较函数"></a>使用关键字的比较函数</h3><p>用来组织一个容器中元素的操作的类型也是容器类型的一部分。为了指定使用自定义的操作，必须在定义关联容器类型时提供此操作的类型。如前所述，用尖括号指出要定义哪种类型的容器，自定义的操作类型必须在尖括号中紧跟这元素类型给出。</p>
+<p>在尖括号中出现的每个类型，就仅仅是一个类型而已。当我们创建一个容器（对象）时，才会以构造函数参数的形式提供真正的比较操作（其类型必须与在尖括号中指定的类型相吻合）。</p>
+<p>例如，我们不能直接定义一个Sales_data的multiset，因为Sales_data没有&lt;运算符。但是，可以用定义的compareIsbn函数来定义一个multiset。此函数在Sales_data对象的ISBN成员上定义了一个严格弱序。函数compareIsbn应该像下面这样定义</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">compareIsbn</span><span class="params">(<span class="keyword">const</span> Sales_data &amp;lhs,<span class="keyword">const</span> Sales_data &amp;rhs)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">　　<span class="keyword">return</span> lhs.isbn()&lt;rhs.isbn();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>为了使用自己定义的操作，在定义multiset时我们必须提供两个类型。关键字类型Sales_data，以及比较操作类型——应该是一种函数指针类型，可以指向compareIsbn。当定义此容器类型的对象时，需要提供想要使用的操作的指针。在本例中，我们提供一个指向compareIsbn的指针：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//bookstore中多条记录可以有相同的ISBN</span></div><div class="line"><span class="comment">//bookstore中的元素以ISBN的顺序进行排序</span></div><div class="line"><span class="built_in">multiset</span>&lt;Sales_data,<span class="keyword">decltype</span>(compareIsbn)*&gt; bookstore(compareIsbn);</div></pre></td></tr></table></figure>
+<p>此处，我们使用decltype来指出自定义操作的类型。记住，当用decltype来获得一个函数指针类型时，必须加上一个*来指出我们要使用一个给定函数类型的指针。用compareIsbn来初始化bookstore对象，这表示当我们向bookstore添加元素时，通过compareIsbn来为这些元素排序。即，bookstore中的元素将按它们的ISBN成员的值排序。可以用compareIsbn代替&amp;compareIsbn作为构造函数的参数，因为当我们使用一个函数的名字时，在需要的情况下它会自动转化为一个指针。当然，使用&amp;compareIsbn的效果也是一样的。</p>
+<h2 id="pair类型"><a href="#pair类型" class="headerlink" title="pair类型"></a>pair类型</h2><p>在介绍关联容器操作之前，我们需要了解名为pair的标准库类型，它定义在头文件utility中。</p>
+<p>一个pair保存两个数据成员。类似容器，pair是一个用来生成特定类型的模板。当创建一个pair时，我们必须提供两个类型名，pair的数据成员将具有对应的类型。两个类型不要求一样：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">pair&lt;<span class="built_in">string</span>,<span class="built_in">string</span>&gt; anon;  <span class="comment">//保存两个string</span></div><div class="line">pair&lt;<span class="built_in">string</span>,<span class="keyword">size_t</span>&gt; word_count;   <span class="comment">//保存一个string和一个size_t</span></div><div class="line">pair&lt;<span class="built_in">string</span>,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; line;  <span class="comment">//保存string和vector&lt;int&gt;</span></div></pre></td></tr></table></figure>
+<p>pair的默认构造函数对数据成员进行值初始化。因此，anon是一个包含两个空string的pair，line保存一个空string和一个空vector。word_count中的size_t 成员值为0，而string成员被初始化为空vector。</p>
+<p>我们也可以为每个成员提供初始化器：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pair&lt;<span class="built_in">string</span>,<span class="built_in">string</span>&gt; author&#123;<span class="string">"James"</span>,<span class="string">"Joyce"</span>&#125;;</div></pre></td></tr></table></figure>
+<p>这条语句创建了一个名为author的pair，两个成员被初始化为”James”和”Joyce”。</p>
+<p>与其他标准库类型不同，pair的数据成员是public的。两个成员分别命名为first和second。我们用普通的成员访问符号来访问它们，例如</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cout</span>&lt;&lt;w.first&lt;&lt;<span class="string">" occurs "</span>&lt;&lt;w.second&lt;&lt;<span class="built_in">endl</span>;</div></pre></td></tr></table></figure>
+<p>此处，w 是指向某个元素的引用。map的元素是pair。在这条语句中，我们首先打印关键字——元素的first成员，接着打印计数器——second成员。标准库只定义了有限的几个pair操作，下表列出了这些操作：</p>
+<p><strong>pair上的操作</strong> </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">pair&lt;T1,T2&gt; p; 　　p是一个pair，两个类型分别为T1和T2的成员都进行了值初始化</div><div class="line">pair&lt;T1,T2&gt; p(v1,v2)　　p是一个成员类型为T1和T2的pair；first和second成员分别用v1和v2进行初始化</div><div class="line">pair&lt;T1,T2&gt; p=&#123;v1,v2&#125;;　　等价于p(v1,v2)</div><div class="line">make_pair(v1,v2)　　返回一个用v1和v2初始化的pair。pair的类型从v1和v2的类型推断出来</div><div class="line">p.first　　 返回p的名为first的（公有）数据成员</div><div class="line">p.second　　返回p的名为second的（公有）数据成员</div><div class="line">p1 relop p2　　　　　　　　　　　　　   关系运算符（&lt;、&gt;、&lt;=、&gt;=）按字典序定义；例如，当p1.first&lt;p2.first或!(p2.first&lt;p1.first)&amp;&amp;p1.second&lt;p2.second成立时，p1&lt;p2为<span class="literal">true</span>。关系运算符利用元素的&lt;运算符来实现</div><div class="line">p1==p2　当first和second成员分别相等时，两个pair相等。相等性判断利用元素的==运算符实现</div><div class="line">p1!=p2</div></pre></td></tr></table></figure>
+<h3 id="创建pair对象的函数"><a href="#创建pair对象的函数" class="headerlink" title="创建pair对象的函数"></a>创建pair对象的函数</h3><p>想象有一个函数需要返回一个pair。在新标准下，我们可以对返回在进行列表初始化<br>复制代码</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">pair&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt;</div><div class="line">process(<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; &amp;v)</div><div class="line">&#123;</div><div class="line">    <span class="comment">//处理v</span></div><div class="line">    <span class="keyword">if</span>(!v.empty())</div><div class="line">        <span class="keyword">return</span> &#123;v.back(),v.back().size()); <span class="comment">// 列表初始化</span></div><div class="line">    <span class="keyword">else</span></div><div class="line">        <span class="keyword">return</span> pair&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt;();  <span class="comment">//隐式构造返回值</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在较早的C++版本中，不允许用花括号包围的初始化器来返回pair这种类型的对象，必须显示构造返回值：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(!v.empty())</div><div class="line">　　<span class="keyword">return</span> pair&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt;(v.back(),v.back().size());</div></pre></td></tr></table></figure>
+<p>我们还可以用make_pair来生成pair对象，pair的两个类型来自于make_pair的参数：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(!v.empty())</div><div class="line">　　<span class="keyword">return</span> make_pair(v.back(),v.back().size());</div></pre></td></tr></table></figure></p>
+<h2 id="无序容器"><a href="#无序容器" class="headerlink" title="无序容器"></a>无序容器</h2><p>新标准定义了4个无序关联容器。<strong>这些容器不是使用比较运算符来组织元素，而是使用一个哈希函数和关键字类型的==运算符。在关键字类型的元素没有明显有序关系的情况下，无序容器是非常有用的。在某些应用中，维护元素的序代价非常高昂，此时无序容器也很</strong>有用。</p>
+<p>虽然理论上哈希技术能获得更好的平均性能，但在实际中想要达到很好的效果还需要进行一些性能测试和调优工作。因此，使用无序容器通常更为简单。</p>
+<h3 id="使用无序容器"><a href="#使用无序容器" class="headerlink" title="使用无序容器"></a>使用无序容器</h3><p>除了哈希管理操作之外，无序容器还提供了与有序容器相同的操作（find、insert等）。这意味着我们曾用于map和set的操作也能用于unordered_map和unordered_set。类似的，无序容器也有允许重复关键字的版本。</p>
+<h3 id="管理桶"><a href="#管理桶" class="headerlink" title="管理桶"></a>管理桶</h3><p><strong>无序容器在存储上组织为一组桶，每个桶保存零个或多个元素。无序容器使用一个哈希函数将元素映射到桶。为了访问一个元素，容器首先计算元素的哈希值，它指出应该搜索哪个桶。容器将具有一个特定哈希值的所有元素都保存在相同的桶中。如果容器允许重复关键字，所有具有相同的关键字的元素也都会在同一个桶中。因此，无序容器的性能依赖于哈希函数的质量和桶的数量和大小。</strong></p>
+<p>对于相同的参数，哈希函数必须总是产生相同的结果。理想情况下，哈希函数还能将每个特定的值映射到唯一的桶。但是，将不同关键字的元素映射到相同的桶也是允许的。当一个桶保存多个元素时，需要顺序搜索这些元素来查找我们想要的那个。计算一个元素的哈希值和在桶中搜索通常都是很快的操作。但是，如果一个桶中保存了很多元素，那么查找一个特定元素就需要大量比较操作。</p>
+<p>无序容器提供了一组管理桶的函数。如表所示。这些成员函数允许我们查询容器的状态以及在必要时强制容器进行重组。</p>
+<p><strong>无序容器管理操作</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">桶接口</div><div class="line">c.bucket_count()　　　　　　　　正在使用的桶的数目</div><div class="line">c.max_bucket_count() 　　　　　 容器能容纳的最多的桶的数量</div><div class="line">c.bucket_size(n)　　　　　　　　  第n个桶中有多少元素</div><div class="line">c.bucket(k)　　　　　　　　　　  关键字为k的元素在哪个桶中</div><div class="line">桶迭代</div><div class="line">local_iterator 　　　　　　　　　可以用来访问桶中元素的迭代器类型</div><div class="line">const_local_iterator　　　　　　 桶迭代器的<span class="keyword">const</span>版本</div><div class="line">c.begin(n),c.end(n)　　　　　　   桶n的首元素迭代器和尾后迭代器</div><div class="line">c.cbegin(n),c.cend(n)　　　　       返回const_local_iterator</div><div class="line">哈希策略</div><div class="line">c.load_factor()　　　　　　　　　每个桶的平均元素数量，返回<span class="keyword">float</span>值</div><div class="line">c.max_load_factor()　　　　　　 c试图维护的平均桶大小，返回<span class="keyword">float</span>值，c会在需要时添加新的桶，以使得load_factor&lt;=max_load_factor</div><div class="line">c.rehash(n)　　　　　　　　　　重组存储，使得bucket_count&gt;=n且bucket_count&gt;size/max_load_factor</div><div class="line">c.reserve(n)　　　　　　　　　　重组存储，使得c可以保存n个元素且不必rehash</div></pre></td></tr></table></figure>
+<h3 id="无序容器对关键字类型的要求"><a href="#无序容器对关键字类型的要求" class="headerlink" title="无序容器对关键字类型的要求"></a>无序容器对关键字类型的要求</h3><p><strong>默认情况下，无序容器使用关键字类型的==运算符来比较元素，它们还使用一个hash<key_type>类型的对象来生成每个元素的哈希值</key_type></strong>。标准库为内置类型（包括指针）提供了hash模板。还为一些标准库类型，包括string和我们将要介绍的智能指针类型定义了hash。因此，<strong>我们可以直接定义关键字是内置类型（包括指针类型）、string还是智能指针的无序容器。</strong></p>
+<p>但是，我们不能直接定义关键字类型为自定义类类型的无序容器。与容器不同，不能直接使用哈希模板，而必须提供我们自己的hash模板版本。</p>
+<p>我们不能使用默认的hash，而是使用另一种方法，类似于为有序容器重载关键字类型的默认比较操作。为了能将Sales_data用作关键字，我们需要提供函数来替代==运算符和哈希值计算函数。我们从定义这些重载函数开始：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">size_t</span> hasher(<span class="keyword">const</span> Sales_data &amp;sd)</div><div class="line">&#123;</div><div class="line">　　<span class="keyword">return</span> hash&lt;<span class="built_in">string</span>&gt;()(sd.isbn());</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">eqOp</span><span class="params">(<span class="keyword">const</span> Sales_data &amp;lhs,<span class="keyword">const</span> Sales_data &amp;rhs)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">　　<span class="keyword">return</span> lhs.isbn()==rhs.isbn();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们的hasher函数使用一个标准库hash类型对象来计算ISBN成员的哈希值，该hash类型建立在string类型之上。类似的，eqOp函数通过比较ISBN号来比较两个Sales_data。</p>
+<p>我们使用这些函数来定义一个unordered_multiset</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">using</span> SD_multiset=<span class="built_in">unordered_multiset</span>&lt;Sales_data,decltypr(hasher)*,<span class="keyword">decltype</span>(eqOp)*&gt;;</div><div class="line"><span class="comment">//参数是桶大小、哈希函数指针和相等型判断运算符指针</span></div><div class="line"><span class="function">SD_multiset <span class="title">bookstore</span><span class="params">(<span class="number">42</span>,hasher,eqOp)</span></span>;</div></pre></td></tr></table></figure>
+<p>为了简化bookstore的定义，首先为unordered_multiset定义了一个类型别名，此集合的哈希和相等性判断操作与hasher和eqOp函数有着相同的类型。通过使用这种类型，在定义bookstore时可以将我们希望它使用的函数的指针传递给它。</p>
+<p>如果我们的类定义了==运算符，则可以只重载哈希函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//使用FooHash生成哈希值；Foo必须有==运算符</span></div><div class="line"><span class="built_in">unordered_set</span>&lt;Foo,<span class="keyword">decltype</span>(FooHash)*&gt; fooset(<span class="number">10</span>,FooHash);</div></pre></td></tr></table></figure>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unordered_map&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="built_in">unordered_map</span>&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt; word_count;</div><div class="line">    word_count[<span class="string">"to"</span>] = <span class="number">10</span>;</div><div class="line">    word_count[<span class="string">"be"</span>] = <span class="number">20</span>;</div><div class="line">    <span class="keyword">auto</span> iter = word_count.find(<span class="string">"be"</span>);   <span class="comment">//查找关键字为"be"的元素是否在unordered_map中，返回一个迭代器</span></div><div class="line">    <span class="built_in">cout</span>&lt;&lt;iter-&gt;first&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;iter-&gt;second&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">auto</span> bucket = word_count.bucket(<span class="string">"to"</span>);  <span class="comment">//关键字为"to"的元素在那个桶上</span></div><div class="line">    <span class="built_in">cout</span>&lt;&lt;bucket&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">auto</span> beg = word_count.begin(bucket);   <span class="comment">//桶n的首元素迭代器，pair&lt;string,int&gt;类型</span></div><div class="line">    <span class="built_in">cout</span>&lt;&lt;beg-&gt;first&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;beg-&gt;second&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+	
+	<div>
+     
+       <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+     
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div align="center">
+    
+     <div class="">
+      <p><span>
+      <b>本文地址：</b><a href="/2017/11/04/关联容器概述/" title="关联容器概述">http://www.wangxinri.cn/2017/11/04/关联容器概述/</a><br/><b>转载请注明出处，谢谢！</b>
+     </span></p>
+  </div>
+ 
+  </div>
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+	<div>梦想夹带眼泪，咸咸的汗水！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.jpg" alt="新日三少 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpg" alt="新日三少 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/关联容器/" rel="tag"><i class="fa fa-tag"></i> 关联容器</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/30/泛型算法概述/" rel="next" title="泛型算法概述">
+                <i class="fa fa-chevron-left"></i> 泛型算法概述
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/10/动态内存与智能指针/" rel="prev" title="动态内存与智能指针">
+                动态内存与智能指针 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yOTk0Mi82NTA3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="新日三少" />
+          <p class="site-author-name" itemprop="name">新日三少</p>
+           
+              <p class="site-description motion-element" itemprop="description">Love Coding,Enjoy Life</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xinrisanshao" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/u012878150" target="_blank" title="CSDN">
+                  
+                    <i class="fa fa-fw fa-crosshairs"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://alvincat.github.io/" title="双哥的博客" target="_blank">双哥的博客</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、前言"><span class="nav-number">1.</span> <span class="nav-text">一、前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#关联容器"><span class="nav-number">1.1.</span> <span class="nav-text">关联容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关联容器概述"><span class="nav-number">1.2.</span> <span class="nav-text">关联容器概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义关联容器"><span class="nav-number">1.2.1.</span> <span class="nav-text">定义关联容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化multimap或multiset"><span class="nav-number">1.2.2.</span> <span class="nav-text">初始化multimap或multiset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关键字类型的要求"><span class="nav-number">1.2.3.</span> <span class="nav-text">关键字类型的要求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有序容器的关键字类型"><span class="nav-number">1.2.4.</span> <span class="nav-text">有序容器的关键字类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用关键字的比较函数"><span class="nav-number">1.2.5.</span> <span class="nav-text">使用关键字的比较函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pair类型"><span class="nav-number">1.3.</span> <span class="nav-text">pair类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建pair对象的函数"><span class="nav-number">1.3.1.</span> <span class="nav-text">创建pair对象的函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无序容器"><span class="nav-number">1.4.</span> <span class="nav-text">无序容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用无序容器"><span class="nav-number">1.4.1.</span> <span class="nav-text">使用无序容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#管理桶"><span class="nav-number">1.4.2.</span> <span class="nav-text">管理桶</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#无序容器对关键字类型的要求"><span class="nav-number">1.4.3.</span> <span class="nav-text">无序容器对关键字类型的要求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例"><span class="nav-number">1.4.4.</span> <span class="nav-text">示例</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+	    
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div style="color:red" class="copyright" >
+  
+  &copy;  2017 - 
+  <span  itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">新日三少</span>
+</div>
+
+
+
+<!--
+<div style="color:red" class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div style="color:red" class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+-->
+
+<div style="color:red" class="powered-by">
+  <i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+    访客数:<span id="busuanzi_value_site_uv"></span>
+  </span>
+</div>
+
+
+<div style="color:red" class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count" >全站共68.0k字</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
