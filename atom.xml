@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.wangxinri.cn/"/>
-  <updated>2018-01-17T12:43:10.734Z</updated>
+  <updated>2018-02-22T14:01:41.150Z</updated>
   <id>http://www.wangxinri.cn/</id>
   
   <author>
@@ -14,6 +14,661 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>虚函数与抽象基类</title>
+    <link href="http://www.wangxinri.cn/2017/11/23/%E8%99%9A%E5%87%BD%E6%95%B0%E4%B8%8E%E6%8A%BD%E8%B1%A1%E5%9F%BA%E7%B1%BB/"/>
+    <id>http://www.wangxinri.cn/2017/11/23/虚函数与抽象基类/</id>
+    <published>2017-11-23T13:59:00.000Z</published>
+    <updated>2018-02-22T14:01:41.150Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="虚函数"><a href="#虚函数" class="headerlink" title="虚函数"></a>虚函数</h2><p>在C++语言中，当我们使用基类的引用或指针调用一个虚成员函数时会执行动态绑定。因为我们知道运行时才能知道到底调用了那个版本的虚函数，<strong>所以所有的虚函数都必须有定义</strong>。通常情况下，如果我们不适用某个函数，则无须为该函数提供定义。但是我们必须为每一个虚函数都提供定义，而不管它是否被用到了，这是因为编译器也无法确定到底会使用那个虚函数。</p>
+<h3 id="对虚函数的调用可能在运行时才被解析"><a href="#对虚函数的调用可能在运行时才被解析" class="headerlink" title="对虚函数的调用可能在运行时才被解析"></a>对虚函数的调用可能在运行时才被解析</h3><p>当某个虚函数通过指针或引用调用时，编译器产生的代码直到运行时才能确定应该调用哪个版本的函数。被调用的函数是与绑定到指针或引用上的对象的动态类型相匹配的哪一个。</p>
+<p>必须要搞清楚一点是，动态绑定只有当我们通过指针或引用调用虚函数时才会发生。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">base = derived;     <span class="comment">//把derived的Quote部分拷贝给base</span></div><div class="line">base.net_price(<span class="number">20</span>);     <span class="comment">//调用Quote::net_price</span></div></pre></td></tr></table></figure>
+<p><strong>注意：</strong> 当且仅当对通过指针或引用调用虚函数时，才会在运行时解析该调用，也只有在这种情况下对象的动态类型才有可能与静态类型不同。</p>
+<h3 id="派生类中的虚函数"><a href="#派生类中的虚函数" class="headerlink" title="派生类中的虚函数"></a>派生类中的虚函数</h3><p>当我们在派生类中覆盖某个虚函数时，可以再一次使用virtual关键字指出该函数的性质。然而这么做并非必须，因为一旦某个函数被声明成虚函数，则在所有派生类中它都是虚函数。</p>
+<p><strong>一个派生类的函数如果覆盖了某个继承而来的虚函数，则它的形参类型必须与被它覆盖的基类函数完全一致。</strong></p>
+<p>同样，派生类中虚函数的返回类型也必须与基类匹配。该规则存在一个例外，当类的虚函数返回类型是类本身的指针或引用时，上述规则无效。</p>
+<h3 id="final和override说明符"><a href="#final和override说明符" class="headerlink" title="final和override说明符"></a>final和override说明符</h3><h4 id="override"><a href="#override" class="headerlink" title="override"></a>override</h4><p>在类的设计中常常会用到虚函数。但是存在一个问题，在派生类中本来是要重写基类中的虚函数的时候，由于写错参数类型，写错函数名等问题，造成重新定义了一个函数，这往往会造成意想不到的错误。想要调试并发现这样的错误显然非常困难，c++11引入关键字<strong>override</strong>。在派生类中重写了虚函数以后，可以使用override来修饰重写的虚函数，这个时候如果基类中没有这个虚函数，此时编译器将报错。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">B</span>&#123;</span></div><div class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">f1</span><span class="params">(<span class="keyword">int</span>)</span> <span class="keyword">const</span></span>;</div><div class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">f2</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f3</span><span class="params">()</span></span>;</div><div class="line">&#125;;</div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">D1</span>:</span>B&#123;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f1</span><span class="params">(<span class="keyword">int</span>)</span> <span class="keyword">const</span> override</span>;    <span class="comment">//正确：f1与基类中的f1匹配</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f2</span><span class="params">(<span class="keyword">int</span>)</span> override</span>;         <span class="comment">//错误：B没有形如f2(int)的函数</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f3</span><span class="params">()</span> override</span>;         <span class="comment">//错误：f3不是虚函数</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f4</span><span class="params">()</span> override</span>;           <span class="comment">//错误：B没有名为f4的函数</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h4 id="final"><a href="#final" class="headerlink" title="final"></a>final</h4><p>在设计基类的时候，有时候我们不想后续的的派生类覆盖某个方法，这个时候，我们可以将这个方法修饰为 final 。派生类中任何试图覆盖该函数的行为都将导致错误。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">D2</span>:</span>B&#123;</div><div class="line">    <span class="comment">//从B继承f2()和f3(),覆盖f1(int)</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f1</span><span class="params">(<span class="keyword">int</span>)</span> <span class="keyword">const</span> final</span>;        <span class="comment">//不允许后续的其他类覆盖f1(int)</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">D3</span>:</span>D2 &#123;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f2</span><span class="params">()</span></span>;    <span class="comment">//正确：覆盖从间接基类B继承而来的f2</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f1</span><span class="params">(<span class="keyword">int</span>)</span> <span class="keyword">const</span></span>;      <span class="comment">//错误：D2已经将f2声明成final</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h3 id="虚函数与默认实参"><a href="#虚函数与默认实参" class="headerlink" title="虚函数与默认实参"></a>虚函数与默认实参</h3><p><strong>虚函数也可以拥有默认实参。如果某次函数调用使用了默认实参，则该实参值由本次调用的静态类型决定。</strong></p>
+<p>换句话说，如果我们通过基类的引用或指针调用函数，则使用基类中定义的默认实参，即使实际运行的是派生类中的函数版本也是如此。</p>
+<p><strong>建议：如果虚函数使用默认实参，则基类和派生类中定义的默认实参最好一致。</strong></p>
+<h3 id="回避虚函数的机制"><a href="#回避虚函数的机制" class="headerlink" title="回避虚函数的机制"></a>回避虚函数的机制</h3><p>在某些情况下，我们希望对虚函数的调用不要进行动态绑定，而是强迫其执行虚函数的某个特定版本。<strong>使用作用域运算符可以实现这一目的</strong>。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//强行调用基类中定义的函数版本而不管baseP的动态类型到底是什么</span></div><div class="line"><span class="keyword">double</span> undiscounted = baseP-&gt;Quote::net_price(<span class="number">42</span>);</div></pre></td></tr></table></figure>
+<p>该代码强行调用Quote的net_price函数，而不管baseP实际指向的对象类型到底是什么。该调用将在编译时完成解析。</p>
+<h2 id="抽象基类"><a href="#抽象基类" class="headerlink" title="抽象基类"></a>抽象基类</h2><h3 id="纯虚函数"><a href="#纯虚函数" class="headerlink" title="纯虚函数"></a>纯虚函数</h3><p><strong>和普通的虚函数不一样，一个纯虚函数无须定义。我们通过在函数体的位置（即在声明语句的分号之前）书写=0就可以将一个虚函数说明为纯虚函数。其中，=0只能出现在类内部的虚函数声明语句处。</strong></p>
+<p>值得注意的是，我们也可以为纯虚函数提供定义，不过函数体必须定义在类的外部。也就是说，我们不能再类的内部为一个=0的函数提供函数体。</p>
+<h3 id="含有纯虚函数的类是抽象基类"><a href="#含有纯虚函数的类是抽象基类" class="headerlink" title="含有纯虚函数的类是抽象基类"></a>含有纯虚函数的类是抽象基类</h3><p>含有（或者未经覆盖直接继承）纯虚函数的类是<strong>抽象基类</strong>（abstract base class）。抽象基类负责定义接口，而后续的其他类可以覆盖该接口。<strong>我们不能（直接）创建一个抽象基类的对象。</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Disc_quote声明了纯虚函数，而Bulk_quote将覆盖该函数</span></div><div class="line">Disc_quote discounted;        <span class="comment">//错误：不能定义Disc_quote的对象</span></div><div class="line">Bulk_quote bulk;              <span class="comment">//正确：Bulk_quote中没有纯虚函数</span></div></pre></td></tr></table></figure>
+<p><strong>note:</strong> <font color="red"> <strong>我们不能创建抽象基类的对象。</strong> </font></p>
+<h3 id="派生类构造函数只初始化它的直接基类"><a href="#派生类构造函数只初始化它的直接基类" class="headerlink" title="派生类构造函数只初始化它的直接基类"></a>派生类构造函数只初始化它的直接基类</h3><p>先初始化基类的构造函数、再初始化自己的构造函数，最后执行构造函数体部分。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;虚函数&quot;&gt;&lt;a href=&quot;#虚函数&quot; class=&quot;headerlink&quot; title=&quot;虚函数&quot;&gt;&lt;/a&gt;虚函数&lt;/h2&gt;&lt;p&gt;在C++语言中，当我们使用基类的引用或指针调用一个虚成员函数时会执行动态绑定。因为我们知道运行时才能知道到底调用了那个版本的虚函数，
+    
+    </summary>
+    
+      <category term="C++" scheme="http://www.wangxinri.cn/categories/C/"/>
+    
+    
+      <category term="虚函数" scheme="http://www.wangxinri.cn/tags/%E8%99%9A%E5%87%BD%E6%95%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>OOP概述（object-oriented programming）</title>
+    <link href="http://www.wangxinri.cn/2017/11/19/OOP%E6%A6%82%E8%BF%B0%EF%BC%88object-oriented-programming%EF%BC%89/"/>
+    <id>http://www.wangxinri.cn/2017/11/19/OOP概述（object-oriented-programming）/</id>
+    <published>2017-11-19T13:59:00.000Z</published>
+    <updated>2018-02-22T13:23:07.219Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>面向对象程序设计基于三个基本概念：<strong>数据抽象、继承和动态绑定</strong>。</p>
+<a id="more"></a>
+<p><strong>继承和动态绑定对程序的编写有两个方面的影响：一是我们可以更容易地定义与其他类相似但不完全相同的新类；二是在使用这些彼此相似的类编写程序时，我们可以在一定程度上忽略掉它们的区别。</strong></p>
+<h2 id="OOP：概述"><a href="#OOP：概述" class="headerlink" title="OOP：概述"></a>OOP：概述</h2><p>面向对象程序设计（object-oriented programming）的核心是数据抽象、继承和动态绑定。通过使用数据抽象，我们可以将类的接口与实现分离；使用继承，可以定义相似的类型并对其相似关系建模；使用动态绑定，可以在一定程度上忽略相似类型的区别，而以统一的方式使用它们的对象。</p>
+<h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><p>通过继承联系在一起的类构成一种层次关系。通常在层次关系的根部有一个<strong>基类</strong>，其他类则直接或间接地从基类继承而来，这些继承得到的类称为<strong>派生类</strong>。基类负责定义在层次关系中所有类共同拥有的成员，而每个派生类定义各自特有的成员。</p>
+<p>在C++语言中，基类将类型相关的函数与派生类不做改变直接继承的函数区分对待。对于某些函数，基类希望它的派生类各自定义适合自身的版本，此时基类就将这些函数声明成<strong>虚函数</strong>。</p>
+<h3 id="动态绑定"><a href="#动态绑定" class="headerlink" title="动态绑定"></a>动态绑定</h3><p>函数的运行版本由实参决定，即在运行时选择函数的版本，所以动态绑定有时又被称为<strong>运行时绑定</strong>。</p>
+<p><strong>note:</strong> <strong>在C++语言中，当我们使用基类的引用（或指针）调用一个虚函数时将发生动态绑定</strong>。</p>
+<h2 id="定义基类和派生类"><a href="#定义基类和派生类" class="headerlink" title="定义基类和派生类"></a>定义基类和派生类</h2><p><strong>基类通常都应该定义一个虚析构函数，即使该函数不执行任何实际操作也是如此。</strong></p>
+<h3 id="成员函数和继承"><a href="#成员函数和继承" class="headerlink" title="成员函数和继承"></a>成员函数和继承</h3><p>派生类可以继承其基类的成员，也可以对基类中的虚函数进行重新定义。换句话说，派生类需要对这些操作提供自己的新定义以<strong>覆盖</strong>（override）从基类继承而来的旧定义。</p>
+<p>在C++语言中，基类必须将它的两种成员函数区分开来：<strong>一种是基类希望其派生类进行覆盖的函数；另一种是基类希望派生类直接继承而不要改变的函数</strong>。对于前者，基类通过将其定义为虚函数（virtual）。当我们使用指针或引用调用虚函数时，<strong>该调用将被动态绑定。根据引用或指针所绑定的对象类型不同，该调用可能执行基类的版本，也可能执行某个派生类的版本。</strong></p>
+<p>基类通过在其成员函数的声明语句之前加上关键字virtual使得该函数执行动态绑定。<strong>任何构造函数之外的非静态函数都可以是虚函数。关键字virtual只能出现在类内部的声明语句之前而不能用于类外部的函数定义。如果基类把一个函数声明成虚函数，则该函数在派生类中隐式地也是虚函数。</strong></p>
+<p>成员函数如果没有被声明为虚函数，则其解析过程发生在编译时而非运行时。</p>
+<h3 id="访问控制与继承"><a href="#访问控制与继承" class="headerlink" title="访问控制与继承"></a>访问控制与继承</h3><p>派生类可以继承定义在基类中的成员，但是派生类的成员函数不一定有权访问从基类继承而来的成员。和其他基类的代码一样，<strong>派生类能访问公用成员，而不能访问私有成员</strong>。不过在某些时候基类中还有这样一种成员，<strong>基类希望它的派生类有权访问该成员，同时禁止其他用户访问。我们用受保护的（protected）访问运算符说明这样的成员</strong>。</p>
+<ul>
+<li>private member: base class itself and friend can access</li>
+<li>protected members: base class itself,friend and derived classes can access</li>
+</ul>
+<h2 id="定义派生类"><a href="#定义派生类" class="headerlink" title="定义派生类"></a>定义派生类</h2><p>派生类必须通过使用<strong>派生类列表</strong>明确指出它是从哪个基类继承而来。类派生列表的形式是：首先是一个冒号，后面紧跟以逗号分隔的基类列表，其中每个基类前面可以有以下三种访问说明符中的一个：public、protected或者private。</p>
+<p>如果一个派生类是公有的，则基类的公有成员也是派生类接口的组成部分。</p>
+<h3 id="派生类中的虚函数"><a href="#派生类中的虚函数" class="headerlink" title="派生类中的虚函数"></a>派生类中的虚函数</h3><p>派生类经常（但不总是）覆盖它继承的虚函数。如果派生类没有覆盖其基类中的某个虚函数，则该虚函数的行为类似于其他的普通成员，派生类会直接继承其在基类中的版本。</p>
+<p>C++11新标准允许派生类显式地注明它使用某个成员函数覆盖了它继承的虚函数。具体做法是在形参列表后面、或者在const成员函数的const关键字后面、或者在引用成员函数的引用限定符后面添加一个关键字<strong>override</strong>。</p>
+<h3 id="派生类对象及派生类向基类的类型转换"><a href="#派生类对象及派生类向基类的类型转换" class="headerlink" title="派生类对象及派生类向基类的类型转换"></a>派生类对象及派生类向基类的类型转换</h3><p>一个派生类对象包含多个组成部分：一个含有派生类自己定义的（非静态）成员的子对象，以及一个与该派生类继承的基类对应的子对象，如果有多个基类，那么这样的子对象也有多个。</p>
+<p><strong>在派生类对象中含有与其基类对应的组成部分，这一事实是继承的关键所在。</strong></p>
+<h3 id="派生类构造函数"><a href="#派生类构造函数" class="headerlink" title="派生类构造函数"></a>派生类构造函数</h3><p>尽管在派生类对象中含有从基类继承而来的成员，但是派生类并不能直接初始化这些成员。和其他创建了基类对象的代码一样，派生类也必须使用基类的构造函数来初始化它的基类部分。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//派生类构造函数初始化，使用基类的构造函数来初始化它的基类部分</span></div><div class="line">    Bulk_quote(<span class="keyword">const</span> <span class="built_in">string</span>&amp; book,<span class="keyword">double</span> p,<span class="keyword">size_t</span> qty,<span class="keyword">double</span> disc):Quote(book,p),min_qty(qty),discount(disc) &#123;&#125;</div></pre></td></tr></table></figure>
+<font color="red"> <strong>首先初始化基类的部分，然后按照声明的顺序依次初始化派生类的成员</strong> </font>
+
+
+<h3 id="派生类使用基类的成员"><a href="#派生类使用基类的成员" class="headerlink" title="派生类使用基类的成员"></a>派生类使用基类的成员</h3><p><strong>派生类可以访问基类的公有成员和受保护成员</strong>：</p>
+<p>其中price是基类中的受保护成员</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//如果达到了购买书籍的某个最低限量值，就可以享受折扣价格了</span></div><div class="line"><span class="keyword">double</span> Bulk_quote::net_price(<span class="keyword">size_t</span> cnt) <span class="keyword">const</span> &#123;</div><div class="line">    <span class="keyword">if</span>(cnt &gt;= min_qty) &#123;</div><div class="line">        <span class="keyword">return</span> cnt*(<span class="number">1</span>-discount)*price;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="keyword">return</span> cnt*price;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>遵循基类的接口</strong></p>
+<p>必须明确一点：每个类负责定义各自的借口。要想与类的对象交互必须使用该类的接口，即使这个对象时派生类的基类部分也是如此。</p>
+<p>因此，派生类对象不能直接初始化基类的成员，尽管从语法上来说我们可以在派生类构造函数体内给它的公有或受保护的基类成员赋值，但是最好不要这么做。和使用基类的其他场合一样，派生类应该遵循基类的接口，并且通过调用基类的构造函数来初始化那些从基类中继承而来的成员。</p>
+<h3 id="继承与静态成员"><a href="#继承与静态成员" class="headerlink" title="继承与静态成员"></a>继承与静态成员</h3><p>如果基类定义了一个静态成员，则在整个继承体系中只存在该成员的唯一定义。不论从基类中派生出来多少个派生类，对于每个静态成员来说都只存在唯一的实例。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span>&#123;</span></div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">statmem</span><span class="params">()</span></span>;</div><div class="line">&#125;;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Derived</span>:</span><span class="keyword">public</span> Base&#123;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">const</span> Derived&amp;)</span></span>;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>静态成员遵循通用的访问控制规则，如果基类中的成员是private的，则派生类无权访问它。假设某静态成员是可访问的，则我们即能通过基类使用它也能通过派生类使用它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">void Derived::f(const Derived &amp;derived_obj)&#123;</div><div class="line">    Base::statmem();</div><div class="line">    Derived::statmem();</div><div class="line">    derived_obj.statmem();</div><div class="line">    statmem();         //通过this对象访问</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="派生类的声明"><a href="#派生类的声明" class="headerlink" title="派生类的声明"></a>派生类的声明</h3><p>如果我们想将某个类用作基类，则该类必须已经定义而非仅仅声明。</p>
+<p>一个类不能派生它本身。</p>
+<h3 id="防止继承发生"><a href="#防止继承发生" class="headerlink" title="防止继承发生"></a>防止继承发生</h3><p>有时我们会定义这样一种类，我们不希望其他类继承它，或者不想考虑它是否适合作为一个基类。防止继承发生的方法，<strong>即在类名后跟一个关键字final</strong>。</p>
+<h2 id="类型抓换与继承"><a href="#类型抓换与继承" class="headerlink" title="类型抓换与继承"></a>类型抓换与继承</h2><p><strong>理解基类和派生类之间的类型转换是理解C++语言面向对象编程的关键所在。</strong></p>
+<p>通常情况下，如果我们想把引用或指针绑定到一个对象上，则引用或指针的类型应与对象的类型一致，或者对象的类型含有一个可接受的const类型转换规则。存在继承关系的类是一个重要的例外：<strong>我们可以将基类的指针或引用绑定到派生类对象上</strong>。</p>
+<p>可以将基类的指针或引用绑定到派生类对象上有一层极为重要的含义：当使用基类的引用（或指针）时，实际上我们并不清楚该引用（或指针）所绑定对象的真实类型。该对象可能是基类的对象，也可能是派生类的对象。</p>
+<h3 id="不存在从基类向派生类的隐式类型转换"><a href="#不存在从基类向派生类的隐式类型转换" class="headerlink" title="不存在从基类向派生类的隐式类型转换"></a>不存在从基类向派生类的隐式类型转换</h3><p>因为一个基类对象可能是派生类对象的一部分，也可能不是，所以不存杂从基类向派生类的自动类型转换：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Quote base;</div><div class="line">Bulk_quote* bulkP = &amp;base;    <span class="comment">//错误：不能将基类转换成派生类</span></div><div class="line">Bulk_quote* bulkRef = base;   <span class="comment">//错误：不能将基类转换成派生类</span></div></pre></td></tr></table></figure>
+<p>除此之外还有一种情况显得有点特别，即使一个基类指针或引用绑定在一个派生类对象上，我们也不能执行从基类向派生类的转换：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Bulk_quote bulk;</div><div class="line">Quote *itemP = &amp;bulk;      <span class="comment">//正确：动态类型是Bulk_quote</span></div><div class="line">Bulk_quote *bulkP = itemP;      <span class="comment">//错误：不能将基类转换成派生类</span></div></pre></td></tr></table></figure>
+<h3 id="在对象之间不存在类型转换"><a href="#在对象之间不存在类型转换" class="headerlink" title="在对象之间不存在类型转换"></a>在对象之间不存在类型转换</h3><p>派生类向基类的自动类型转换只对指针或引用类型有效，在派生类类型和基类类型之间不存在这样的转换。很多时候，我们确实希望将派生类对象转换成它的基类类型，但是这种转换的实际发生过程往往与我们期望的有所差别。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Bulk_quote bulk;      <span class="comment">//派生类对象</span></div><div class="line"><span class="function">Quote <span class="title">item</span><span class="params">(bulk)</span></span>;     <span class="comment">//使用Quote::Quote(const Quote&amp;)  构造函数</span></div><div class="line">item = bulk;          <span class="comment">//调用Quote::operator=(const Quote&amp;)</span></div></pre></td></tr></table></figure>
+<p>当我们用一个派生类对象为一个基类对象初始化或赋值时，只有该派生类对象中的基类部分会被拷贝、移动或赋值，它的派生类部分将被忽略掉。</p>
+<p><strong>关键概念：存在继承关系的类型之间的转换规则</strong></p>
+<p>1、从派生类向基类的类型转换只对指针或引用类型有效。</p>
+<p>2、基类向派生类不存在隐式类型转换。</p>
+<p>3、和任何其他成员一样，派生类向基类的类型转换也可能会由于访问受限而变得不可行。</p>
+<p>尽管自动类型转换只对指针或引用类型有效，但是继承体系中的大多数类仍然（显示或隐式低）定义了拷贝控制成员。因此，我们通常能够将一个派生类对象拷贝、移动或赋值给一个基类对象。不过需要注意到是，这种操作只处理派生类对象的基类部分。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;面向对象程序设计基于三个基本概念：&lt;strong&gt;数据抽象、继承和动态绑定&lt;/strong&gt;。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="C++" scheme="http://www.wangxinri.cn/categories/C/"/>
+    
+    
+      <category term="OOP" scheme="http://www.wangxinri.cn/tags/OOP/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>常用运算符重载</title>
+    <link href="http://www.wangxinri.cn/2017/11/18/%E5%B8%B8%E7%94%A8%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/"/>
+    <id>http://www.wangxinri.cn/2017/11/18/常用运算符重载/</id>
+    <published>2017-11-18T13:59:00.000Z</published>
+    <updated>2018-02-22T12:27:58.644Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>当运算符被用于类类型的对象时，C++语言允许我们为其指定新的含义：同时，我们也能自定义类类型之间的转换规则。和内置类型的转换一样，类类型转换隐式地将一种类型的对象转换成另一种我们所需类型的对象。</p>
+<a id="more"></a>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>重载的运算符是具有特殊名字的函数：它们的名字由关键字operator和其后要定义的运算符号共同组成。和其他函数一样，重载的运算符也包含返回类型、参数列表以及函数体。</p>
+<p>重载运算符函数的参数数量与该运算符作用的运算对象数量一样多。一元运算符有一个参数，二元运算符有两个。</p>
+<p><strong>如果一个运算符函数是成员函数，这他的第一个（左侧）运算对象绑定到隐式的this指针上，因此，成员运算符函数的（显式）参数数量比运算符的运算对象总数少一个。</strong></p>
+<p>对于一个运算符函数来说，它或者是类的成员，或者至少含有一个类类型的参数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//错误：不能为int重定义内置的运算符</span></div><div class="line"><span class="keyword">int</span> <span class="keyword">operator</span>+(<span class="keyword">int</span>,<span class="keyword">int</span>);</div></pre></td></tr></table></figure>
+<p>这一约定意味着当运算符作用于内置类型的运算对象时，我们无法改变该运算符的含义。</p>
+<h3 id="直接调用一个重载的运算符函数"><a href="#直接调用一个重载的运算符函数" class="headerlink" title="直接调用一个重载的运算符函数"></a>直接调用一个重载的运算符函数</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//一个非成员运算符函数的等价调用</span></div><div class="line">data1 + data2;          <span class="comment">//普通的表达式</span></div><div class="line"><span class="keyword">operator</span>+(data1,data2);       <span class="comment">//等价的函数调用</span></div></pre></td></tr></table></figure>
+<p>这两次调用是等价的，它们都调用了非成员函数operator+，传入data1作为第一个实参、传入data2作为第二个实参。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//一个成员运算符函数的等价调用</span></div><div class="line">data1 += data2;        <span class="comment">//基于“调用”的表达式</span></div><div class="line">data1.<span class="keyword">operator</span>+=(data2);         <span class="comment">//对成员运算符</span></div></pre></td></tr></table></figure>
+<p>这两天语句都调用了成员函数operator+=，将this绑定到data1的地址、将data2作为实参传入了函数。</p>
+<h3 id="某些运算符不应该被重载"><a href="#某些运算符不应该被重载" class="headerlink" title="某些运算符不应该被重载"></a>某些运算符不应该被重载</h3><p>某些运算符指定了运算对象求值的顺序。因为使用重载的运算符本质上是一次函数调用，所以这些关于运算对象求值顺序的规则无法应用到重载的运算符上。</p>
+<p>比如：&amp;&amp; 和 || 运算符的重载版本也无法保留内置运算符的短路求值属性，这两个运算对象总是会被求值。当代码使用了这些运算符的重载版本时，用户可能会突然发现他们一直习惯的求值规则不再适用了。</p>
+<p><strong>通常情况下：不应该重载逗号、取地址、逻辑与和逻辑或运算符。</strong></p>
+<h3 id="赋值和复合赋值运算符"><a href="#赋值和复合赋值运算符" class="headerlink" title="赋值和复合赋值运算符"></a>赋值和复合赋值运算符</h3><p>赋值运算符的行为与复合版本的类似：赋值之后，左侧运算对象和右侧运算对象的值相等，并且运算符应该返回它左侧的运算对象的一个引用。重载的赋值运算符应该继承而非违背其内置版本的含义。</p>
+<p>如果类含有算术运算符或者位运算符，则最好也提供对应的复合赋值运算符。+=运算符的行为显然与其内置版本一致，即先执行+，再执行=。</p>
+<h3 id="选择作为成员或者非成员-（重点）"><a href="#选择作为成员或者非成员-（重点）" class="headerlink" title="选择作为成员或者非成员 （重点）"></a>选择作为成员或者非成员 （重点）</h3><p>当我们定义重载的运算符必须首先决定是将其声明为类的成员函数还是声明为一个普通的非成员函数。</p>
+<p>下面的准则有助于我们在将运算符定义为成员函数还是普通的非成员函数做出抉择：</p>
+<ul>
+<li>赋值（=）、下标（[])、调用（（））和成员访问箭头（-&gt;）运算符必须是成员</li>
+<li>复合赋值运算符一般来说应该是成员，但并非必须，这一点与赋值运算符略有不同。</li>
+<li>改变对象状态的运算符或者与给定类型密切相关的运算符，如递增、递减和解引用运算符，通常应该是成员。</li>
+<li>具有对称性的运算符可以转换任意一端的运算对象，例如算术、相等性、关系和位运算符等，因此它们通常应该是普通的非成员函数。</li>
+</ul>
+<p>例如，我们能求一个int和一个double的和，因为它们中任意一个都可以是左侧运算对象或右侧运算对象，所以加法是对称的。<strong>如果我们想提供含有类对象的混合类型表达式，则运算符必须定义成非成员函数。</strong></p>
+<p>当我们把运算符定义成成员函数时，它的左侧运算对象必须是运算符所属类的一个对象，例如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">string</span> s = <span class="string">"world"</span>;</div><div class="line"><span class="built_in">string</span> t = s + <span class="string">"!"</span>;    <span class="comment">//正确：我们能把一个const char*加到一个string对象中</span></div><div class="line"><span class="built_in">string</span> u = <span class="string">"hi"</span> + s;     <span class="comment">//如果 + 是string的成员，则产生错误</span></div></pre></td></tr></table></figure>
+<p>如果operator+是string类的成员，则上面的第一个加法等价于s.operator+(“!”)。同样的，”hi”+s等价于”hi”.operator+(s)。显然”hi”的类型是const char*,这是一种内置类型，根本就没有成员函数。</p>
+<p>因为string将+定义成了普通的非成员函数，所以”hi”+s等价于operator+(“hi”,s)。和任何其他函数调用一样，每个实参都能被转换成形参类型。唯一的要求是至少有一个运算对象是类类型，并且两个运算对象都能准备无误地转换成string。</p>
+<h2 id="输入和输出运算符"><a href="#输入和输出运算符" class="headerlink" title="输入和输出运算符"></a>输入和输出运算符</h2><p>IO标准库分别使用&gt;&gt;和&lt;&lt;执行输入和输出操作。对于这两个运算符来说，IO库定义了用其读写内置类型的版本，而类则需要自定义适合其对象的新版本以支持IO操作。</p>
+<h3 id="重载输出运算符-lt-lt"><a href="#重载输出运算符-lt-lt" class="headerlink" title="重载输出运算符&lt;&lt;"></a>重载输出运算符&lt;&lt;</h3><p>通常情况下，输出运算符的第一个形参是一个非常量ostream对象的引用。之所以ostream是非常量是因为向流写入内容会改变其状态；而该形参是引用时因为我们无法直接赋值一个ostream对象。</p>
+<p>第二个形参一般来说是一个常量的引用，因为打印对象不会改变对象的内容，为了与其他输出运算符保持一致，operator&lt;&lt;一般要返回它的ostream形参。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ostream &amp;<span class="keyword">operator</span>&lt;&lt;(ostream &amp;os,<span class="keyword">const</span> Sales_data &amp;item)&#123;</div><div class="line">    os&lt;&lt;item.isbn()&lt;&lt;item.avg_price();</div><div class="line">    <span class="keyword">return</span> os;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>输入输出运算符必须是非成员函数</strong>，通常，输出运算符应该主要负责打印对象的内容而非控制格式，输出运算符不应该打印换行符。</p>
+<h3 id="重载输入运算符-gt-gt"><a href="#重载输入运算符-gt-gt" class="headerlink" title="重载输入运算符&gt;&gt;"></a>重载输入运算符&gt;&gt;</h3><p>通常情况下，输入运算符的第一个形参是运算符将要读取的流的引用，第二个形参是将要读入到（非常量）对象的引用。该运算符通常会返回某个给定流的引用。第二个形参之所以必须是个非常量是因为输入运算符本身的目的就是将数据读入到这个对象中。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">istream&amp; <span class="keyword">operator</span>&gt;&gt;(istream &amp;is,Sales_data &amp;item)&#123;</div><div class="line">    <span class="keyword">double</span> price ;</div><div class="line">    is&gt;&gt;item.bookNo&gt;&gt;item.units_sold&gt;&gt;price;  </div><div class="line">    <span class="keyword">if</span>(is)&#123;    <span class="comment">//检查输入是否成功</span></div><div class="line">        item.revenue = item.units_sold*price;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        item = Sales_data();       <span class="comment">//输入失败：对象被赋予默认的状态</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> is;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>note:</strong> 输入运算符必须处理输入可能失败的情况，而输出运算符不需要。当读取操作发生错误时，输入运算符应该负责从错误中恢复。</p>
+<h2 id="算术和关系运算符"><a href="#算术和关系运算符" class="headerlink" title="算术和关系运算符"></a>算术和关系运算符</h2><p>如果类同时定义了算符运算符和相关的复合赋值运算符（+=），则通常情况下应该使用复合赋值来实现算术运算符。</p>
+<h3 id="相等运算符-（-）"><a href="#相等运算符-（-）" class="headerlink" title="相等运算符  （==）"></a>相等运算符  （==）</h3><p>如果某个类在逻辑上有相等性的含义，则该类应该定义operator == ，这样做可以使得用户更容易使用标准库算法来处理这个类。</p>
+<h3 id="关系运算符-（-lt-）"><a href="#关系运算符-（-lt-）" class="headerlink" title="关系运算符 （&lt;）"></a>关系运算符 （&lt;）</h3><p>定义了相等运算符的类也常常包含关系运算符。特别是，因为关联容器和一些算法要用到小于运算符，所以定义operator&lt;会比较有用。</p>
+<p>通常情况下关系运算符应该</p>
+<ul>
+<li>定义顺序关系，令其与关联容器中对关键字的要求一致。</li>
+<li>如果类同时也包含==运算符的话，则定义一种关系令其与 ==保持一致。特别是，如果两个对象是!=的，那么一个对象应该&lt;另外一个。</li>
+</ul>
+<p><strong>注意：</strong> 如果存在唯一一种逻辑可靠的&lt;定义，则应该考虑为这个类定义&lt;运算符。如果类同时还包含==，则当且仅当&lt;的定义和 ==产生的结果一致时才定义 &lt;运算符。</p>
+<h2 id="赋值运算符"><a href="#赋值运算符" class="headerlink" title="赋值运算符"></a>赋值运算符</h2><p>我们可以重载赋值运算符。不论形参的类型是什么，赋值运算符都必须定义为成员函数</p>
+<h3 id="复合赋值运算符"><a href="#复合赋值运算符" class="headerlink" title="复合赋值运算符"></a>复合赋值运算符</h3><p><strong>赋值运算符必须定义成类的成员，复合赋值运算符通常情况下也应该这样做。这两类运算符都应该返回左侧运算对象的引用。</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//作为成员的二元运算符：左侧运算对象绑定到隐式的this指针</span></div><div class="line"><span class="comment">//假定两个对象表示的是同一本书</span></div><div class="line">Sales_data&amp; Sales_data::<span class="keyword">operator</span>+= (<span class="keyword">const</span> Sales_data &amp;rhs)&#123;</div><div class="line">    <span class="keyword">this</span>.units_sole += rhs.units_sole;</div><div class="line">    <span class="keyword">this</span>.revenue += rhs.revenue;</div><div class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="下标运算符"><a href="#下标运算符" class="headerlink" title="下标运算符"></a>下标运算符</h2><p>表示容器的类通常可以通过元素在容器中的位置访问元素，这些类一般会定义下标运算符operator[]。</p>
+<p><strong>note: 下标运算符必须是成员函数。</strong></p>
+<p>为了与下标的原始定义兼容，下标运算符通常以所访问元素的引用作为返回值，这样做的好处是下标可以出现在赋值运算符的任意一端。<strong>进一步，我们最好定义下标运算符的常量版本和非常量版本，当作用与一个常量对象时，下标运算符返回常量引用以确保我们不会给返回的对象赋值</strong>。</p>
+<p>定义StrVec的下标运算符：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">StrVec</span> &#123;</span></div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="built_in">string</span>&amp; <span class="keyword">operator</span>[](<span class="keyword">size_t</span> n) &#123;<span class="keyword">return</span> elements[n];&#125;</div><div class="line">    <span class="keyword">const</span> <span class="built_in">string</span>&amp; <span class="keyword">operator</span>[](<span class="keyword">size_t</span> n) <span class="keyword">const</span> &#123;<span class="keyword">return</span> elements[n];&#125;</div><div class="line">    <span class="comment">//其他成员定义</span></div><div class="line"><span class="keyword">private</span>:</div><div class="line">    <span class="built_in">string</span> *element;         <span class="comment">//指向数组首元素的指针</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>当StrVec是非常量时，我们可以给元素赋值；而当我们对常量对象取下标时，不能为其赋值：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 假设svec是一个StrVec对象</span></div><div class="line"><span class="keyword">const</span> StrVec cvec = svec;      <span class="comment">//把svec的元素拷贝到cvec中</span></div><div class="line"><span class="comment">//如果svec中含有元素，对第一个元素运行string的empty函数</span></div><div class="line"><span class="keyword">if</span>(svec.size() &amp;&amp; svec[<span class="number">0</span>].empty()) &#123;</div><div class="line">    svec[<span class="number">0</span>] = <span class="string">"zero"</span>;      <span class="comment">//正确:下标运算符返回string的引用</span></div><div class="line">    cvec[<span class="number">0</span>] = <span class="string">"zip"</span>;       <span class="comment">//错误：对cvec取下标返回的是常量引用，不能再赋值</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="递增和递减运算符-（重点）"><a href="#递增和递减运算符-（重点）" class="headerlink" title="递增和递减运算符 （重点）"></a>递增和递减运算符 （重点）</h2><p>C++语言并不要求递增和递减运算符必须是类的成员，<strong>但是因为它们改变的正好是所操作对象的状态，所以建议将其设定为成员函数。</strong></p>
+<p><strong>定义递增和递减运算符的类应该同时定义前置版本和后置版本。这些运算符通常应该被定义成类成员。</strong></p>
+<h3 id="定义前置递增-递减运算符"><a href="#定义前置递增-递减运算符" class="headerlink" title="定义前置递增/递减运算符"></a>定义前置递增/递减运算符</h3><p>与内置版本保持一致，<strong>前置运算符应该返回递增或递减后对象的引用。 </strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Integer&amp; <span class="keyword">operator</span>++()&#123; ++value; <span class="keyword">return</span> *<span class="keyword">this</span>;&#125;    <span class="comment">//前置运算符</span></div></pre></td></tr></table></figure>
+<h3 id="后置运算符"><a href="#后置运算符" class="headerlink" title="后置运算符"></a>后置运算符</h3><p>后置版本接受一个额外的（不被使用）int类型的形参，因为我们不会用到int形参，所以无须为其命令。</p>
+<p>为了与内置版本保持一致，后置运算符应该返回对象的原值（递增或递减之前的值），返回的形式是一个值而非引用。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Integer <span class="keyword">operator</span>++(<span class="keyword">int</span>) &#123;   <span class="comment">//后置运算符</span></div><div class="line">    Integer ret = *<span class="keyword">this</span>; </div><div class="line">    ++value; </div><div class="line">    <span class="keyword">return</span> ret;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="显示调用后置运算符"><a href="#显示调用后置运算符" class="headerlink" title="显示调用后置运算符"></a>显示调用后置运算符</h3><p>通过函数调用的方式调用后置版本，则必须为它的整型参数传递一个值</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Integer INT;</div><div class="line">INT.<span class="keyword">operator</span>++(<span class="number">0</span>);   <span class="comment">//调用后置版本的operator++</span></div><div class="line">INT.<span class="keyword">operator</span>++();    <span class="comment">//调用前置版本的operator++</span></div></pre></td></tr></table></figure>
+<p>完整代码实现：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Integer</span>&#123;</span></div><div class="line"><span class="keyword">public</span>:</div><div class="line">    Integer(<span class="keyword">int</span> a = <span class="number">0</span>):value(a)&#123;&#125;    <span class="comment">//默认值参数，如果不提供参数，调用默认构造函数，提供参数则调用构造函数</span></div><div class="line">    Integer(<span class="keyword">const</span> Integer&amp; Int):value(Int.value)&#123;&#125;   <span class="comment">//拷贝构造函数</span></div><div class="line">    Integer&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> Integer &amp;Int) &#123; value = Int.value; <span class="keyword">return</span> *<span class="keyword">this</span>;&#125;  <span class="comment">//拷贝赋值运算符</span></div><div class="line">    Integer&amp; <span class="keyword">operator</span>++()&#123; ++value; <span class="keyword">return</span> *<span class="keyword">this</span>;&#125;    <span class="comment">//前置运算符</span></div><div class="line">    Integer <span class="keyword">operator</span>++(<span class="keyword">int</span>) &#123; Integer ret = *<span class="keyword">this</span>; ++value; <span class="keyword">return</span> ret;&#125;  <span class="comment">//后置运算符</span></div><div class="line">    <span class="keyword">int</span> value;   <span class="comment">//含有一个数据类型</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    Integer a;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;a.value&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    a.value = <span class="number">10</span>;</div><div class="line">    <span class="function">Integer <span class="title">b</span><span class="params">(a)</span></span>;   <span class="comment">//调用拷贝构造函数</span></div><div class="line">    <span class="built_in">cout</span>&lt;&lt;b.value&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    Integer c;</div><div class="line">    c = a;    <span class="comment">//调用拷贝赋值运算符</span></div><div class="line">    <span class="built_in">cout</span>&lt;&lt;c.value&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    ++c;   <span class="comment">//调用重载前置运算符</span></div><div class="line">    <span class="built_in">cout</span>&lt;&lt;c.value&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;(c++).value&lt;&lt;<span class="built_in">endl</span>;   <span class="comment">//调用重载后置运算符</span></div><div class="line">    <span class="built_in">cout</span>&lt;&lt;c.value&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;当运算符被用于类类型的对象时，C++语言允许我们为其指定新的含义：同时，我们也能自定义类类型之间的转换规则。和内置类型的转换一样，类类型转换隐式地将一种类型的对象转换成另一种我们所需类型的对象。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="C++" scheme="http://www.wangxinri.cn/categories/C/"/>
+    
+    
+      <category term="运算符重载" scheme="http://www.wangxinri.cn/tags/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>对象移动</title>
+    <link href="http://www.wangxinri.cn/2017/11/15/%E5%AF%B9%E8%B1%A1%E7%A7%BB%E5%8A%A8/"/>
+    <id>http://www.wangxinri.cn/2017/11/15/对象移动/</id>
+    <published>2017-11-15T13:59:00.000Z</published>
+    <updated>2018-02-22T12:23:17.708Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="对象移动"><a href="#对象移动" class="headerlink" title="对象移动"></a>对象移动</h2><p>新标准的一个最主要的特性是可以移动而非拷贝对象的能力。很多情况下都会发生对象拷贝。在其中某些情况下，对象拷贝后就立即被销毁了。在这些情况下，移动而非拷贝对象会大幅度提升性能。</p>
+<a id="more"></a>
+<p><strong>noet:</strong> 标准库容器、string和shared_ptr类及支持移动也支持拷贝。IO类和unique_ptr类可以移动但不能拷贝。</p>
+<h3 id="右值引用"><a href="#右值引用" class="headerlink" title="右值引用"></a>右值引用</h3><p>为了支持移动操作，新标准引入了一种新的引用类型——<strong>右值引用</strong>，就是必须绑定到右值的引用。<strong>我们通过&amp;&amp;而不是&amp;来获得右值引用</strong>。右值引用一个重要的特性就是<strong>只能绑定到将要销毁的对象。</strong></p>
+<p>左值和右值是表达式的属性，一些表达式生成或要求左值，而另一些则生成或要求右值。<strong>一般而言，一个左值表达式表示的是一个对象的身份，而右值表达式表示的是对象的值。</strong>（<strong>可以取地址的、有名字的就是左值；不能取地址的、没有名字的就是右值</strong>。）<strong>两者明显的区别就是左值有持久的状态，而右值要么是字面常量，要么是在表达式求值过程中创建的临时对象</strong>。</p>
+<p>类似于常规引用（左值引用），一个右值引用也不过是某个对象的另一个名字而已。我们不能将左值引用绑定到要求转换的表达式、字面常量或是返回值的表达式，也不能把右值应用直接绑定到一个左值上。但是，<strong>常量左值引用可以绑定到非常量左值、常量左值、右值，是一个万能引用类型</strong>。不过相比右值引用所引用的右值，常量左值引用所引用的右值在它的“余生”中只能是只读的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> i = <span class="number">42</span>;</div><div class="line"><span class="keyword">int</span> &amp;r = i;     <span class="comment">//r引用i</span></div><div class="line"><span class="keyword">int</span> &amp;r2 = i*<span class="number">2</span>;    <span class="comment">//错误，i*2是一个右值</span></div><div class="line"><span class="keyword">int</span> &amp;&amp;rr = i；    <span class="comment">//错误，不能将一个右值引用绑定到一个左值上</span></div><div class="line"><span class="keyword">int</span> &amp;&amp;rr2 = i*<span class="number">2</span>;   <span class="comment">//正确，将rr2绑定到一个乘法结果上</span></div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;r3 = i*<span class="number">2</span>; <span class="comment">//正确，将一个常量引用绑定到一个右值上</span></div></pre></td></tr></table></figure>
+<h3 id="左值持久；右值短暂"><a href="#左值持久；右值短暂" class="headerlink" title="左值持久；右值短暂"></a>左值持久；右值短暂</h3><p>考虑左值和右值表达式的列表，两者相互区别之处就很明显了：左值有持久的状态，而右值要么是字面常量，要么是在表达式求值过程中创建的临时对象。</p>
+<p>由于右值引用只能绑定到临时对象，我们得知</p>
+<ul>
+<li>所引用的对象将要被销毁</li>
+<li>该对象没有其他用户</li>
+</ul>
+<p>这两个特性意味着：使用右值引用的代码可以自由地接管所引用的对象的资源。</p>
+<p><strong>注意：</strong> 右值引用指向将要被销毁的对象。因此，我们可以从绑定到右值引用的对象“窃取”状态</p>
+<h3 id="变量时左值"><a href="#变量时左值" class="headerlink" title="变量时左值"></a>变量时左值</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> &amp;&amp;rr1 = <span class="number">42</span>;   <span class="comment">//正确：字面值常量是右值</span></div><div class="line"><span class="keyword">int</span> &amp;&amp;rr2 = rr1;   <span class="comment">//错误：表达式rr1是左值</span></div></pre></td></tr></table></figure>
+<p>变量是左值，因此我们不能将一个右值引用直接绑定到一个变量上，即使这个变量是右值引用类型也不行。</p>
+<h3 id="标准库move函数"><a href="#标准库move函数" class="headerlink" title="标准库move函数"></a>标准库move函数</h3><p>我们可以显示地将一个左值转换为对应的右值引用类型。我们还可以通过调用一个名为<strong>move</strong>的新标准库函数来<strong>获得绑定到左值上的右值引用</strong>，此函数定义在<strong>头文件utility</strong>中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int &amp;&amp;rr3 = std::move(rr1);     //ok</div></pre></td></tr></table></figure>
+<p><strong>note:</strong> 我们可以销毁一个移后源对象，也可以赋予它新值，但不能使用一个移后源对象的值。</p>
+<p><strong>warning:</strong> 使用move的代码应该使用std::move而不是move。这样做可以避免潜在的名字冲突。</p>
+<h2 id="移动构造函数和移动赋值运算符"><a href="#移动构造函数和移动赋值运算符" class="headerlink" title="移动构造函数和移动赋值运算符"></a>移动构造函数和移动赋值运算符</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">X</span>&#123;</span></div><div class="line">    <span class="built_in">string</span> i;       <span class="comment">//内置类型可以移动</span></div><div class="line">    <span class="built_in">string</span> s;     <span class="comment">//string定义了自己的移动操作</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    X x;</div><div class="line">    x.i = <span class="string">"cqu"</span>;</div><div class="line">    x.s = <span class="string">"wangxinri"</span>;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;x.i&lt;&lt;<span class="string">" "</span>&lt;&lt;x.s&lt;&lt;<span class="built_in">endl</span>;  <span class="comment">//cqu wangxinri</span></div><div class="line">    <span class="comment">//使用合成的移动构造函数</span></div><div class="line">    X x2 = <span class="built_in">std</span>::move(x);   <span class="comment">//移后源对象x必须保持有效的、可析构的状态</span></div><div class="line">    <span class="built_in">cout</span>&lt;&lt;x2.i&lt;&lt;<span class="string">" "</span>&lt;&lt;x2.s&lt;&lt;<span class="built_in">endl</span>;  <span class="comment">//cqu wangxinri</span></div><div class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"---------"</span>&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;x.i&lt;&lt;<span class="string">" "</span>&lt;&lt;x.s&lt;&lt;<span class="built_in">endl</span>;    <span class="comment">//输出空字符，说明x的值已经被x2接管了，x是一个可析构的状态</span></div><div class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"---------"</span>&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    x.i = <span class="string">"aaa"</span>;</div><div class="line">    x.s = <span class="string">"bbb"</span>;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;x.i&lt;&lt;<span class="string">" "</span>&lt;&lt;x.s&lt;&lt;<span class="built_in">endl</span>;   <span class="comment">//  aaa  bbb</span></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>由于一个移后源对象具有不确定的状态，对其调用std::move是危险的。当我们调用move时，必须绝对确认移后源对象没有其他用户。</p>
+<p>move用来将一个右值引用绑定到一个左值的标准库函数。调用move隐含地承诺我们将不会再使用移后源对象，除了销毁它或赋予它一个新值之外。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;对象移动&quot;&gt;&lt;a href=&quot;#对象移动&quot; class=&quot;headerlink&quot; title=&quot;对象移动&quot;&gt;&lt;/a&gt;对象移动&lt;/h2&gt;&lt;p&gt;新标准的一个最主要的特性是可以移动而非拷贝对象的能力。很多情况下都会发生对象拷贝。在其中某些情况下，对象拷贝后就立即被销毁了。在这些情况下，移动而非拷贝对象会大幅度提升性能。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="C++" scheme="http://www.wangxinri.cn/categories/C/"/>
+    
+    
+      <category term="右值引用" scheme="http://www.wangxinri.cn/tags/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>动态内存与智能指针</title>
+    <link href="http://www.wangxinri.cn/2017/11/10/%E5%8A%A8%E6%80%81%E5%86%85%E5%AD%98%E4%B8%8E%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/"/>
+    <id>http://www.wangxinri.cn/2017/11/10/动态内存与智能指针/</id>
+    <published>2017-11-10T13:59:00.000Z</published>
+    <updated>2018-02-22T12:18:17.254Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>到目前为止，我们编写的程序中所使用的对象都有着严格定义的生命期。全局对象在程序启动时分配，在程序结束时销毁。对于局部自动对象，当我们进入其定义所在的程序块时被创建，在离开块时销毁。局部static对象在第一次使用前分配，在程序结束时销毁。</p>
+<a id="more"></a>
+<p>除了自动和static对象外，C++还支持动态分配对象。动态分配的对象的生存期与它们在哪里创建是无关的，只有当显式地被释放时，这些对象才会销毁。</p>
+<p>动态对象的正确释放被证明是编程中极其容器出错的地方。为了更安全地使用动态对象，标准库定义了两个智能指针类型来管理动态分配的对象，当一个对象应该被释放时，指向它的智能指针可以确保自动地释放它。</p>
+<h3 id="静态内存、栈内存、堆"><a href="#静态内存、栈内存、堆" class="headerlink" title="静态内存、栈内存、堆"></a>静态内存、栈内存、堆</h3><p><strong>静态内存</strong>：用来保存局部static对象、类static数据成员以及定义在任何函数之外的变量。</p>
+<p><strong>栈内存</strong>：用来保存定义在函数内的非static对象。</p>
+<p>分配在静态或栈内存中的对象由编译器自动创建和销毁。对于栈对象，仅在其定义的程序块运行时才存在；static对象在使用之前分配，在程序结束时销毁。</p>
+<p>除了静态内存和栈内存，每个程序还拥有一个内存池。这部分内存被称作<strong>自由空间（free store）</strong>或<strong>堆（heap）</strong>。程序用堆来存储<strong>动态分配</strong>（dynamically allocate）的对象，即那些在程序运行时分配的对象。动态对象的生存期由程序来控制，也就是说，当动态对象不再使用时，我们的代码必须显式地销毁它们。</p>
+<p><strong>warning</strong>：虽然使用动态内存有时是必要的，但众所周知，正确管理动态内存是非常棘手的。</p>
+<h2 id="动态内存与智能指针"><a href="#动态内存与智能指针" class="headerlink" title="动态内存与智能指针"></a>动态内存与智能指针</h2><p><strong>在C++中，动态内存的管理是通过一对运算符来完成的：new，在动态内存中为对象分配空间并返回一个指向该对象的指针。我们可以选择对对象进行初始化；delete，接受一个动态对象的指针，销毁该对象，并释放与之关联的内存。</strong></p>
+<p>动态内存的使用很容易出问题，因为确保在正确的时间释放内存是及其困难的。有时我们会忘记释放内存，在这种情况下就会产生<strong>内存泄漏</strong>；有时在尚有指针引用内存的情况下我们就释放它了，在这种情况下就会产生<strong>引用非法内存的指针</strong>。</p>
+<p>为了更容易（同时也安全）地使用动态内存，新的标准库提供了两种智能指针类型来管理动态对象。只能指针的行为类似常规指针，重要的区别是<strong>它负责自动释放所指向的对象</strong>。新标准库提供的这两种只能指针的区别在于管理底层指针的方式：<strong>shared_ptr允许多个指针指向同一对象；unique_ptr则“独占”所指向的对象。标准库还定义了一个名为weak_ptr的伴随类，它是一种弱引用，指向shared_ptr所管理的对象。</strong></p>
+<h3 id="shared-ptr类"><a href="#shared-ptr类" class="headerlink" title="shared_ptr类"></a>shared_ptr类</h3><p>类似vector，只能指针也是模板。因此，当我们创建一个智能指针时，必须提供额外的信息——指针可以指向的类型。与vector一样，我们在尖括号内给出类型，之后是所定义的这种指针的名字：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">shared_ptr</span>&lt;<span class="built_in">string</span>&gt; p1 ; <span class="comment">//shared_ptr,可以指向string</span></div><div class="line"><span class="built_in">shared_ptr</span>&lt;<span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt; &gt; p2;  <span class="comment">//shared_ptr,可以指向int的list</span></div></pre></td></tr></table></figure>
+<p>默认初始化的智能指针中保存着一个空指针。</p>
+<p>只能指针的使用方式与普通指针类似。解引用一个智能指针返回它所指的对象。如果在一个条件判断中使用智能指针，效果就是检测它是否为空：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//如果p1不为空，检查它是否指向一个空string</span></div><div class="line"><span class="keyword">if</span>(p1&amp;&amp;p1-&gt;empty())</div><div class="line">　　*p1=<span class="string">"hi"</span>;</div></pre></td></tr></table></figure>
+<p>下表列出了shared_ptr和unique_ptr都支持的操作。只适用shared_ptr的操作列入下面。</p>
+<p> <strong>shared_ptr和unique_ptr都支持的操作</strong> </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">shared_ptr</span>&lt;T&gt; sp     空智能指针，可以指向类型为T的对象</div><div class="line"><span class="built_in">unique_ptr</span>&lt;T&gt; up    </div><div class="line">p　　　　　　将p用作一个条件判断，若p指向一个对象，则为<span class="literal">true</span></div><div class="line">*p　　　　　　解引用p，获得它指向的对象</div><div class="line">p-&gt;mem　　　　　等价于(*p).mem</div><div class="line">p.get()　　　　　　返回p中保存的指针，要小心使用，若智能指针释放了其对象，返回的指针所指向的对象也就消失了</div><div class="line">swap(p,q) 　　　　交换p和q中的指针</div><div class="line">p.swap(q)</div></pre></td></tr></table></figure>
+<p> <strong>shared_ptr独有的操作</strong> </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">make_shared&lt;T&gt;(args)　　　　　返回一个<span class="built_in">shared_ptr</span>，指向一个动态分配的类型为T的对象，使用args初始化此对象</div><div class="line"><span class="built_in">shared_ptr</span>&lt;T&gt; p(q)　　　　　　　p是<span class="built_in">shared_ptr</span> q的一个拷贝，此操作会递增q中的计数器。q中的指针必须都能转换为T*</div><div class="line">p=q　　　　　　　　　　　　　　p和q都是<span class="built_in">shared_ptr</span>，所保存的指针必须能相互转换。此操作会递减p的引用计数，递增q的引用计数，若p的引用计数变为<span class="number">0</span>，则将其管理　　　　　　　　　　　　　　　　的原内存释放</div><div class="line">p.unique()  　　　　　　　　　　  若p.use_count()为<span class="number">1</span>，返回<span class="literal">true</span>，否则返回<span class="literal">false</span></div><div class="line">p.use_count() 　　　　　　　　　返回与p共享对象的智能指针的数量；可能很慢，主要用于调试</div></pre></td></tr></table></figure>
+<h3 id="make-shared函数"><a href="#make-shared函数" class="headerlink" title="make_shared函数"></a>make_shared函数</h3><p>最安全的分配和使用动态内存的方法是调用一个名为make_shared的标准库函数。<strong>此函数在动态内存中分配一个对象并初始化它，返回指向对象的shared_ptr</strong>。与智能指针一样，make_shared也定义在头文件memory中。</p>
+<p>当要使用make_shared时，必须指定想要创建的对象的类型。定义方式与模板类相同，在函数名之后跟一个尖括号，在其中给出类型：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//指向一个值为42的int的shared_ptr</span></div><div class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; p3=make_shared&lt;<span class="keyword">int</span>&gt; (<span class="number">42</span>);</div><div class="line"><span class="comment">//p4指向一个值为"99999"的string</span></div><div class="line"><span class="built_in">shared_ptr</span>&lt;<span class="built_in">string</span>&gt; p4=make_shared&lt;<span class="built_in">string</span>&gt; (<span class="number">5</span>,<span class="string">'9'</span>);</div><div class="line"><span class="comment">//p5指向一个值初始化的int，即，值为0</span></div><div class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; p5=make_shared&lt;<span class="keyword">int</span>&gt; ();</div></pre></td></tr></table></figure>
+<p>类似顺序容器的emplace成员，<strong>make_shared用其参数来构造给定类型的对象</strong>。例如，调用make_shared<string>时传递的参数必须与string的某个构造函数相匹配，调用make_shared<int> 时传递的参数必须能用来初始化一个int，依次类推。如果我们不传递任何参数，对象就会进行值初始化。</int></string></p>
+<p>当然，我们通常用auto定义一个对象来保存make_shared的结果，这种方式较简单：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//p6指向一个动态分配的空vector&lt;string&gt;</span></div><div class="line"><span class="keyword">auto</span> p6=make_shared&lt;<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt; ();</div></pre></td></tr></table></figure>
+<h3 id="shared-ptr的拷贝和赋值"><a href="#shared-ptr的拷贝和赋值" class="headerlink" title="shared_ptr的拷贝和赋值"></a>shared_ptr的拷贝和赋值</h3><p>当进行拷贝或赋值时，每个shared_ptr都会记录有多少个其他shared_ptr指向相同的对象。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">auto</span> p=make_shard&lt;<span class="keyword">int</span>&gt;(<span class="number">42</span>); <span class="comment">//p指向的对象只有p一个引用者</span></div><div class="line"><span class="function"><span class="keyword">auto</span> <span class="title">q</span><span class="params">(p)</span></span>;  <span class="comment">//p和q指向相同的对象，此对象有两个引用者</span></div></pre></td></tr></table></figure>
+<p>我们可以认为每个shared_ptr都有一个关联的计数器，通常称其为引用计数。无论何时我们拷贝一个shared_ptr，计数器都会递增。例如，当用一个shared_ptr初始化另一个shared_ptr，或将它作为参数传递给一个函数以及作为函数的返回值时，它所关联的计数器都会递增，当我们给shared_ptr赋予一个新值或是shared_ptr被销毁（例如一个局部的shared_ptr离开其作用域时，计数器就会递减）</p>
+<p>一旦一个shared_ptr的计算器变为0，它就会自动释放自己所管理的对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">auto r=make_shared&lt;int&gt;(42);  //r指向的int只有一个引用者</div><div class="line">r=q;   //给r赋值，令它指向另一个地址，递增q指向的对象的引用计数，递减r原来指向的对象的引用计数，r原来指向的对象已没有引用者，会自动释放</div></pre></td></tr></table></figure>
+<p>此例中我们分配了一个int，将其指针保存在r中。接下来，我们将一个新值赋予r。在此情况下，r是唯一执行此int的shared_ptr，在把q赋给r的过程中，此int被自动释放。</p>
+<h3 id="shared-ptr自动销毁所管理的对象"><a href="#shared-ptr自动销毁所管理的对象" class="headerlink" title="shared_ptr自动销毁所管理的对象"></a>shared_ptr自动销毁所管理的对象</h3><p><strong>当指向一个对象的最后一个shared_ptr被销毁时，shared_ptr类会自动销毁此对象</strong>。它是通过另一个特殊的成员函数——析构函数完成销毁工作的。类似与构造函数，每个类都有一个析构函数。就像构造函数控制初始化一样，析构函数控制此类型的对象销毁时做什么操作。</p>
+<p><strong>析构函数一般用来释放对象分配的资源</strong>。例如，string的构造函数（以及其他string成员）会分配内存来保存构成string的字符。string的析构函数就负责释放这些内存。类似的，vector的若干操作都会分配内存来保存其元素。vector的析构函数就负责销毁这些元素，并释放它们所占用的内存。</p>
+<p><strong>shared_ptr的析构函数会递减它所指对象的引用计数。如果引用计数变为0，shared_ptr的析构函数就会销毁对象，并释放它所占用的内存</strong>。</p>
+<h3 id="shared-ptr还会自动释放相关联的内存"><a href="#shared-ptr还会自动释放相关联的内存" class="headerlink" title="shared_ptr还会自动释放相关联的内存"></a>shared_ptr还会自动释放相关联的内存</h3><p>当动态对象不再被使用时，shared_ptr类会自动释放动态对象，这一特性使得动态内存的使用变得非常容易。例如，我们可能有一个函数，它返回一个shared_ptr，指向一个Foo类型的动态分配的对象，对象是通过一个类型为T的参数进行初始化的：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//factory返回一个shared_ptr，指向一个动态分配的对象</span></div><div class="line"><span class="built_in">shared_ptr</span>&lt;Foo&gt; factory(T arg)</div><div class="line">&#123;</div><div class="line">    <span class="comment">//恰当地处理arg</span></div><div class="line">    <span class="comment">//shared_ptr负责释放内存</span></div><div class="line">    <span class="keyword">return</span> make_shared&lt;Foo&gt;(arg);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>由于factory返回一个shared_ptr，所以我们可以确保它分配的对象会在恰当的时刻被释放。例如，下面的函数将factory返回的shared_ptr保存在局部变量中：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">use_factory</span><span class="params">(T arg)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="built_in">shared_ptr</span>&lt;Foo&gt; p=factory(arg);</div><div class="line">    <span class="comment">//使用p</span></div><div class="line">    <span class="comment">//p离开了作用域，它指向的内存会被自动释放掉</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>由于p是use_factory的局部变量，在use_factory结束时它将被销毁。当p被销毁时，将递减其引用计数并检查它是否为0。在此例中，p是唯一引用factory返回的内存的对象。由于p将要销毁，p指向的这个对象也会被销毁，所占用的内存会被释放。</p>
+<p>但如果有其他的shared_ptr也指向这块内存，它就不会被释放掉：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">use_factory</span><span class="params">(T arg)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="built_in">shared_ptr</span>&lt;Foo&gt; p=factory(arg);</div><div class="line">    <span class="comment">//使用p</span></div><div class="line">    <span class="keyword">return</span> p; <span class="comment">//当我们返回p时，引用计数进行了递增操作</span></div><div class="line">&#125; <span class="comment">//p离开了作用域，但它指向的内存不会被释放</span></div></pre></td></tr></table></figure>
+<p>在此版本中，use_factory中的return语句向此函数的调用者返回一个p的拷贝。拷贝一个shared_ptr会增加所管理对象的引用计数值。现在当p被销毁时，它所指向的内存还有其他使用者。对于一块内存，shared_ptr类保证只要有任何shared_ptr对象引用它，它就不会被释放掉。</p>
+<p>由于在最后一个shared_ptr销毁前内存都不会释放，保证shared_ptr在无用之后不再保留就非常重要了。如果你忘记了销毁程序不再需要的shared_ptr，程序仍会正确执行，但会浪费内存。shared_ptr在无用之后仍然保留的一种可能情况是，你将shared_ptr存放在一个容器中，随后重排了容器，从而不再需要某种元素。在这种情况西下，你应该确保erase删除哪些不再需要的shared_ptr元素。</p>
+<p><strong>注意：如果你将shared_ptr存放于一个容器中，而后不再需要全部元素，而只使用其中一部分，要记得用erase删除不再需要的那些元素。</strong></p>
+<h3 id="使用了动态生存期的资源的类"><a href="#使用了动态生存期的资源的类" class="headerlink" title="使用了动态生存期的资源的类"></a>使用了动态生存期的资源的类</h3><p>程序使用动态内存处于以下三种原因之一：</p>
+<p>1 程序不知道自己需要使用多少个对象；</p>
+<p>2 程序不知到所需的准确类型</p>
+<p>3 程序需要在多个对象间共享数据</p>
+<p>容器类是处于第一种原因而使用动态内存的典型例子。</p>
+<p>使用动态内存的一个常见原因是运行多个对象共享相同的状态。</p>
+<h2 id="直接管理内存"><a href="#直接管理内存" class="headerlink" title="直接管理内存"></a>直接管理内存</h2><p>C++语言定义了两个运算符来分配和释放动态内存。<strong>运算符new分配内存，delete释放new分配的内存。</strong></p>
+<p>相对于智能指针，使用这两个运算符管理内存非常容易出错，随着我们逐步详细介绍这两个运算符，这一点会更为清楚。而且，自己直接管理内存的类与使用智能指针的类不同，它们不能依赖类对象拷贝、赋值和销毁操作的任何默认定义。因此，使用智能指针的程序更容易编写和调试。</p>
+<h3 id="使用new动态分配和初始化对象"><a href="#使用new动态分配和初始化对象" class="headerlink" title="使用new动态分配和初始化对象"></a>使用new动态分配和初始化对象</h3><p>在自由空间分配的内存是无名的。因此，new无法为其分配的对象命名，而是返回一个执行对象的指针：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> *pi=<span class="keyword">new</span> <span class="keyword">int</span> ;   <span class="comment">// pi指向一个动态分配的、未初始化的无名对象</span></div></pre></td></tr></table></figure>
+<p>此new表达式在自由空间构造一个int型对象，并返回指向该对象的指针。</p>
+<p><strong>默认情况下，动态分配的对象是默认初始化的，这意味着内置类型或组合类型的对象的值将是未定义的，而类类型对象将用默认函数进行初始化</strong>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">string</span> *ps=<span class="keyword">new</span> <span class="built_in">string</span>; <span class="comment">//初始化为空string</span></div><div class="line"><span class="keyword">int</span> *pi=<span class="keyword">new</span> <span class="keyword">int</span> ; <span class="comment">// pi指向一个未初始化的int</span></div></pre></td></tr></table></figure>
+<p>我们可以使用直接初始化方式来初始化一个动态分配的对象。我们可以使用传统的构造方式（使用圆括号），在新标准下，也可以使用列表初始化（使用花括号）：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> *pi=<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">1024</span>)  ;<span class="comment">//pi的对象的值为1024</span></div><div class="line"><span class="built_in">string</span> *ps=<span class="keyword">new</span> <span class="built_in">string</span>(<span class="number">10</span>,<span class="string">'9'</span>) ; <span class="comment">//vector有10个元素，值依次从0到9</span></div><div class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; *pv=<span class="keyword">new</span> <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>&#125;;</div></pre></td></tr></table></figure>
+<p>也可以<strong>对动态的对象进行值初始化，只需在类型名之后跟一对空括号即可</strong>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">string</span> *ps1=<span class="keyword">new</span> <span class="built_in">string</span>;   <span class="comment">//默认初始化为空string</span></div><div class="line"><span class="built_in">string</span> *ps=<span class="keyword">new</span> <span class="built_in">string</span>();  <span class="comment">//值初始化为空string</span></div><div class="line"><span class="keyword">int</span> *pi1=<span class="keyword">new</span> <span class="keyword">int</span>; <span class="comment">//默认初始化：*pi1的值未定义</span></div><div class="line"><span class="keyword">int</span> *pi2=<span class="keyword">new</span> <span class="keyword">int</span>();   <span class="comment">// 值初始化为0 *pi2为0</span></div></pre></td></tr></table></figure>
+<p>对于定义与自己的构造函数的类类型（例如string）来说，要求值初始化是没有意义的；不管采用什么形式，对象都会通过默认构造函数来初始化。但对于内置类型，两种形式的差别就很大了；值初始化的内置类型对象有着良好定义的值，而默认初始化的对象的值则是未定义的。类似的，对于类中那些依赖于编译器合成的默认构造函数的内置类型成员，如果它们未在类内被初始化，那么它们的值也是未定义的。</p>
+<p>如果我们提供了一个括号包围的初始化器，就可以使用auto从此初始化器来推断我们想要分配的对象的类型。但是，由于编译器要用初始化器的类型来推断要分配的类型，只有当括号中仅有单一初始化器时才可以使用auto：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">auto</span> p1=<span class="keyword">new</span> <span class="keyword">auto</span>(obj) ; <span class="comment">//p指向一个与obj类型相同的对象</span></div><div class="line"><span class="keyword">auto</span> p2=<span class="keyword">new</span> <span class="keyword">auto</span>(a,b,c) ;  <span class="comment">//错误：括号中只能有单个初始化器</span></div></pre></td></tr></table></figure>
+<p>p1的类型是一个指针，执行从obj自动推断的类型。若obj是一个int，那么p1就算int<em>；若obj是一个string，那么p1是一个string</em>；依次类推。新分配的对象用obj的值进行初始化。</p>
+<h3 id="动态分配的const对象"><a href="#动态分配的const对象" class="headerlink" title="动态分配的const对象"></a>动态分配的const对象</h3><p>用new分配const对象是合法的：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//分配并初始化一个const int</span></div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> *pci=<span class="keyword">new</span> <span class="keyword">const</span> <span class="keyword">int</span>(<span class="number">1024</span>);</div><div class="line"><span class="comment">//分配并默认初始化一个const的空string</span></div><div class="line"><span class="keyword">const</span> <span class="built_in">string</span> *pcs=<span class="keyword">new</span> <span class="keyword">const</span> <span class="built_in">string</span>;</div></pre></td></tr></table></figure>
+<p>类似其他任何const对象，<strong>一个动态分配的const对象必须进行初始化</strong>。对于一个定义了默认构造函数的类类型，其const动态对象可以隐式初始化，而其他类型的对象就必须显式初始化。由于分配的对象是const的，<strong>new 返回的指针是一个指向const的指针</strong>。</p>
+<h3 id="内存耗尽"><a href="#内存耗尽" class="headerlink" title="内存耗尽"></a>内存耗尽</h3><p>虽然现代计算机通常都配备大容量内存，但是自由空间被耗尽的情况还是有可能发生。一旦一个程序用光了它所有可用的内存，new表达式就会失败，默认情况下，如果new不能分配所要求的内存空间，它就会抛出一个类型为bad_alloc的异常。我们可以改变使用new的方式来阻止它抛出异常：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//如果分配失败，new返回一个空指针</span></div><div class="line"><span class="keyword">int</span> *p1=<span class="keyword">new</span> <span class="keyword">int</span> ; <span class="comment">//如果分配失败，new抛出std::bad_alloc</span></div><div class="line"><span class="keyword">int</span> *p2=<span class="keyword">new</span> (nothrow) <span class="keyword">int</span> ; <span class="comment">//如果分配失败，new返回一个空指针</span></div></pre></td></tr></table></figure>
+<p>我们称这种形式的new为定位new。定位new表达式允许我们向new传递额外的参数，在此例中，我们传递给它一个由标准库定义的名为nothrow的对象。如果将nothrow传递给new，我们的意图是告诉它不能抛出异常。如果这种形式的new不能分配所需内存，它会返回一个空指针。bad_alloc和nothrow都定义在头文件new中。</p>
+<h3 id="释放动态内存"><a href="#释放动态内存" class="headerlink" title="释放动态内存"></a>释放动态内存</h3><p>为了防止内存耗尽，在动态内存使用完毕后，必须将其归还给系统。我们通过delete表达式来将动态内存归还给系统。<strong>delete表达式接受一个指针，指向我们想要释放的对象</strong>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">delete</span> p; <span class="comment">// p必须指向一个动态分配的对象或是一个空指针</span></div></pre></td></tr></table></figure>
+<p>与new 类型类似，delete表达式也执行两个动作：销毁给定的指针指向的对象；释放对应的内存。</p>
+<h3 id="指针值和delete"><a href="#指针值和delete" class="headerlink" title="指针值和delete"></a>指针值和delete</h3><p>我们传递给delete的指针必须指向动态分配的内存，或是一个空指针。释放一块并非new分配的内存，或者将相同的指针值释放多次，其行为都是未定义的：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> i,*pi1=&amp;i,*pi2=<span class="literal">nullptr</span>;</div><div class="line"><span class="keyword">double</span> *pd=<span class="keyword">new</span> <span class="keyword">double</span>(<span class="number">33</span>),*pd2=pd;</div><div class="line"><span class="keyword">delete</span> i;  <span class="comment">//错误，i不是一个指针</span></div><div class="line"><span class="keyword">delete</span> pi1; <span class="comment">//未定义：pi1执行一个局部变量</span></div><div class="line"><span class="keyword">delete</span> pd; <span class="comment">//正确</span></div><div class="line"><span class="keyword">delete</span> pd2;  <span class="comment">//未定义，pd2指向的内存已经被释放了</span></div><div class="line"><span class="keyword">delete</span> pi2;  <span class="comment">//正确：释放一个空指针总是没有错误的</span></div></pre></td></tr></table></figure>
+<p>对于delete i的请求，编译器会生成一个错误信息，因为它知道i不是一个指针。执行delete pi1和pd2所产生的错误则更具潜在危害：通常情况下，编译器不能分辨一个指针指向的是静态还是动态分配的对象。类似的，编译器也不能分辨一个指针所指向的内存是否已经被释放了。对于这些delete表达式，大多数编译器会编译通过，尽管它们是错误的。</p>
+<p>虽然一个const对象的值不能被改变，但它本身是可以被销毁的，如同任何其他动态对象一样，想要释放一个const动态对象，只要delete指向它的指针即可。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> *pci=<span class="keyword">new</span> <span class="keyword">const</span> <span class="keyword">int</span>(<span class="number">1024</span>); </div><div class="line"><span class="keyword">delete</span> pci; <span class="comment">//正确：释放一个从const对象</span></div></pre></td></tr></table></figure>
+<h3 id="动态对象的生存期直到被释放时为止"><a href="#动态对象的生存期直到被释放时为止" class="headerlink" title="动态对象的生存期直到被释放时为止"></a>动态对象的生存期直到被释放时为止</h3><p>由shared_ptr管理的内存在最后一个shared_ptr销毁时会被自动释放。但对于通过内置指针类型来管理的内存，就不是这样了。<strong>对于一个由内置指针管理的动态对象，直到被显示释放之前它都是存在的。</strong></p>
+<p>返回指向动态内存的指针（而不是智能指针）的函数给其调用者增加了一个额外负担——调用者必须记得释放内存：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//factory返回一个指针，指向一个动态分配的对象</span></div><div class="line"><span class="function">Foo* <span class="title">factory</span><span class="params">(T arg)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">　　<span class="comment">//视情况处理arg</span></div><div class="line">　　<span class="keyword">return</span> <span class="keyword">new</span> Foo(arg); <span class="comment">//调用者负责释放此内存</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>类似我们之前定义的factory函数，这个版本的factory分配一个对象，但并不delete它。factory的调用者负责在不需要此对象时释放它。不幸的是，调用者经常忘记释放对象：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">use_factory</span><span class="params">(T arg)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">　　Foo *p=factory(arg);</div><div class="line">　　<span class="comment">//使用p但不delete它</span></div><div class="line">&#125; <span class="comment">//p离开了它的作用域，但它所指向的内存没有被释放</span></div></pre></td></tr></table></figure>
+<p>此外，use_factory函数调用factory，后者分配一个类型为Foo的新对象。当use_factory返回时，局部变量p被销毁，此变量是一个内置指针，而不是一个智能指针。</p>
+<p>与类类型不同，内置类型的对象被销毁时什么也不会发生。特别是，当一个指针离开其作用域时，它所指的对象什么也不会发生。如果这个指针指向的是动态内存，那么内存将不会被自动释放。</p>
+<p><strong>注意</strong>：<strong>由内置指针（而不是智能指针）管理的动态内存在被显式释放前一直都会存在</strong>。</p>
+<p>在本例中，p是指向factory分配的内存的唯一指针。一旦use_factory返回，程序就没有办法释放这块内存了。根据整个程序的逻辑，修正这个错误的正确方法是在use_factory中记得要释放内存：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">use_factory</span><span class="params">(T arg)</span></span></div><div class="line"><span class="function"></span>&#123; </div><div class="line">　　Foo *p=factory(arg);</div><div class="line">　　<span class="comment">//使用p</span></div><div class="line">　　<span class="keyword">delete</span> p ;  <span class="comment">//现在记得释放内存，我们已经不需要它了</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>还有一种可能，我们的系统中的其他代码要使用use_factory所分配的对象，我们就应该修改此函数，让他返回一个指针，指向它分配的内存：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function">Foo* <span class="title">use_factory</span><span class="params">(T arg)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">　　Foo *p=factory(arg);</div><div class="line">　　<span class="comment">//使用p</span></div><div class="line">　　<span class="keyword">return</span> p; <span class="comment">//调用者必须释放内存</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> <strong>小心：动态内存的管理非常容易出错</strong> </p>
+<p>使用new和delete管理动态内存存在三个常见问题：</p>
+<ul>
+<li><p>忘记delete内存。忘记释放动态内存会导致人们常说的“内存泄漏”问题，因为这种内存不可能被归还给自由空间了。查找内存泄漏错误是非常困难的，因为通常应用程序运行很长时间后，真正耗尽内存时，才能检测到这种错误。</p>
+</li>
+<li><p>使用以及释放掉的对象，通过在释放内存后将指针置为空，有时可以检测出这种错误。</p>
+</li>
+<li><p>同一块内存被释放两次，当有来年刚给指针指向相同的动态分配对象时，可能发生这种错误。如果对其中一个指针进行了delete操作，对象的内存就被归还给自由空间了，如果我们随后又delete第一个指针，自由空间就可能会被破坏。</p>
+</li>
+</ul>
+<p>相对于查找和修正这种错误来源，制造出这些错误要简单很多。</p>
+<p><strong>坚持只使用智能指针，就可以避免所有这些问题。对于一块内存，只有在没有任何只能智能指针指向它的情况下，智能指针才会自动释放它</strong>。</p>
+<h3 id="delete之后重置指针值。。。。"><a href="#delete之后重置指针值。。。。" class="headerlink" title="delete之后重置指针值。。。。"></a>delete之后重置指针值。。。。</h3><p>当我们delete一个指针后，指针值就变为无效了。虽然指针已经无效，但在很多机器上指针仍然保存着（已经释放了的）动态内存的地址。在delete之后，指针就变成了人们所说的<strong>空悬指针</strong>，即，指向一块层级保存数据对象但现在以及无效的内存的指针。</p>
+<p>为初始化指针的所有确定空悬指针也都有，有一种方法可以避免空悬指针的问题；在指针即将要离开其作用域之前释放掉它所关联的内存。这样在指针关联的内存被释放掉之后，就没有机会继续使用指针了。<strong>如果我们需要保留指针，可以在delete之后将nullptr赋予指针，这样就清楚地指出指针不指向任何对象。</strong></p>
+<h3 id="这只是提供了有限的保护"><a href="#这只是提供了有限的保护" class="headerlink" title="这只是提供了有限的保护"></a>这只是提供了有限的保护</h3><p>动态内存的一个基本问题是可能有多个指针指向相同的内存，在delete内存之后重置指针的方法只对这个指针有效，对其他任何指向（已释放的）内存的指针是没有作用的。例如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">int *p(new int (42));  //p指向动态内存</div><div class="line"><span class="keyword">auto</span> q=p;  <span class="comment">//p和q指向相同的内存</span></div><div class="line"><span class="keyword">delete</span> p; <span class="comment">//p和q均变为无效</span></div><div class="line">p=<span class="literal">nullptr</span>;  <span class="comment">//指出p不再绑定到任何对象</span></div></pre></td></tr></table></figure>
+<p>本例中p和q指向相同的动态分配的对象。我们delete此内存，然后将p置为nullptr指出它不再指向任何对象，但是，重置p对q没有任何作用，在我们释放p所指向的（同时也是q所指向的）内存时，q也变为无效了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;到目前为止，我们编写的程序中所使用的对象都有着严格定义的生命期。全局对象在程序启动时分配，在程序结束时销毁。对于局部自动对象，当我们进入其定义所在的程序块时被创建，在离开块时销毁。局部static对象在第一次使用前分配，在程序结束时销毁。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="C++" scheme="http://www.wangxinri.cn/categories/C/"/>
+    
+    
+      <category term="智能指针" scheme="http://www.wangxinri.cn/tags/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/"/>
+    
+      <category term="内存分配" scheme="http://www.wangxinri.cn/tags/%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>关联容器概述</title>
+    <link href="http://www.wangxinri.cn/2017/11/04/%E5%85%B3%E8%81%94%E5%AE%B9%E5%99%A8%E6%A6%82%E8%BF%B0/"/>
+    <id>http://www.wangxinri.cn/2017/11/04/关联容器概述/</id>
+    <published>2017-11-04T13:59:00.000Z</published>
+    <updated>2018-02-22T12:01:26.900Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>关联容器分为有序关联容器和无序关联容器，有序关联容器按关键字有序保存元素，底层数据结构为红黑树；无序关联容器底层数据结构是hashtable，因此是无序的。<br><a id="more"></a></p>
+<h2 id="关联容器"><a href="#关联容器" class="headerlink" title="关联容器"></a>关联容器</h2><p>关联容器和顺序容器有着根本的不同：关联容器中的元素是按关键字来保存和访问的。与之相对，顺序容器中的元素是按它们在容器中的位置来顺序保存和访问的。</p>
+<p>虽然关联容器的很多行为与顺序容器相同，但其不同之处反映了关键字的作用。</p>
+<p>关联容器支持高效的关键字查找和访问。两个主要的关联容器类型是map和set。map中的元素是一些关键字-值对：关键字起到索引的作用，值则表示与索引相关联的数据。set中每个元素包含一个关键字；set支持高效的关键字查询操作——检查一个给定关键字是否在set中。例如，在某些文本处理过程中，可以用一个set来保存想要忽略的单词。字典则是一个很好的使用map的例子：可以将单词作为关键字，将单词释义作为值。</p>
+<p>标准库提供8个关联容器，如下表所示。这8个容器间的不同体现在三个维度上：每个容器 <strong>（1）或者是一个set，或者是一个map；（2）或者要求不重复的关键字，或者允许重复关键字；（3）按顺序保存元素，或无序保存。允许重复关键字的容器的名字中都包含单词multi；不保存关键字按顺序存储的容器的名字都以单词unordered开头</strong>。因此一个unordered_multi_set是一个允许重复关键字，元素无序保存的集合，而一个set则是一个要求不重复关键字，有序存储的集合。无序容器使用哈希函数来组织元素。</p>
+<p>类型map和multimap定义在头文件map中；set和multiset定义在头文件set中；无序容器则定义在头文件unordered_map和unordered_set中。</p>
+<p> <strong>关联容器类型</strong> </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">按关键字有序保存元素</div><div class="line"><span class="built_in">map</span> 　　　　　　　　关联数组：保存关键字-值对</div><div class="line"><span class="built_in">set</span>　　　　　　　　　关键字即值，即只保存关键字的容器</div><div class="line"><span class="built_in">multimap</span>　　　　　　关键字可重复出现的<span class="built_in">map</span></div><div class="line"><span class="built_in">multiset</span>　　　　　　   关键字可重复出现的<span class="built_in">set</span></div><div class="line">无序容器</div><div class="line"><span class="built_in">unordered_map</span>　　　用哈希函数组织的<span class="built_in">map</span></div><div class="line"><span class="built_in">unordered_set</span>　　　　用哈希函数组织的<span class="built_in">set</span></div><div class="line"><span class="built_in">unordered_multimap</span>　　哈希组织的<span class="built_in">map</span>；关键字可以重复出现</div><div class="line"><span class="built_in">unordered_multiset</span>　　  哈希组织的<span class="built_in">set</span>；关键字可以重复出现</div></pre></td></tr></table></figure>
+<h2 id="关联容器概述"><a href="#关联容器概述" class="headerlink" title="关联容器概述"></a>关联容器概述</h2><p>关联容器不支持顺序容器的位置相关的操作，例如push_front或push_back。原因是关联容器中元素是根据关键字存储的，这些操作对关联容器没有意义。而且，关联容器也不支持构造函数或插入操作这些接受一个元素值和一个数量值的操作。</p>
+<p>除了顺序容器相同的操作之外，关联容器还支持一些顺序容器不支持的操作和类型别名。此外，无序容器还提供了一些用来调整哈希性能的操作。</p>
+<p><strong>关联容器的迭代器都是双向的（可读写，多遍扫描，可递增递减）</strong>。</p>
+<h3 id="定义关联容器"><a href="#定义关联容器" class="headerlink" title="定义关联容器"></a>定义关联容器</h3><p>当定义一个map时，必须既指明关键字类型又指明值类型。而定义一个set时，只需指明关键字类型，因为set中没有值。每个关联容器都定义了一个默认构造函数，它创建一个指定类型的空容器，我们也可以将关联容器初始化为另一个同类型容器的拷贝，或是从一个值范围来初始化关联容器，只要这些值可以转化为容器中所需类型就可以。在新标准下，我们也可以对关联容器进行值初始化：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="keyword">size_t</span>&gt; word_count ; <span class="comment">//空容器</span></div><div class="line"><span class="comment">//列表初始化</span></div><div class="line"><span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt; exclude=&#123;<span class="string">"the"</span>,<span class="string">"but"</span>,<span class="string">"and"</span>,<span class="string">"or"</span>,<span class="string">"an"</span>,<span class="string">"a"</span>,<span class="string">"The"</span>,<span class="string">"But"</span>,<span class="string">"And"</span>,<span class="string">"Or"</span>,<span class="string">"An"</span>,<span class="string">"A"</span>&#125;;</div><div class="line"><span class="comment">//三个元素；authors将姓映射到名</span></div><div class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="built_in">string</span>&gt; autors=&#123; &#123;<span class="string">"Joyce"</span>,<span class="string">"James"</span>&#125;,</div><div class="line">　　　　　　　　　　　　  &#123;<span class="string">"Austen"</span>,<span class="string">"Jane"</span>&#125;,</div><div class="line">　　　　　　　　　　　　  &#123;<span class="string">"Dickens"</span>,<span class="string">"Charles"</span>&#125;&#125;;</div></pre></td></tr></table></figure>
+<p>与以往一样，初始化器必须能转换为容器中元素的类型。对于set，元素类型就是关键字类型。<br>当初始化一个map时，必须提供关键字类型和值类型，我们将每个关键字-值对包围在花括号中：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">　&#123;key,value&#125;</div></pre></td></tr></table></figure></p>
+<p>来指出它们一起构成了map中的一个元素。在每个花括号中，关键字是第一个元素，值是第二个。因此，anthors将姓映射到名，初始化它包括三个元素。</p>
+<h3 id="初始化multimap或multiset"><a href="#初始化multimap或multiset" class="headerlink" title="初始化multimap或multiset"></a>初始化multimap或multiset</h3><p>一个map或set中的关键字必须是唯一的，即，对于一个给定的关键字，只能有一个元素的关键字等于它。容器multimap和multiset没有此限制，它们都允许多个元素具有相同的关键字。</p>
+<h3 id="关键字类型的要求"><a href="#关键字类型的要求" class="headerlink" title="关键字类型的要求"></a>关键字类型的要求</h3><p>关联容器对其关键字类型有一些限制。对于无序容器中关键字的要求，我们后面介绍。对于有序容器——map、multimap、set以及multiset，关键字类型必须定义元素比较的方法。默认情况下，标准库使用关键字类型的&lt;运算符来比较两个关键字。在集合类型中，关键字类型就是元素类型，在映射类型中，关键字类型是元素的第一部分的类型。因此，word_count的关键字类型是string。类似的，exclude的关键字类型也是string。</p>
+<h3 id="有序容器的关键字类型"><a href="#有序容器的关键字类型" class="headerlink" title="有序容器的关键字类型"></a>有序容器的关键字类型</h3><p>可以向一个算法提供我们自己定义的比较操作，与之类似，也可以提供自己定义的操作来代替关键字上的&lt;运算符。所提供的操作必须在关键字类型上定义一个严格弱序。可以将严格弱序看作“小于等于”，虽然实际定义的操作可能是一个复杂的函数。无论我们怎样定义比较函数，它必须具备如下基本性质：</p>
+<ul>
+<li>两个关键字不能同时“小于等于”对方：如果k1“小于等于”k2，那么k2绝不能“小于等于”k1.</li>
+<li>如果k1“小于等于”k2，且k2“小于等于”k3，那么k1必须“小于等于”k3</li>
+<li>如果存在两个关键字，任何一个都不“小于等于”另一个，那么我们称这两个关键字是“等价”的。如果k1“等价与”k2，且k2“等价于”k3，那么k1必须“等价于”k3.</li>
+</ul>
+<p>如果两个关键字是等价的（即，任何一个都不“小于等于”另一个），那么容器将它们视作相等来处理。当用作map关键字时，只能有一个元素与这个关键字关联，我们可以用两者中任意一个来访问对应的值。</p>
+<h3 id="使用关键字的比较函数"><a href="#使用关键字的比较函数" class="headerlink" title="使用关键字的比较函数"></a>使用关键字的比较函数</h3><p>用来组织一个容器中元素的操作的类型也是容器类型的一部分。为了指定使用自定义的操作，必须在定义关联容器类型时提供此操作的类型。如前所述，用尖括号指出要定义哪种类型的容器，自定义的操作类型必须在尖括号中紧跟这元素类型给出。</p>
+<p>在尖括号中出现的每个类型，就仅仅是一个类型而已。当我们创建一个容器（对象）时，才会以构造函数参数的形式提供真正的比较操作（其类型必须与在尖括号中指定的类型相吻合）。</p>
+<p>例如，我们不能直接定义一个Sales_data的multiset，因为Sales_data没有&lt;运算符。但是，可以用定义的compareIsbn函数来定义一个multiset。此函数在Sales_data对象的ISBN成员上定义了一个严格弱序。函数compareIsbn应该像下面这样定义</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">compareIsbn</span><span class="params">(<span class="keyword">const</span> Sales_data &amp;lhs,<span class="keyword">const</span> Sales_data &amp;rhs)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">　　<span class="keyword">return</span> lhs.isbn()&lt;rhs.isbn();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>为了使用自己定义的操作，在定义multiset时我们必须提供两个类型。关键字类型Sales_data，以及比较操作类型——应该是一种函数指针类型，可以指向compareIsbn。当定义此容器类型的对象时，需要提供想要使用的操作的指针。在本例中，我们提供一个指向compareIsbn的指针：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//bookstore中多条记录可以有相同的ISBN</span></div><div class="line"><span class="comment">//bookstore中的元素以ISBN的顺序进行排序</span></div><div class="line"><span class="built_in">multiset</span>&lt;Sales_data,<span class="keyword">decltype</span>(compareIsbn)*&gt; bookstore(compareIsbn);</div></pre></td></tr></table></figure>
+<p>此处，我们使用decltype来指出自定义操作的类型。记住，当用decltype来获得一个函数指针类型时，必须加上一个*来指出我们要使用一个给定函数类型的指针。用compareIsbn来初始化bookstore对象，这表示当我们向bookstore添加元素时，通过compareIsbn来为这些元素排序。即，bookstore中的元素将按它们的ISBN成员的值排序。可以用compareIsbn代替&amp;compareIsbn作为构造函数的参数，因为当我们使用一个函数的名字时，在需要的情况下它会自动转化为一个指针。当然，使用&amp;compareIsbn的效果也是一样的。</p>
+<h2 id="pair类型"><a href="#pair类型" class="headerlink" title="pair类型"></a>pair类型</h2><p>在介绍关联容器操作之前，我们需要了解名为pair的标准库类型，它定义在头文件utility中。</p>
+<p>一个pair保存两个数据成员。类似容器，pair是一个用来生成特定类型的模板。当创建一个pair时，我们必须提供两个类型名，pair的数据成员将具有对应的类型。两个类型不要求一样：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">pair&lt;<span class="built_in">string</span>,<span class="built_in">string</span>&gt; anon;  <span class="comment">//保存两个string</span></div><div class="line">pair&lt;<span class="built_in">string</span>,<span class="keyword">size_t</span>&gt; word_count;   <span class="comment">//保存一个string和一个size_t</span></div><div class="line">pair&lt;<span class="built_in">string</span>,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; line;  <span class="comment">//保存string和vector&lt;int&gt;</span></div></pre></td></tr></table></figure>
+<p>pair的默认构造函数对数据成员进行值初始化。因此，anon是一个包含两个空string的pair，line保存一个空string和一个空vector。word_count中的size_t 成员值为0，而string成员被初始化为空vector。</p>
+<p>我们也可以为每个成员提供初始化器：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pair&lt;<span class="built_in">string</span>,<span class="built_in">string</span>&gt; author&#123;<span class="string">"James"</span>,<span class="string">"Joyce"</span>&#125;;</div></pre></td></tr></table></figure>
+<p>这条语句创建了一个名为author的pair，两个成员被初始化为”James”和”Joyce”。</p>
+<p>与其他标准库类型不同，pair的数据成员是public的。两个成员分别命名为first和second。我们用普通的成员访问符号来访问它们，例如</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cout</span>&lt;&lt;w.first&lt;&lt;<span class="string">" occurs "</span>&lt;&lt;w.second&lt;&lt;<span class="built_in">endl</span>;</div></pre></td></tr></table></figure>
+<p>此处，w 是指向某个元素的引用。map的元素是pair。在这条语句中，我们首先打印关键字——元素的first成员，接着打印计数器——second成员。标准库只定义了有限的几个pair操作，下表列出了这些操作：</p>
+<p><strong>pair上的操作</strong> </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">pair&lt;T1,T2&gt; p; 　　p是一个pair，两个类型分别为T1和T2的成员都进行了值初始化</div><div class="line">pair&lt;T1,T2&gt; p(v1,v2)　　p是一个成员类型为T1和T2的pair；first和second成员分别用v1和v2进行初始化</div><div class="line">pair&lt;T1,T2&gt; p=&#123;v1,v2&#125;;　　等价于p(v1,v2)</div><div class="line">make_pair(v1,v2)　　返回一个用v1和v2初始化的pair。pair的类型从v1和v2的类型推断出来</div><div class="line">p.first　　 返回p的名为first的（公有）数据成员</div><div class="line">p.second　　返回p的名为second的（公有）数据成员</div><div class="line">p1 relop p2　　　　　　　　　　　　　   关系运算符（&lt;、&gt;、&lt;=、&gt;=）按字典序定义；例如，当p1.first&lt;p2.first或!(p2.first&lt;p1.first)&amp;&amp;p1.second&lt;p2.second成立时，p1&lt;p2为<span class="literal">true</span>。关系运算符利用元素的&lt;运算符来实现</div><div class="line">p1==p2　当first和second成员分别相等时，两个pair相等。相等性判断利用元素的==运算符实现</div><div class="line">p1!=p2</div></pre></td></tr></table></figure>
+<h3 id="创建pair对象的函数"><a href="#创建pair对象的函数" class="headerlink" title="创建pair对象的函数"></a>创建pair对象的函数</h3><p>想象有一个函数需要返回一个pair。在新标准下，我们可以对返回在进行列表初始化<br>复制代码</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">pair&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt;</div><div class="line">process(<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; &amp;v)</div><div class="line">&#123;</div><div class="line">    <span class="comment">//处理v</span></div><div class="line">    <span class="keyword">if</span>(!v.empty())</div><div class="line">        <span class="keyword">return</span> &#123;v.back(),v.back().size()); <span class="comment">// 列表初始化</span></div><div class="line">    <span class="keyword">else</span></div><div class="line">        <span class="keyword">return</span> pair&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt;();  <span class="comment">//隐式构造返回值</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在较早的C++版本中，不允许用花括号包围的初始化器来返回pair这种类型的对象，必须显示构造返回值：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(!v.empty())</div><div class="line">　　<span class="keyword">return</span> pair&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt;(v.back(),v.back().size());</div></pre></td></tr></table></figure>
+<p>我们还可以用make_pair来生成pair对象，pair的两个类型来自于make_pair的参数：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(!v.empty())</div><div class="line">　　<span class="keyword">return</span> make_pair(v.back(),v.back().size());</div></pre></td></tr></table></figure></p>
+<h2 id="无序容器"><a href="#无序容器" class="headerlink" title="无序容器"></a>无序容器</h2><p>新标准定义了4个无序关联容器。<strong>这些容器不是使用比较运算符来组织元素，而是使用一个哈希函数和关键字类型的==运算符。在关键字类型的元素没有明显有序关系的情况下，无序容器是非常有用的。在某些应用中，维护元素的序代价非常高昂，此时无序容器也很</strong>有用。</p>
+<p>虽然理论上哈希技术能获得更好的平均性能，但在实际中想要达到很好的效果还需要进行一些性能测试和调优工作。因此，使用无序容器通常更为简单。</p>
+<h3 id="使用无序容器"><a href="#使用无序容器" class="headerlink" title="使用无序容器"></a>使用无序容器</h3><p>除了哈希管理操作之外，无序容器还提供了与有序容器相同的操作（find、insert等）。这意味着我们曾用于map和set的操作也能用于unordered_map和unordered_set。类似的，无序容器也有允许重复关键字的版本。</p>
+<h3 id="管理桶"><a href="#管理桶" class="headerlink" title="管理桶"></a>管理桶</h3><p><strong>无序容器在存储上组织为一组桶，每个桶保存零个或多个元素。无序容器使用一个哈希函数将元素映射到桶。为了访问一个元素，容器首先计算元素的哈希值，它指出应该搜索哪个桶。容器将具有一个特定哈希值的所有元素都保存在相同的桶中。如果容器允许重复关键字，所有具有相同的关键字的元素也都会在同一个桶中。因此，无序容器的性能依赖于哈希函数的质量和桶的数量和大小。</strong></p>
+<p>对于相同的参数，哈希函数必须总是产生相同的结果。理想情况下，哈希函数还能将每个特定的值映射到唯一的桶。但是，将不同关键字的元素映射到相同的桶也是允许的。当一个桶保存多个元素时，需要顺序搜索这些元素来查找我们想要的那个。计算一个元素的哈希值和在桶中搜索通常都是很快的操作。但是，如果一个桶中保存了很多元素，那么查找一个特定元素就需要大量比较操作。</p>
+<p>无序容器提供了一组管理桶的函数。如表所示。这些成员函数允许我们查询容器的状态以及在必要时强制容器进行重组。</p>
+<p><strong>无序容器管理操作</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">桶接口</div><div class="line">c.bucket_count()　　　　　　　　正在使用的桶的数目</div><div class="line">c.max_bucket_count() 　　　　　 容器能容纳的最多的桶的数量</div><div class="line">c.bucket_size(n)　　　　　　　　  第n个桶中有多少元素</div><div class="line">c.bucket(k)　　　　　　　　　　  关键字为k的元素在哪个桶中</div><div class="line">桶迭代</div><div class="line">local_iterator 　　　　　　　　　可以用来访问桶中元素的迭代器类型</div><div class="line">const_local_iterator　　　　　　 桶迭代器的<span class="keyword">const</span>版本</div><div class="line">c.begin(n),c.end(n)　　　　　　   桶n的首元素迭代器和尾后迭代器</div><div class="line">c.cbegin(n),c.cend(n)　　　　       返回const_local_iterator</div><div class="line">哈希策略</div><div class="line">c.load_factor()　　　　　　　　　每个桶的平均元素数量，返回<span class="keyword">float</span>值</div><div class="line">c.max_load_factor()　　　　　　 c试图维护的平均桶大小，返回<span class="keyword">float</span>值，c会在需要时添加新的桶，以使得load_factor&lt;=max_load_factor</div><div class="line">c.rehash(n)　　　　　　　　　　重组存储，使得bucket_count&gt;=n且bucket_count&gt;size/max_load_factor</div><div class="line">c.reserve(n)　　　　　　　　　　重组存储，使得c可以保存n个元素且不必rehash</div></pre></td></tr></table></figure>
+<h3 id="无序容器对关键字类型的要求"><a href="#无序容器对关键字类型的要求" class="headerlink" title="无序容器对关键字类型的要求"></a>无序容器对关键字类型的要求</h3><p><strong>默认情况下，无序容器使用关键字类型的==运算符来比较元素，它们还使用一个hash<key_type>类型的对象来生成每个元素的哈希值</key_type></strong>。标准库为内置类型（包括指针）提供了hash模板。还为一些标准库类型，包括string和我们将要介绍的智能指针类型定义了hash。因此，<strong>我们可以直接定义关键字是内置类型（包括指针类型）、string还是智能指针的无序容器。</strong></p>
+<p>但是，我们不能直接定义关键字类型为自定义类类型的无序容器。与容器不同，不能直接使用哈希模板，而必须提供我们自己的hash模板版本。</p>
+<p>我们不能使用默认的hash，而是使用另一种方法，类似于为有序容器重载关键字类型的默认比较操作。为了能将Sales_data用作关键字，我们需要提供函数来替代==运算符和哈希值计算函数。我们从定义这些重载函数开始：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">size_t</span> hasher(<span class="keyword">const</span> Sales_data &amp;sd)</div><div class="line">&#123;</div><div class="line">　　<span class="keyword">return</span> hash&lt;<span class="built_in">string</span>&gt;()(sd.isbn());</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">eqOp</span><span class="params">(<span class="keyword">const</span> Sales_data &amp;lhs,<span class="keyword">const</span> Sales_data &amp;rhs)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">　　<span class="keyword">return</span> lhs.isbn()==rhs.isbn();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们的hasher函数使用一个标准库hash类型对象来计算ISBN成员的哈希值，该hash类型建立在string类型之上。类似的，eqOp函数通过比较ISBN号来比较两个Sales_data。</p>
+<p>我们使用这些函数来定义一个unordered_multiset</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">using</span> SD_multiset=<span class="built_in">unordered_multiset</span>&lt;Sales_data,decltypr(hasher)*,<span class="keyword">decltype</span>(eqOp)*&gt;;</div><div class="line"><span class="comment">//参数是桶大小、哈希函数指针和相等型判断运算符指针</span></div><div class="line"><span class="function">SD_multiset <span class="title">bookstore</span><span class="params">(<span class="number">42</span>,hasher,eqOp)</span></span>;</div></pre></td></tr></table></figure>
+<p>为了简化bookstore的定义，首先为unordered_multiset定义了一个类型别名，此集合的哈希和相等性判断操作与hasher和eqOp函数有着相同的类型。通过使用这种类型，在定义bookstore时可以将我们希望它使用的函数的指针传递给它。</p>
+<p>如果我们的类定义了==运算符，则可以只重载哈希函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//使用FooHash生成哈希值；Foo必须有==运算符</span></div><div class="line"><span class="built_in">unordered_set</span>&lt;Foo,<span class="keyword">decltype</span>(FooHash)*&gt; fooset(<span class="number">10</span>,FooHash);</div></pre></td></tr></table></figure>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unordered_map&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="built_in">unordered_map</span>&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt; word_count;</div><div class="line">    word_count[<span class="string">"to"</span>] = <span class="number">10</span>;</div><div class="line">    word_count[<span class="string">"be"</span>] = <span class="number">20</span>;</div><div class="line">    <span class="keyword">auto</span> iter = word_count.find(<span class="string">"be"</span>);   <span class="comment">//查找关键字为"be"的元素是否在unordered_map中，返回一个迭代器</span></div><div class="line">    <span class="built_in">cout</span>&lt;&lt;iter-&gt;first&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;iter-&gt;second&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">auto</span> bucket = word_count.bucket(<span class="string">"to"</span>);  <span class="comment">//关键字为"to"的元素在那个桶上</span></div><div class="line">    <span class="built_in">cout</span>&lt;&lt;bucket&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">auto</span> beg = word_count.begin(bucket);   <span class="comment">//桶n的首元素迭代器，pair&lt;string,int&gt;类型</span></div><div class="line">    <span class="built_in">cout</span>&lt;&lt;beg-&gt;first&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;beg-&gt;second&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;一、前言&quot;&gt;&lt;a href=&quot;#一、前言&quot; class=&quot;headerlink&quot; title=&quot;一、前言&quot;&gt;&lt;/a&gt;一、前言&lt;/h1&gt;&lt;p&gt;关联容器分为有序关联容器和无序关联容器，有序关联容器按关键字有序保存元素，底层数据结构为红黑树；无序关联容器底层数据结构是hashtable，因此是无序的。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="C++" scheme="http://www.wangxinri.cn/categories/C/"/>
+    
+    
+      <category term="关联容器" scheme="http://www.wangxinri.cn/tags/%E5%85%B3%E8%81%94%E5%AE%B9%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>泛型算法概述</title>
+    <link href="http://www.wangxinri.cn/2017/10/30/%E6%B3%9B%E5%9E%8B%E7%AE%97%E6%B3%95%E6%A6%82%E8%BF%B0/"/>
+    <id>http://www.wangxinri.cn/2017/10/30/泛型算法概述/</id>
+    <published>2017-10-30T13:59:00.000Z</published>
+    <updated>2018-02-22T12:07:14.500Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="泛型算法概述"><a href="#泛型算法概述" class="headerlink" title="泛型算法概述"></a>泛型算法概述</h2><p>顺序容器只定义了很少的操作：在多数情况下，我们可以添加和删除元素。访问首尾元素、确定容器是否为空以及获得指向首元素或尾元素之后位置的迭代器。</p>
+<a id="more"></a>
+<p>如果我们想要做：查找特定元素、替换或删除一个特定值、重排元素顺序等。标准库并未给每个容器都定义成员函数来实现这些操作，<strong>而是定义了一组泛型算法：称它们为“算法”，是因为它们实现了一些经典算法的公共接口，如排序和搜索；称它们是“泛型的”，是因为它们可用于不同类型的元素和多种容器类型（不仅包括标准库类型，如vector或list，还包括内置的数组类型）</strong>。</p>
+<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>大多数算法都定义在头文件algorithm中。标准库还在头文件numeric中定义了一组数值泛型算法。</p>
+<p>一般情况下，这些算法并不直接操作容器，而是遍历由两个迭代器指定的一个元素范围来进行操作。通常情况下，算法遍历范围，对其中每个元素进行一些处理。例如，假定我们有一个int的vector，希望指定vector中是否包含一个特定值。回答这个问题最方便的方法是调用标准库算法find：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> val=<span class="number">42</span>;     <span class="comment">//我们将查找的值</span></div><div class="line"><span class="comment">//如果在vec中找到想要的元素，则返回结果指向它，否则返回结果为vec.cend()</span></div><div class="line"><span class="keyword">auto</span> result=find(vec.cbegin(),vec.cend(),val);</div></pre></td></tr></table></figure>
+<p>传递给find的前两个参数是表示元素范围的迭代器，第三个参数是一个值。find将范围中每个元素与给定值进行比较。<strong>它返回指向第一个等于给定值的元素的迭代器。如果范围中无匹配元素，则find返回第二个参数来表示搜索失败</strong>。因此，我们可以通过比较返回值和第二个参数来判断搜索是否成功。</p>
+<p>由于find操作的是迭代器，因此我们可以用同样的find函数在任何容器中查找值。例如，可以用find在一个string的list中查找一个给定值：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">string</span> val=<span class="string">"a value"</span>;</div><div class="line"><span class="keyword">auto</span> result=find(lst.cbegin(),lst.cend(),val);</div></pre></td></tr></table></figure>
+<p>类似的，由于指针就像内置数组上的迭代器一样，我们可以用find在数组中查找值：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> ia[]=&#123;<span class="number">27</span>,<span class="number">210</span>,<span class="number">12</span>,<span class="number">47</span>,<span class="number">109</span>,<span class="number">83</span>&#125;;</div><div class="line"><span class="keyword">int</span> val=<span class="number">83</span>;</div><div class="line"><span class="keyword">int</span> *result=find(begin(ia),end(ia),val);</div></pre></td></tr></table></figure>
+<p>此例中我们使用了标准库begin和end函数来获得指向ia中首元素和尾元素之后的指针，并传递给find。</p>
+<p>还可以在序列的子范围中查找，只需要指向子范围首元素和尾元素之后位置的迭代器（指针）传递给find。例如，下面的语句在ia[1],ia[2]和ia[3]中查找指定的元素：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">auto</span> result=find(ia+<span class="number">1</span>,ia+<span class="number">4</span>;val);</div></pre></td></tr></table></figure>
+<h3 id="算法如何工作"><a href="#算法如何工作" class="headerlink" title="算法如何工作"></a>算法如何工作</h3><p>为了弄清这些算法如何用于不同类型的容器，让我们来观察一下find。find的工作是在一个未排序的元素序列中查找一个特定的元素。概念上，find应该执行如下步骤：</p>
+<p>1 访问序列中的首元素</p>
+<p>2 比较此元素与我们要查找的值</p>
+<p>3 如果此元素与我们要查找的值匹配，find返回标识此元素的值。</p>
+<p>4 否则，find前进到下一个元素，重复执行步骤2和3</p>
+<p>5 如果到达序列尾，find应停止</p>
+<p>6 如果find到达序列尾，它应该返回一个指出元素未找到的值。此值和步骤3返回的值必须具有相容的类型。</p>
+<p>这些步骤都不依赖于容器所保存的元素类型。因此，只要有一个迭代器可用来访问元素，find就完全不依赖于容器类型（甚至无须理会保存元素的是不是容器）。</p>
+<h3 id="迭代器令算法不依赖于容器，但算法依赖于元素类型的操作"><a href="#迭代器令算法不依赖于容器，但算法依赖于元素类型的操作" class="headerlink" title="迭代器令算法不依赖于容器，但算法依赖于元素类型的操作"></a>迭代器令算法不依赖于容器，但算法依赖于元素类型的操作</h3><p>虽然迭代器的使用令算法不依赖于容器类型。但大多数算法都使用了一个(或多个)元素类型上的操作。例如，在步骤2中，find用元素的==运算符完成每个元素与给定值的比较。其他算法可能要求元素类型支持&lt;运算符。不过，我们将会看到，大多数算法提供了一种方法，允许我们使用自定义的操作来代替默认的运算符。</p>
+<p> <strong>注意：算法永远不会执行容器的操作</strong> </p>
+<p>泛型算法本身不会执行容器的操作，它们只会运行与迭代器之上，执行迭代器的操作。泛型算法运行于迭代器之上而不会执行容器操作的特性带来了一个令人惊讶但非常必要的编程假定：算法永远不会改变底层容器的大小。算法可能改变容器中保存的元素的值，也可能在容器内移动元素，但永远不会直接添加或删除元素。</p>
+<h2 id="初始泛型算法"><a href="#初始泛型算法" class="headerlink" title="初始泛型算法"></a>初始泛型算法</h2><p>除了少数例外，标准库算法都对一个范围内的元素进行操作。我们将此元素范围称为“输入范围”。接受输入范围的算法总是使用前两个参数来表示此范围，两个参数分别是指想要处理的第一个元素和尾元素之后位置的迭代器。</p>
+<p>虽然大多数算法遍历输入范围的方式相似，但它们使用范围中元素的方式不同。<strong>理解算法的最基本的方法就是了解它们是否读取元素、改变元素、或是重排元素顺序。</strong></p>
+<h3 id="只读算法"><a href="#只读算法" class="headerlink" title="只读算法"></a>只读算法</h3><p>一些算法只会读取其输入范围内的元素，而从不改变元素。find就是这样一种算法。</p>
+<p>另一个只读算法是accumulate，它定义在头文件numeric中。accumulate函数接受三个参数，前两个指出了需要求和的元素的范围，第三个参数是和的初值。假定vec是一个整数序列，则：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//对vec中元素的求和，和的初值是0</span></div><div class="line"><span class="keyword">int</span> sum=accumulate(vec.cbegin(),vec.cend(),<span class="number">0</span>);</div></pre></td></tr></table></figure>
+<p>这条语句将sum设置为vec中元素的和，和的初值被设置为0.</p>
+<p><strong>accumulate的第三个参数的类型决定了函数中使用哪个加法运算符以及返回值的类型</strong>。</p>
+<h4 id="算法和元素类型"><a href="#算法和元素类型" class="headerlink" title="算法和元素类型"></a>算法和元素类型</h4><p>accumulate将第三个参数作为求和起点，这蕴含着一个编程假定：将元素类型加到和的类型上的操作必须是可行的。即，序列中元素的类型必须与第三个参数匹配，或者能够转换为第三个参数的类型。在上例中，vec中的元素可以是int，或者是double、long long或任何其他可以加到int上的类型。</p>
+<p>下面是另一个例子，由于string定义了+运算符，所有我们可以通过调用accumulate来将vector中所有string元素连接起来“</p>
+<p>string sum=accumulate(v.cbegin(),v.cend(),string(“”));</p>
+<p>此调用将v中每个元素连接到一个string上，该string初始时是空串。<strong>注意，我们通过第三个参数显式地创建了一个string。将空串当做一个字符串字面值传递给第三个参数是不可以的，会导致一个编译错误。</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//错误：const char*上没有定义+运算符</span></div><div class="line"><span class="built_in">string</span> sum=accumulate(v.cbegin(),v.cend(),<span class="string">""</span>);</div></pre></td></tr></table></figure>
+<p>原因在于，如果我们传递了一个字符串字面值，用于保存和的对象的类型将是const char<em>。如前所述，此类型决定了使用哪个+运算符。由于const char</em>并没有+运算符，此调用将产生编译错误。</p>
+<h4 id="操作两个序列的算法"><a href="#操作两个序列的算法" class="headerlink" title="操作两个序列的算法"></a>操作两个序列的算法</h4><p>另一个只读算法是<strong>equal</strong>，用于确定两个序列是否保存相同的值，它将第一个序列中的每个元素与第二个序列中的对应元素进行比较。如果所有对应元素都相等，则返回true，否则返回false。<strong>此算法接受三个迭代器：前两个表示第一个序列中的元素的范围，第三个表示第二个序列的首元素</strong>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//roster2中的元素数目应该至少与roster1一样多</span></div><div class="line">equal(roster1.cbegin(),roster1.cend(),roster2.cbegin());</div></pre></td></tr></table></figure>
+<p>由于equal利用迭代器完成操作，因此我们可以通过调用equal来比较两个不同类型的容器中的元素。而且，元素类型也不必一样，只要我们能用==来比较两个元素类型即可。例如，在此例中，roster1可以是vector<string>,而roster2是list<const char*="">。</const></string></p>
+<p><strong>但是，equal基于一个非常重要的假设：它假定第二个序列至少与第一个序列一样长。 此算法要处理第一个序列中的每个元素，它假定每个元素在第二个序列中都有一个与之对应的元素</strong>。</p>
+<h3 id="写容器元素的算法"><a href="#写容器元素的算法" class="headerlink" title="写容器元素的算法"></a>写容器元素的算法</h3><p>一些算法将新值赋予序列中的元素。当我们使用这类算法时，<strong>必须注意确保序列原大小至少不小于我们要求算法写入的元素数目</strong>。记住，算法不会执行容器操作，因此它们自身不可能改变容器的大小。</p>
+<p>一些算法会自己向输入范围写入元素，这些算法本质上并不危险，它们最多写入与给定序列一样多的元素。</p>
+<p>例如，算法fill接受一对迭代器表示一个范围，还接受一个值作为第三个参数。fill将给定的这个值赋予输入序列中的每个元素。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">fill(vec.begin(),vec.end(),<span class="number">0</span>); <span class="comment">//将每个元素重置为0</span></div><div class="line"><span class="comment">//将容器的一个子序列设置为10</span></div><div class="line">fill(vec.begin(),vec.begin()+vec.size()/<span class="number">2</span>,<span class="number">10</span>);</div></pre></td></tr></table></figure>
+<p>由于fill向给定输入序列中写入数据，因此，只要我们传递一个有效的输入序列，写入操作就是安全的。</p>
+<p><strong>关键概念：迭代器参数</strong></p>
+<p>一些算法从两个序列中读取元素。构成这两个序列的元素可以来自于不同类型的容器。例如，第一个序列可能保存于一个vector中，而第二个序列可能保存于一个list、deque、内置数组或其它容器中。而且，两个序列中元素的类型也不要求严格匹配。算法要求的只是能够比较两个序列中的元素。例如，对equal算法，元素类型不要求相同，但是我们必须能使用==来比较来自两个序列中的元素。</p>
+<p>操作两个序列的算法之间的区别在于我们如何传递第二个序列。一些算法，例如equal，接受三个迭代器：前两个表示一个序列的范围，第三个表示第二个序列中的首元素。其他算法接受四个迭代器：前两个表示第一个序列的元素范围，后两个表示第二个序列的范围。</p>
+<p><strong>用一个单一迭代器表示第二个序列的算法都假定第二个序列至少与第一个一样长</strong>。确保算法不会试图访问第二个序列中不存在的元素是程序员的责任。</p>
+<h4 id="算法不检查写操作"><a href="#算法不检查写操作" class="headerlink" title="算法不检查写操作"></a>算法不检查写操作</h4><p>一些算法接受一个迭代器来指出一个单独的目的位置。这些算法将新值赋予一个序列中的元素，该序列从目的位置迭代器指向的元素开始。例如，函数fill_n接受一个单迭代器、一个计数值和一个值。它将给定值赋予迭代器指向的元素开始的指定个元素。我们可以用fill_n将一个新值赋予vector中的元素：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vec;  <span class="comment">//空vector</span></div><div class="line"><span class="comment">//使用vec，赋予它不同值</span></div><div class="line">fill_n(vec.begin(),vec.size(),<span class="number">0</span>);  <span class="comment">//将所有元素重置为0</span></div></pre></td></tr></table></figure>
+<p>函数fill_n假定写入指定个元素是安全的。即，如下形式的调用</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fill_n(dest,n,val)</div></pre></td></tr></table></figure>
+<p>函数fill_n假定dest指向一个元素，而dest开始的序列至少包含n个元素。</p>
+<p>一个初学者非常容易犯的错误是在一个空容器上调用fill_n（或类似的写元素的算法）：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vec;  <span class="comment">//空向量</span></div><div class="line"><span class="comment">//灾难：修改vec中10个（不存在）元素</span></div><div class="line">fill_n(vec.begin(),<span class="number">10</span>,<span class="number">0</span>);</div></pre></td></tr></table></figure>
+<p>这个调用是一场灾难，我们指定了要写入10个元素，但vec中并没有元素——它是空的，这条语句的结果是未定义的。</p>
+<p><strong>向目的迭代器写入数据的算法假定目的位置是足够大，能容纳要写入的元素</strong>。</p>
+<h4 id="介绍back-inserter"><a href="#介绍back-inserter" class="headerlink" title="介绍back_inserter"></a>介绍back_inserter</h4><p>一种保证算法有足够元素空间来容纳输出数据的方法是使用插入迭代器。<strong>插入迭代器（insert iterator）</strong> 是一种向容器中添加元素的迭代器。通常情况下，当我们通过一个迭代器向容器元素赋值时，值被赋予迭代器指向的元素。<strong>而当我们通过一个插入迭代器赋值时，一个赋值号右侧值相等的元素被添加到容器中</strong>。</p>
+<p>为了展示如何用算法向容器中写入数据，我们现在将使用back_inserter，它是定义在头文件iterator中的一个函数。</p>
+<p>back_inserter接受一个指向容器的引用，返回一个与该容器绑定的插入迭代器。当我们通过此迭代器赋值时，赋值运算符会调用push_back将一个具有给定值的元素添加到容器中：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vec;   <span class="comment">//空容器</span></div><div class="line"><span class="keyword">auto</span> it=back_inserter(vec); <span class="comment">//通过它赋值会将元素添加到vec中</span></div><div class="line">*it=<span class="number">42</span>;<span class="comment">//vec现在有一个元素，值为42</span></div></pre></td></tr></table></figure>
+<p>我们常常使用back_inserter来创建一个迭代器，作为算法的目的位置来使用。例如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vec;  <span class="comment">//空向量</span></div><div class="line"><span class="comment">//正确：back_inserter创建一个插入迭代器，可以用来向vec添加元素</span></div><div class="line">fill_n(back_inserter(vec),<span class="number">10</span>,<span class="number">0</span>);  <span class="comment">//添加10个元素到vec</span></div></pre></td></tr></table></figure>
+<p>在每步迭代中，fill_n向给定容器序列的一个元素赋值。由于我们传递的参数是back_inserter返回的迭代器，因此每次赋值都会在vec上调用push_back。最终，这条fill_n调用语句向vec的末尾添加了10个元素，每个元素的值都是0.</p>
+<h4 id="拷贝算法"><a href="#拷贝算法" class="headerlink" title="拷贝算法"></a>拷贝算法</h4><p>拷贝算法是另一个向目的位置迭代器指向的输出序列中的元素写入数据的算法。此算法接受三个迭代器，前两个表示一个输入范围，第三个表示目的序列的起始位置。此算法将输入范围中的元素拷贝到目的序列中。<strong>传递给copy的目的序列至少要包含与输入序列一样多的元素，这一点很重要。</strong></p>
+<p>我们可以用copy实现内置数组的拷贝，如下面代码所示：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> a[]=&#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>&#125;;</div><div class="line"><span class="keyword">int</span> a2[<span class="keyword">sizeof</span>(a1)/<span class="keyword">sizeof</span>(*a1)];</div><div class="line"><span class="keyword">auto</span> ret=copy(begin(a1),end(a1),a2); <span class="comment">//把a1的内容拷贝到a2</span></div></pre></td></tr></table></figure>
+<p><strong>copy返回的是其目的位置迭代器（递增后）的值。即，ret恰好指向拷贝到a2的尾元素之后的位置。</strong></p>
+<p>多个算法都提供所谓的“拷贝”版本。这些算法计算新元素的值，但不会将它们放置在输入序列的末尾，而是创建以新序列保存这些结果。</p>
+<p>例如，replace算法读入一个序列，并将其中所有等于给定值的元素都改为另一个值。此算法接受4个参数：前两个是迭代器，表示输入序列，后两个一个是要搜索的值，另一个是新值。它将所有等于第一个值的元素替换为第二个值：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//将所有值为0的元素改为42</span></div><div class="line">replace(ilist.begin(),ilist.end(),<span class="number">0</span>,<span class="number">42</span>);</div></pre></td></tr></table></figure>
+<p>此调用将序列中所有0都替换为42,。<strong>如果我们希望保留原序列不变</strong>，可以调用replace_copy。此算法接受额外第三个迭代器参数，指出调整后序列的保存位置：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//使用back_inserter按需要增长目标序列</span></div><div class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ivec = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>&#125;;</div><div class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; a;</div><div class="line">replace_copy(ivec.cbegin(),ivec.cend(),back_inserter(a),<span class="number">4</span>,<span class="number">19</span>);</div></pre></td></tr></table></figure>
+<p>此调用后，ivec并未改变，a包含与ivec的一份拷贝，不过原来在ivec中值为0的元素在a中都变为42。</p>
+<h3 id="重排容器元素的算法"><a href="#重排容器元素的算法" class="headerlink" title="重排容器元素的算法"></a>重排容器元素的算法</h3><p>某些算法会重排容器中元素的顺序，一个明显的例子是sort。调用sort会重排输入序列中的元素，使之有序，它是利用元素类型的&lt;运算符来实现排序的。</p>
+<h4 id="消除重复单词"><a href="#消除重复单词" class="headerlink" title="消除重复单词"></a>消除重复单词</h4><p>为了消除重复单词，首先将vector排序，使得重复的单词都相邻出现。一旦vector排序完毕，<strong>我们就可以使用另一个称为unique的标准库算法来重排vector，使得不重复的元素出现在vector的开始部分（重复的元素都在末尾，返回指向不重复区域之后一个位置的迭代器）</strong>，由于算法不能执行容器的操作，我们将使用vector的erase成员来完成真正的删除操作：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; words = &#123;<span class="string">"to"</span>,<span class="string">"be"</span>,<span class="string">"or"</span>,<span class="string">"not"</span>,<span class="string">"not"</span>,<span class="string">"to"</span>,<span class="string">"be"</span>&#125;;</div><div class="line"><span class="comment">//按字典序排序words,以便查找重复单词</span></div><div class="line">sort(words.begin(),words.end());</div><div class="line"><span class="comment">//unique重排输入范围，使得每个单词只出现一次,重复的单词放在后面</span></div><div class="line"><span class="comment">//排列在范围的前部，返回指向不重复区域之后一个位置的迭代器</span></div><div class="line"><span class="keyword">auto</span> end_unique = unique(words.begin(),words.end());</div><div class="line"><span class="comment">//使用向量操作erase删除重复单词</span></div><div class="line">words.erase(end_unique,words.end());</div></pre></td></tr></table></figure>
+<h4 id="使用unique"><a href="#使用unique" class="headerlink" title="使用unique"></a>使用unique</h4><p>words排序完毕后，我们希望将每个单词都只保存一次。unique算法重排输入序列，将相邻的重复项“消除”，并返回一个指向不重复范围末尾的迭代器。</p>
+<p>words的大小并未改变，但是这些元素的顺序被改变了——相邻的重复元素被“删除”了。我们将删除打引号是因为unique并不真正的删除任何元素，它只是覆盖相邻的重复元素，使得不重复元素出现在序列开始部分，重复的元素出现在后面部分，unique返回的迭代器指向最后一个不重复元素之后的位置。此位置之后的元素仍然存在，但我们不知道它们的值是什么。</p>
+<p>标准库算法对迭代器而不是容器进行操作。因此，算法不能（直接）添加或删除元素。</p>
+<h4 id="使用容器操作删除元素"><a href="#使用容器操作删除元素" class="headerlink" title="使用容器操作删除元素"></a>使用容器操作删除元素</h4><p>为了真正删除无用元素，我们必须使用容器操作，本例中使用erase。我们删除从end_unique开始直至words末尾的范围内的所有元素。这个调用之后，words包含的重复元素真正被删除了。</p>
+<p>值得注意的是，即使words中没有重复单词，这样调用erase也是安全的。在此情况下，unique会返回words.end()。因此，传递给erase的两个参数具有系相同的值：words.end()。迭代器相等意味着传递给erase的元素范围为空。删除一个空范围没有什么不良后果，因此程序中即使在输入元素中无重复元素的情况下也是正确的。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;泛型算法概述&quot;&gt;&lt;a href=&quot;#泛型算法概述&quot; class=&quot;headerlink&quot; title=&quot;泛型算法概述&quot;&gt;&lt;/a&gt;泛型算法概述&lt;/h2&gt;&lt;p&gt;顺序容器只定义了很少的操作：在多数情况下，我们可以添加和删除元素。访问首尾元素、确定容器是否为空以及获得指向首元素或尾元素之后位置的迭代器。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="C++" scheme="http://www.wangxinri.cn/categories/C/"/>
+    
+    
+      <category term="泛型" scheme="http://www.wangxinri.cn/tags/%E6%B3%9B%E5%9E%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>构造函数和拷贝控制</title>
+    <link href="http://www.wangxinri.cn/2017/10/26/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%92%8C%E6%8B%B7%E8%B4%9D%E6%8E%A7%E5%88%B6/"/>
+    <id>http://www.wangxinri.cn/2017/10/26/构造函数和拷贝控制/</id>
+    <published>2017-10-26T13:59:00.000Z</published>
+    <updated>2018-02-22T13:03:53.969Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="构造函数和拷贝控制"><a href="#构造函数和拷贝控制" class="headerlink" title="构造函数和拷贝控制"></a>构造函数和拷贝控制</h2><h3 id="虚析构函数"><a href="#虚析构函数" class="headerlink" title="虚析构函数"></a>虚析构函数</h3><p>继承关系对基类拷贝控制最直接的影响是<strong>基类通常应该定义一个虚析构函数</strong>，这样我们就能动态分配继承体系中的对象了。</p>
+<p><strong>原因：</strong> 当我们delete一个动态分配的对象的指针时将执行析构函数。如果该指针指向继承体系中的某个类型，则有可能出现指针的静态类型与被删除对象的动态类型不符的情况。例如，如果我们delete一个Quote*类型（基类）的指针，则该指针有可能实际指向了一个Bulk_quote（派生类）类型的对象。如果这样的话，编译器就必须清楚它应该执行的是Bulk_quote的析构函数。和其他函数一样，我们通过在基类中将析构函数定义成虚函数以确保执行正确的析构函数版本。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Quote</span>&#123;</span></div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="comment">//如果我们删除的是一个指向派生类对象的基类指针，则需要虚析构函数</span></div><div class="line">    <span class="keyword">virtual</span> ~Quote()  = <span class="keyword">default</span>;      <span class="comment">//动态绑定析构函数</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Quote *itemP = <span class="keyword">new</span> Quote;      <span class="comment">//静态类型与动态类型一致</span></div><div class="line"><span class="keyword">delete</span> itemP;                 <span class="comment">//调用Quote的析构函数</span></div><div class="line">itemP = <span class="keyword">new</span> Bulk_quote;       <span class="comment">//静态类型与动态类型不一致</span></div><div class="line"><span class="keyword">delete</span> itemP;                <span class="comment">//调用Bulk_quote的析构函数</span></div></pre></td></tr></table></figure>
+<p><strong>警告：</strong> 如果基类的析构函数不是虚函数，则delete一个指向派生类对象的基类指针将产生未定义的行为。</p>
+<h4 id="虚析构函数将阻止合成移动操作"><a href="#虚析构函数将阻止合成移动操作" class="headerlink" title="虚析构函数将阻止合成移动操作"></a>虚析构函数将阻止合成移动操作</h4><p>基类需要一个虚析构函数这一事实还会对基类和派生类的定义产生另外一个间接的影响：如果一个类定义了析构函数，即使它通过=default的形式使用了合成的版本，编译器也不会为这个类合成移动操作。</p>
+<h3 id="合成的拷贝控制与继承"><a href="#合成的拷贝控制与继承" class="headerlink" title="合成的拷贝控制与继承"></a>合成的拷贝控制与继承</h3><p>基类或派生类的合成构造函数控制成员的行为与其他合成的构造函数、赋值运算符或析构函数类似：它们对类本身的成员依次进行初始化、赋值或销毁的操作。此外，<strong>这些合成的成员还负责使用直接基类中对应的操作对一个对象的直接基类部分进行初始化、赋值或销毁的操作</strong>。</p>
+<p><strong>对于派生类的析构函数来说，它除了销毁派生类自己的成员外，还负责销毁派生类的直接基类；该直接基类又销毁它自己的直接基类，以此类推直至继承链的顶端。</strong></p>
+<h4 id="派生类中删除的拷贝控制与基类的关系-（略）"><a href="#派生类中删除的拷贝控制与基类的关系-（略）" class="headerlink" title="派生类中删除的拷贝控制与基类的关系 （略）"></a>派生类中删除的拷贝控制与基类的关系 （略）</h4><h4 id="移动操作与继承"><a href="#移动操作与继承" class="headerlink" title="移动操作与继承"></a>移动操作与继承</h4><p>如前所述，大多数基类都会定义一个虚析构函数。（如果一个类需要析构函数，那么它同样需要拷贝和控制操作，基类的析构函数并不遵循上诉准则），因此在默认情况下，基类通常不含有合成的移动操作，而且它的派生类中也没有合成的移动操作（如果我们定义了拷贝构造函数，则编译器将不会为类合成一个移动构造函数）。</p>
+<p><strong>因为基类缺少移动操作会阻止派生类拥有自己的合成移动操作，所以当我们确实需要执行移动操作时应该首先在基类中进行定义。我们的Quote可以使用合成的版本，不过前提是Quote必须显式地定义这些成员。一旦Quote定义了自己的移动操作，那么它必须同时显式地定义拷贝操作</strong>。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Quote</span>&#123;</span></div><div class="line"><span class="keyword">public</span>:</div><div class="line">    Quote() = <span class="keyword">default</span>;      <span class="comment">//对成员依次进行默认初始化</span></div><div class="line">    Quote(<span class="keyword">const</span> Quote&amp;) = <span class="keyword">default</span>;          <span class="comment">//对成员依次拷贝</span></div><div class="line">    Quote(Quote&amp;&amp;) = <span class="keyword">default</span>;            <span class="comment">//对成员依次拷贝</span></div><div class="line">    Quote&amp; <span class="keyword">operator</span>= (<span class="keyword">const</span> Quote&amp;) = <span class="keyword">default</span>;       <span class="comment">//拷贝赋值</span></div><div class="line">    Quote&amp; <span class="keyword">operator</span>=(Quote&amp;&amp;) = <span class="keyword">default</span>;           <span class="comment">//移动赋值</span></div><div class="line">    <span class="keyword">virtual</span> ~Quote() = <span class="keyword">default</span>; </div><div class="line">    <span class="comment">//其他成员与之前的版本一致</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="派生类的拷贝控制成员"><a href="#派生类的拷贝控制成员" class="headerlink" title="派生类的拷贝控制成员"></a>派生类的拷贝控制成员</h3><p>派生类构造函数在其初始化阶段中不但要初始化派生类自己的成员，还负责初始化派生类对象的基类部分。因此，派生类的拷贝和移动构造函数在拷贝和移动自有成员的同时，也要拷贝和移动基类部分的成员。类似的，派生类赋值运算符也必须为其基类部分的成员赋值。</p>
+<p>和构造函数及赋值运算符不同的是，析构函数只负责销毁派生类自己分配的资源。如前所述，对象的成员是被隐式销毁的；类似的，派生类对象的基类部分也是自动销毁的。</p>
+<p><strong>警告：</strong> 当派生类定义了拷贝或移动操作时，该操作负责拷贝或移动包括基类部分成员在内的整个对象。</p>
+<h4 id="定义派生类的拷贝或移动构造函数"><a href="#定义派生类的拷贝或移动构造函数" class="headerlink" title="定义派生类的拷贝或移动构造函数"></a>定义派生类的拷贝或移动构造函数</h4><p> <strong>当为派生类定义拷贝或移动构造函数时，我们通常使用对应的基类构造函数初始化对象的基类部分。</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span>&#123;</span></div><div class="line"><span class="keyword">public</span>:</div><div class="line">    Base() = <span class="keyword">default</span>;</div><div class="line">    Base(<span class="keyword">int</span> value):val(value) &#123;&#125;</div><div class="line">    Base(<span class="keyword">const</span> Base &amp;b) &#123; <span class="keyword">this</span>-&gt;val = b.val;&#125;   <span class="comment">//拷贝构造函数</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;<span class="built_in">cout</span>&lt;&lt;<span class="string">"Base::"</span>&lt;&lt;val&lt;&lt;<span class="built_in">endl</span>;&#125;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">    <span class="keyword">int</span> val;</div><div class="line">&#125;;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span>:</span><span class="keyword">public</span> Base&#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    D() = <span class="keyword">default</span>;</div><div class="line">    D(<span class="keyword">int</span> dval,<span class="keyword">int</span> bval):Base(bval),Dval(dval) &#123;&#125;</div><div class="line">    D(<span class="keyword">const</span> D &amp;d):Base(d),Dval(d.Dval) &#123;&#125;    <span class="comment">//派生类的拷贝构造函数</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span>  </span>&#123;<span class="built_in">cout</span>&lt;&lt;<span class="string">"D::"</span>&lt;&lt;Dval&lt;&lt;<span class="built_in">endl</span>;&#125;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">    <span class="keyword">int</span> Dval;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//D的这个拷贝构造函数很可能是不正确的定义</span></div><div class="line"><span class="comment">//基类部分被默认初始化，而非拷贝</span></div><div class="line">D(<span class="keyword">const</span> D &amp;d)   <span class="comment">/*成员初始值，但是没有提供基类初始值*/</span></div><div class="line">&#123;</div><div class="line">    <span class="comment">/* .... */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在上面的例子中，Base的默认构造函数将被用来初始化D对象的基类部分。假定D的构造函数从d中拷贝了派生类成员，则这个新构建的对象的配置将非常奇怪：它的Base成员被赋予了默认值，而D成员的值则是从其他对象拷贝得来的。</p>
+<p><strong>警告：</strong> <strong>默认情况下，基类默认构造函数初始化派生类对象的基类部分。如果我们想拷贝（或移动）基类部分，则必须在派生类的构造函数初始值列表中显式地使用基类的拷贝（或移动）构造函数。</strong></p>
+<h4 id="派生类赋值运算符"><a href="#派生类赋值运算符" class="headerlink" title="派生类赋值运算符"></a>派生类赋值运算符</h4><p>与拷贝和移动构造函数一样，派生类的赋值运算符也必须显式地为其基类部分赋值：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Base::operator=(const Base&amp;) 不会被自动调用</span></div><div class="line">D &amp;D::<span class="keyword">operator</span>=(<span class="keyword">const</span> D &amp;rhs)&#123;</div><div class="line">    Base::<span class="keyword">operator</span>=(rhs);    <span class="comment">//为基类部分赋值</span></div><div class="line">    <span class="comment">//按照过去的方式为派生类的成员赋值</span></div><div class="line">    <span class="comment">//酌情处理自赋值及释放已有资源等情况</span></div><div class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>值得注意的是，无论基类的构造函数或赋值运算符是自定义的版本还是合成的版本，派生类的对应操作都能使用他们。例如，对于Base::operator=的调用语句将执行Base的拷贝赋值运算符，至于该运算符是由Base显式定义的还是由编译器合成的无关紧要。</p>
+<h4 id="派生类析构函数"><a href="#派生类析构函数" class="headerlink" title="派生类析构函数"></a>派生类析构函数</h4><p>如前所述，<strong>在析构函数体执行完成后，对象的成员会被隐式销毁。类似的，对象的基类部分也是隐式销毁的</strong>。因此，和构造函数及赋值运算符不同的是，派生类析构函数只负责销毁由派生类自己分配的资源：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span>:</span><span class="keyword">public</span> Base&#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="comment">//Base::~Base被自动调用执行</span></div><div class="line">    ~D() &#123; <span class="comment">/*该处由用户定义清除派生类成员的操作*/</span> &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>对象销毁的顺序正好与其创建的顺序相反：派生类析构函数首先执行，然后是基类的析构函数，以此类推，沿着继承体系的反方向直到最后。</p>
+<h4 id="在构造函数和析构函数中调用虚函数"><a href="#在构造函数和析构函数中调用虚函数" class="headerlink" title="在构造函数和析构函数中调用虚函数"></a>在构造函数和析构函数中调用虚函数</h4><p><strong>如果构造函数或析构函数调用了某个虚函数，则我们应该执行与构造函数或析构函数所属类型相对应的虚函数版本。</strong></p>
+<h4 id="继承的构造函数"><a href="#继承的构造函数" class="headerlink" title="继承的构造函数"></a>继承的构造函数</h4><p>在C++新标准中，派生类能够重用其直接基类定义的构造函数。尽管如我们所知，这些构造函数并非以常规的方式继承而来，但是为了方便，我们不妨姑且称其为“继承”的。一个类只初始化它的直接基类，出于同样的原因，<strong>一个类也只继承其直接基类的构造函数。类不能继承默认、拷贝和移动构造函数</strong>。如果派生类没有直接定义这些构造函数，则编译器将为派生类合成它们。</p>
+<p>派生类继承基类构造函数的方式是提供一条注明了（直接）基类名的using声明语句。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span>&#123;</span></div><div class="line"><span class="keyword">public</span>:</div><div class="line">    Base() = <span class="keyword">default</span>;</div><div class="line">    Base(<span class="keyword">int</span> value):val(value) &#123;&#125;  <span class="comment">//构造函数</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;<span class="built_in">cout</span>&lt;&lt;<span class="string">"Base::"</span>&lt;&lt;val&lt;&lt;<span class="built_in">endl</span>;&#125;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">    <span class="keyword">int</span> val;</div><div class="line">&#125;;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span>:</span><span class="keyword">public</span> Base&#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    D() = <span class="keyword">default</span>;</div><div class="line">    <span class="keyword">using</span> Base::Base;  <span class="comment">//继承基类的构造函数</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span>  </span>&#123;<span class="built_in">cout</span>&lt;&lt;<span class="string">"D::"</span>&lt;&lt;Dval&lt;&lt;<span class="built_in">endl</span>;&#125;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">    <span class="keyword">int</span> Dval;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>通常情况下，using声明语句只是令某个名字在当前作用域内可见。而当作用于构造函数时，using声明语句将令编译器产生代码。对于基类的每个构造函数，编译器都生成一个与之对应的派生类构造函数。换句话说，对于基类的每个构造函数，编译器都在派生类中生成一个形参列表完全相同的构造函数。</p>
+<p>这些编译器生成的构造函数形如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">derived(parms):base(args) &#123;&#125;</div></pre></td></tr></table></figure>
+<p>其中，derived是派生类的名字，base是基类的名字，parms是构造函数的形参列表，args将派生类构造函数的形参传递给基类的构造函数。上述继承的构造函数等价于：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">D(<span class="keyword">int</span> value):Base(value) &#123;&#125;</div></pre></td></tr></table></figure>
+<p><strong>如果派生类含有自己的数据成员，则这些成员将被默认初始化。</strong></p>
+<h4 id="继承构造函数的特点"><a href="#继承构造函数的特点" class="headerlink" title="继承构造函数的特点"></a>继承构造函数的特点</h4><ul>
+<li>一个构造函数的using声明不会改变该构造函数的访问级别。例如，不管using声明出现在哪儿，基类的私有构造函数在派生类中还是一个私有构造函数；受保护的构造函数和公有构造函数也是同样的规则。</li>
+<li>如果派生类定义的构造函数与基类的构造函数具有相同的参数列表，则该构造函数将不会被继承。定义在派生类中的构造函数将替换继承而来的构造函数。</li>
+<li>默认、拷贝和移动构造函数不会被继承。这些构造函数按照正常规则被合成。继承的构造函数不会被作为用户定义的构造函数来使用，因此，如果一个类只含有继承的构造函数，则它也将拥有一个合成的默认构造函数。</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;构造函数和拷贝控制&quot;&gt;&lt;a href=&quot;#构造函数和拷贝控制&quot; class=&quot;headerlink&quot; title=&quot;构造函数和拷贝控制&quot;&gt;&lt;/a&gt;构造函数和拷贝控制&lt;/h2&gt;&lt;h3 id=&quot;虚析构函数&quot;&gt;&lt;a href=&quot;#虚析构函数&quot; class=&quot;header
+    
+    </summary>
+    
+      <category term="C++" scheme="http://www.wangxinri.cn/categories/C/"/>
+    
+    
+      <category term="构造函数" scheme="http://www.wangxinri.cn/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/"/>
+    
+      <category term="拷贝控制" scheme="http://www.wangxinri.cn/tags/%E6%8B%B7%E8%B4%9D%E6%8E%A7%E5%88%B6/"/>
+    
+  </entry>
   
   <entry>
     <title>顺序容器概述</title>
@@ -1141,81 +1796,6 @@ n=8&amp;7         0000
     <summary type="html">
     
       &lt;h1 id=&quot;一、前言&quot;&gt;&lt;a href=&quot;#一、前言&quot; class=&quot;headerlink&quot; title=&quot;一、前言&quot;&gt;&lt;/a&gt;一、前言&lt;/h1&gt;&lt;p&gt;在之前的&lt;strong&gt;初级篇&lt;/strong&gt;中介绍了如何搭建个人博客。本文介绍如何更换博客主题、设置第三方服务和最重要的如何管理发布博客。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="hexo" scheme="http://www.wangxinri.cn/categories/hexo/"/>
-    
-    
-      <category term="hexo" scheme="http://www.wangxinri.cn/tags/hexo/"/>
-    
-      <category term="github" scheme="http://www.wangxinri.cn/tags/github/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>github Pages + Hexo搭建个人博客（一）  初级篇</title>
-    <link href="http://www.wangxinri.cn/2017/08/06/github%20Pages%20+%20Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89%20%20%E5%88%9D%E7%BA%A7%E7%AF%87/"/>
-    <id>http://www.wangxinri.cn/2017/08/06/github Pages + Hexo搭建个人博客（一）  初级篇/</id>
-    <published>2017-08-06T13:59:00.000Z</published>
-    <updated>2018-01-16T03:08:38.007Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>之前一直是在有道云上做一些笔记的，上周末在网上看到了一些别人搭建的个人博客，顿时感兴趣起来，然后自己就瞎捣鼓了几天，最终搭建成功了，哈哈。在这个过程中发现，搭建一个网站还是比较简单的，难的是管理博客，更难的是写博客！！！<br><a id="more"></a><br>这个过程中，注册了自己的第一个github账号（很失败有木有，太out了），同时也了解了一些git的版本控制，还知道了Markdown这种标记语言，后面的这些博客都是用这个标记语言写的，还是很有收获的。</p>
-<p>今天特地总结一下使用github Pages + Hexo搭建个人博客的过程，以备不时之需。这里不谈理论，只谈过程，理论自己也不是很清楚，就不瞎说了，以后慢慢熟悉了，在补充！</p>
-<h1 id="二、环境准备"><a href="#二、环境准备" class="headerlink" title="二、环境准备"></a>二、环境准备</h1><h2 id="1-注册github账号"><a href="#1-注册github账号" class="headerlink" title="1. 注册github账号"></a>1. 注册github账号</h2><p>这个就不多说了，账号注册好后，登陆，在首页右边有一个 <strong>+</strong> 号图标，点击之后，选择New repository进行仓库的创建。Repository name命名为username.github.io（username是你的账号名，记住一定要这样命令哦)，点击Create repository，创建成功。</p>
-<h2 id="2-安装Git"><a href="#2-安装Git" class="headerlink" title="2. 安装Git"></a>2. 安装Git</h2><p>我们之所以要安装git，是因为后面我们要用到git命令，将生成的静态博客网页等信息推送至github仓库，我们的git使用一般由两种方式，一种是<strong>图形化界面（GUI）</strong>,另外一种是通过<strong>命令行</strong>。这里我选择安装前者，带界面的，菜鸟嘛，不会git命令，先熟悉熟悉流程，顺带在这个过程中在了解git的一些常用命令。另外安装前者，在桌面上会生成两个图标， <strong>GitHub和Git Shell</strong>,这两个图标分别是图形界面和命令行工具，意思就是我们不仅可以使用图形界面的工具管理我们github上的仓库，同时也可以使用命令行的形式管理，自由切换，爽歪歪！</p>
-<p>Github for Windows: <a href="http://download.csdn.net/detail/devsplash/9666012" target="_blank" rel="external">点击下载</a></p>
-<p>下载安装完后，桌面上生成<strong>GitHub和Git Shell</strong>两个图标，然后点击<strong>GitHub</strong>图标，输入前面注册的github账号和密码，登录完成，ok，暂时先这样，接着往下走。</p>
-<p>Github for Windows 安装配置使用教程: <a href="http://blog.csdn.net/chenxun_2010/article/details/43670651" target="_blank" rel="external">参考</a></p>
-<h2 id="3-安装Node-js"><a href="#3-安装Node-js" class="headerlink" title="3. 安装Node.js"></a>3. 安装Node.js</h2><p>安装Node.js,因为Hexo是一个基于Node.js的静态博客程序，所以首先安装Node.js。</p>
-<p>点击进入<a href="https://nodejs.org/en/" target="_blank" rel="external">Node.js官网</a></p>
-<p>我们选择左边的通用版，点击下载后，设置安装路径然后默认安装就可以了。</p>
-<h2 id="4-安装Hexo"><a href="#4-安装Hexo" class="headerlink" title="4. 安装Hexo"></a>4. 安装Hexo</h2><p>以上环境配好了之后，那么恭喜您！接下来只需要使用npm即可完成Hexo的安装。</p>
-<p>打开终端，输入：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install -g hexo-cli</div></pre></td></tr></table></figure>
-<p>如果执行这条命令时长时间未成功，那么请先使用下面的命令将npm镜像源更改为国内的镜像，再执行上面的安装命令，因为国外的镜像源很有可能被墙了。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm config <span class="built_in">set</span> registry https://registry.npm.taobao.org</div></pre></td></tr></table></figure>
-<p>安装好Hexo以后，在终端输入：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo</div></pre></td></tr></table></figure>
-<p>若出现下图，说明hexo安装成功：</p>
-<p><img src="http://ou6yob3zd.bkt.clouddn.com/20170806141617.png" alt=""></p>
-<h1 id="三、使用Hexo建站"><a href="#三、使用Hexo建站" class="headerlink" title="三、使用Hexo建站"></a>三、使用Hexo建站</h1><h2 id="1-初始化博客"><a href="#1-初始化博客" class="headerlink" title="1. 初始化博客"></a>1. 初始化博客</h2><p>新建一个网站。如果没有设置 folder ，Hexo 默认在目前的文件夹建立网站。比如我在终端进入到G:Github目录，输入hexo init hexo，则在该目录下创建了hexo博客文件夹。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo init [folder]</div></pre></td></tr></table></figure>
-<p>接下来进入到博客文件夹，这里是E:Github/hexo，执行如下命令，根据该目录下的package.json中既定的dependencies配置安装所有的依赖包</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install</div></pre></td></tr></table></figure>
-<h2 id="2-配置"><a href="#2-配置" class="headerlink" title="2. 配置"></a>2. 配置</h2><p>网站的主配置文件为hexo根目录下的<strong>_config.yml</strong>文件：</p>
-<p>默认配置如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div></pre></td><td class="code"><pre><div class="line"># Hexo Configuration</div><div class="line">## Docs: https://hexo.io/docs/configuration.html</div><div class="line">## Source: https://github.com/hexojs/hexo/</div><div class="line"></div><div class="line"># Site</div><div class="line">title: Hexo</div><div class="line">subtitle:</div><div class="line">description:</div><div class="line">author: John Doe</div><div class="line">language:</div><div class="line">timezone:</div><div class="line"></div><div class="line"># URL</div><div class="line">## If your site is put in a subdirectory, set url as &apos;http://yoursite.com/child&apos; and root as &apos;/child/&apos;</div><div class="line">url: http://yoursite.com</div><div class="line">root: /</div><div class="line">permalink: :year/:month/:day/:title/</div><div class="line">permalink_defaults:</div><div class="line"></div><div class="line"># Directory</div><div class="line">source_dir: source</div><div class="line">public_dir: public</div><div class="line">tag_dir: tags</div><div class="line">archive_dir: archives</div><div class="line">category_dir: categories</div><div class="line">code_dir: downloads/code</div><div class="line">i18n_dir: :lang</div><div class="line">skip_render:</div><div class="line"></div><div class="line"># Writing</div><div class="line">new_post_name: :title.md # File name of new posts</div><div class="line">default_layout: post</div><div class="line">titlecase: false # Transform title into titlecase</div><div class="line">external_link: true # Open external links in new tab</div><div class="line">filename_case: 0</div><div class="line">render_drafts: false</div><div class="line">post_asset_folder: false</div><div class="line">relative_link: false</div><div class="line">future: true</div><div class="line">highlight:</div><div class="line">  enable: true</div><div class="line">  line_number: true</div><div class="line">  auto_detect: false</div><div class="line">  tab_replace:</div><div class="line">  </div><div class="line"># Home page setting</div><div class="line"># path: Root path for your blogs index page. (default = &apos;&apos;)</div><div class="line"># per_page: Posts displayed per page. (0 = disable pagination)</div><div class="line"># order_by: Posts order. (Order by date descending by default)</div><div class="line">index_generator:</div><div class="line">  path: &apos;&apos;</div><div class="line">  per_page: 10</div><div class="line">  order_by: -date</div><div class="line">  </div><div class="line"># Category &amp; Tag</div><div class="line">default_category: uncategorized</div><div class="line">category_map:</div><div class="line">tag_map:</div><div class="line"></div><div class="line"># Date / Time format</div><div class="line">## Hexo uses Moment.js to parse and display date</div><div class="line">## You can customize the date format as defined in</div><div class="line">## http://momentjs.com/docs/#/displaying/format/</div><div class="line">date_format: YYYY-MM-DD</div><div class="line">time_format: HH:mm:ss</div><div class="line"></div><div class="line"># Pagination</div><div class="line">## Set per_page to 0 to disable pagination</div><div class="line">per_page: 10</div><div class="line">pagination_dir: page</div><div class="line"></div><div class="line"># Extensions</div><div class="line">## Plugins: https://hexo.io/plugins/</div><div class="line">## Themes: https://hexo.io/themes/</div><div class="line">theme: landscape</div><div class="line"></div><div class="line"># Deployment</div><div class="line">## Docs: https://hexo.io/docs/deployment.html</div><div class="line">deploy:</div><div class="line">  type:</div><div class="line"></div></pre></td></tr></table></figure>
-<p>这些配置项所代表的意思可以参考Hexo中文网：<a href="https://hexo.io/zh-cn/docs/configuration.html" target="_blank" rel="external">_config.yml配置</a> ，我们需要修改的配置只有这几项，拿我自己修改的配置作为示例。</p>
-<h3 id="1-修改网站相关信息"><a href="#1-修改网站相关信息" class="headerlink" title="1). 修改网站相关信息"></a>1). 修改网站相关信息</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">title: 新日三少的博客 </div><div class="line">subtitle: Big big pig   </div><div class="line">description: Love Coding,Enjoy Life</div><div class="line">author: 新日三少</div><div class="line">language: zh-CN      <span class="comment">#themes主题文件夹下的languages下面有很多语言可选</span></div><div class="line">timezone: Asia/Shanghai</div></pre></td></tr></table></figure>
-<p><strong>注意</strong>：每一项的填写，其:后面都要保留一个空格，下同。</p>
-<h3 id="2-配置统一资源定位符（个人域名）"><a href="#2-配置统一资源定位符（个人域名）" class="headerlink" title="2). 配置统一资源定位符（个人域名）"></a>2). 配置统一资源定位符（个人域名）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">url: http://www.wangxinri.cn</div></pre></td></tr></table></figure>
-<p>对于root（根目录）、permalink（永久链接）、permalink_defaults（默认永久链接）等其他信息保持默认。<br>如无个人域名，无需修改这一项。</p>
-<h3 id="3-配置部署"><a href="#3-配置部署" class="headerlink" title="3). 配置部署"></a>3). 配置部署</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">deploy: </div><div class="line">  <span class="built_in">type</span>: git</div><div class="line">  repo: https://github.com/xinrisanshao/xinrisanshao.github.io.git</div><div class="line">  branch: master</div></pre></td></tr></table></figure>
-<p>其中repo项是之前Github上创建好的仓库的地址，，可以通过如下图所示的方式得到：</p>
-<p><img src="http://ou6yob3zd.bkt.clouddn.com/20170806151918.png" alt=""></p>
-<h2 id="3-本地发布博客"><a href="#3-本地发布博客" class="headerlink" title="3.  本地发布博客"></a>3.  本地发布博客</h2><p>接下来，在网站中建立第一篇文章，<strong>打开终端，进入到博客文件夹根目录</strong>，这里是E:Github/hexo，然后输入</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo new <span class="string">"文章标题"</span></div></pre></td></tr></table></figure>
-<p>我们可以在本地博客文件夹source-&gt;_post文件夹下看到我们新建的markdown文件。通过Markdown编辑器对我们文章进行编辑，我这采用的是Markdownpad2编辑器。</p>
-<p>MarkdownPad2：<a href="http://download.csdn.net/detail/rentongtmd/8333707" target="_blank" rel="external">点击下载</a></p>
-<p>Markdown语法：<a href="http://www.markdown.cn/" target="_blank" rel="external">Markdown中文网</a></p>
-<p>为了能够使Hexo部署到GitHub上，需要安装一个插件：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo-deployer-git --save</div></pre></td></tr></table></figure>
-<p>接下来,我们进行本地发布：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hexo generate</div><div class="line">hexo server</div></pre></td></tr></table></figure></p>
-<p>执行完后，打开浏览器，输入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:4000/</div></pre></td></tr></table></figure></p>
-<p>我们可以在浏览器端看到我们搭建好的博客和发布的文章，如果访问失败，可能端口被占用，更换端口 hexo server -p 5000 ,将默认4000端口换成5000。<br><img src="http://ou6yob3zd.bkt.clouddn.com/20170806161241.png" alt=""></p>
-<h2 id="4-发布博客至github仓库"><a href="#4-发布博客至github仓库" class="headerlink" title="4. 发布博客至github仓库"></a>4. 发布博客至github仓库</h2><p>但是毕竟我们目前发布的博客只有本机看得到，怎么让其他人看到我们写的博客呢？这时候我们来看看博客的部署。</p>
-<p>打开终端，进入到博客文件夹根目录，这里还是<strong>E:Github/hexo</strong>，执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hexo generate</div><div class="line">hexo deploy</div></pre></td></tr></table></figure>
-<p>输入我们的网址：<a href="http://xinrisanshao.github.io" target="_blank" rel="external">xinrisanshao.github.io</a> ,即可访问博客了。</p>
-<p>此时查看github中的仓库，发现我们博客文件夹根目录中的<strong>public文件夹</strong>里面的文件已经发布到仓库中了。</p>
-<p>此时搭建的博客还只是入门，外观确实一般般，接下来将更进一步，比如如何更换主题、如何管理博客等等。</p>
-<p>好累啊，先休息下，果然还是写博客最累啊。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;一、前言&quot;&gt;&lt;a href=&quot;#一、前言&quot; class=&quot;headerlink&quot; title=&quot;一、前言&quot;&gt;&lt;/a&gt;一、前言&lt;/h1&gt;&lt;p&gt;之前一直是在有道云上做一些笔记的，上周末在网上看到了一些别人搭建的个人博客，顿时感兴趣起来，然后自己就瞎捣鼓了几天，最终搭建成功了，哈哈。在这个过程中发现，搭建一个网站还是比较简单的，难的是管理博客，更难的是写博客！！！&lt;br&gt;
     
     </summary>
     
