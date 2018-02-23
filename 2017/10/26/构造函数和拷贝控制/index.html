@@ -127,18 +127,18 @@
 
 
 
-<meta name="description" content="构造函数和拷贝控制虚析构函数继承关系对基类拷贝控制最直接的影响是基类通常应该定义一个虚析构函数，这样我们就能动态分配继承体系中的对象了。 原因： 当我们delete一个动态分配的对象的指针时将执行析构函数。如果该指针指向继承体系中的某个类型，则有可能出现指针的静态类型与被删除对象的动态类型不符的情况。例如，如果我们delete一个Quote*类型（基类）的指针，则该指针有可能实际指向了一个Bulk">
+<meta name="description" content="构造函数和拷贝控制虚析构函数继承关系对基类拷贝控制最直接的影响是基类通常应该定义一个虚析构函数，这样我们就能动态分配继承体系中的对象了。">
 <meta name="keywords" content="构造函数,拷贝控制">
 <meta property="og:type" content="article">
 <meta property="og:title" content="构造函数和拷贝控制">
 <meta property="og:url" content="http://www.wangxinri.cn/2017/10/26/构造函数和拷贝控制/index.html">
 <meta property="og:site_name" content="新日三少的博客">
-<meta property="og:description" content="构造函数和拷贝控制虚析构函数继承关系对基类拷贝控制最直接的影响是基类通常应该定义一个虚析构函数，这样我们就能动态分配继承体系中的对象了。 原因： 当我们delete一个动态分配的对象的指针时将执行析构函数。如果该指针指向继承体系中的某个类型，则有可能出现指针的静态类型与被删除对象的动态类型不符的情况。例如，如果我们delete一个Quote*类型（基类）的指针，则该指针有可能实际指向了一个Bulk">
+<meta property="og:description" content="构造函数和拷贝控制虚析构函数继承关系对基类拷贝控制最直接的影响是基类通常应该定义一个虚析构函数，这样我们就能动态分配继承体系中的对象了。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-22T13:03:53.969Z">
+<meta property="og:updated_time" content="2018-02-23T00:59:07.606Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="构造函数和拷贝控制">
-<meta name="twitter:description" content="构造函数和拷贝控制虚析构函数继承关系对基类拷贝控制最直接的影响是基类通常应该定义一个虚析构函数，这样我们就能动态分配继承体系中的对象了。 原因： 当我们delete一个动态分配的对象的指针时将执行析构函数。如果该指针指向继承体系中的某个类型，则有可能出现指针的静态类型与被删除对象的动态类型不符的情况。例如，如果我们delete一个Quote*类型（基类）的指针，则该指针有可能实际指向了一个Bulk">
+<meta name="twitter:description" content="构造函数和拷贝控制虚析构函数继承关系对基类拷贝控制最直接的影响是基类通常应该定义一个虚析构函数，这样我们就能动态分配继承体系中的对象了。">
 
 
 
@@ -494,6 +494,7 @@
 
       
         <h2 id="构造函数和拷贝控制"><a href="#构造函数和拷贝控制" class="headerlink" title="构造函数和拷贝控制"></a>构造函数和拷贝控制</h2><h3 id="虚析构函数"><a href="#虚析构函数" class="headerlink" title="虚析构函数"></a>虚析构函数</h3><p>继承关系对基类拷贝控制最直接的影响是<strong>基类通常应该定义一个虚析构函数</strong>，这样我们就能动态分配继承体系中的对象了。</p>
+<a id="more"></a>
 <p><strong>原因：</strong> 当我们delete一个动态分配的对象的指针时将执行析构函数。如果该指针指向继承体系中的某个类型，则有可能出现指针的静态类型与被删除对象的动态类型不符的情况。例如，如果我们delete一个Quote*类型（基类）的指针，则该指针有可能实际指向了一个Bulk_quote（派生类）类型的对象。如果这样的话，编译器就必须清楚它应该执行的是Bulk_quote的析构函数。和其他函数一样，我们通过在基类中将析构函数定义成虚函数以确保执行正确的析构函数版本。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Quote</span>&#123;</span></div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="comment">//如果我们删除的是一个指向派生类对象的基类指针，则需要虚析构函数</span></div><div class="line">    <span class="keyword">virtual</span> ~Quote()  = <span class="keyword">default</span>;      <span class="comment">//动态绑定析构函数</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Quote *itemP = <span class="keyword">new</span> Quote;      <span class="comment">//静态类型与动态类型一致</span></div><div class="line"><span class="keyword">delete</span> itemP;                 <span class="comment">//调用Quote的析构函数</span></div><div class="line">itemP = <span class="keyword">new</span> Bulk_quote;       <span class="comment">//静态类型与动态类型不一致</span></div><div class="line"><span class="keyword">delete</span> itemP;                <span class="comment">//调用Bulk_quote的析构函数</span></div></pre></td></tr></table></figure>
