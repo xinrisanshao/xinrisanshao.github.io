@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="存储管理," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="新日三少的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="程序的装入和链接用户程序要在系统中运行，必须先将它装入内存，然后再将其转变为一个可以执行的程序，通常都要经过以下几个步骤：">
+<meta name="keywords" content="存储管理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="连续分配存储方式">
+<meta property="og:url" content="http://www.wangxinri.cn/2018/01/24/连续分配存储管理方式/index.html">
+<meta property="og:site_name" content="新日三少的博客">
+<meta property="og:description" content="程序的装入和链接用户程序要在系统中运行，必须先将它装入内存，然后再将其转变为一个可以执行的程序，通常都要经过以下几个步骤：">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://ou6yob3zd.bkt.clouddn.com/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E6%B5%81%E7%A8%8B.png">
+<meta property="og:image" content="http://ou6yob3zd.bkt.clouddn.com/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6%E6%97%B6%E7%9A%84%E6%83%85%E5%86%B5.png">
+<meta property="og:image" content="http://ou6yob3zd.bkt.clouddn.com/%E7%B4%A7%E5%87%91%E7%9A%84%E7%A4%BA%E6%84%8F.png">
+<meta property="og:image" content="http://ou6yob3zd.bkt.clouddn.com/%E5%8A%A8%E6%80%81%E9%87%8D%E5%AE%9A%E4%BD%8D%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+<meta property="og:image" content="http://ou6yob3zd.bkt.clouddn.com/%E5%8A%A8%E6%80%81%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D%E7%AE%97%E6%B3%95%E6%B5%81%E7%A8%8B%E5%9B%BE.png">
+<meta property="og:updated_time" content="2018-04-06T13:49:30.283Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="连续分配存储方式">
+<meta name="twitter:description" content="程序的装入和链接用户程序要在系统中运行，必须先将它装入内存，然后再将其转变为一个可以执行的程序，通常都要经过以下几个步骤：">
+<meta name="twitter:image" content="http://ou6yob3zd.bkt.clouddn.com/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E6%B5%81%E7%A8%8B.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.wangxinri.cn/2018/01/24/连续分配存储管理方式/"/>
+
+
+
+
+
+  <title>连续分配存储方式 | 新日三少的博客</title>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=63306720";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+	
+	<a href="https://github.com/xinrisanshao"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新日三少的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Big big pig</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photo">
+          <a href="/photo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-photo"></i> <br />
+            
+            照片
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resume">
+          <a href="/resume/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-id-card"></i> <br />
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.wangxinri.cn/2018/01/24/连续分配存储管理方式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="新日三少">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新日三少的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">连续分配存储方式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-24T21:59:00+08:00">
+                2018-01-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/操作系统/" itemprop="url" rel="index">
+                    <span itemprop="name">操作系统</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  6,039
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  21
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="程序的装入和链接"><a href="#程序的装入和链接" class="headerlink" title="程序的装入和链接"></a>程序的装入和链接</h2><p>用户程序要在系统中运行，必须先将它装入内存，然后再将其转变为一个可以执行的程序，通常都要经过以下几个步骤：</p>
+<a id="more"></a>
+<ul>
+<li>编译，由编译程序（Compiler）对用户源程序进行编译，形成若干个目标模块（Object Module）。</li>
+<li>链接，由链接程序（Linker）将编译后形成的一组目标模块以及它们所需要的库函数链接在一起，形成一个完整的装入模块（Load Module）</li>
+<li>装入，由装入程序（Loader）将装入模块装入内存。</li>
+</ul>
+<h2 id="连续分配存储管理方式"><a href="#连续分配存储管理方式" class="headerlink" title="连续分配存储管理方式"></a>连续分配存储管理方式</h2><p>为了能将用户程序装入内存，必须为它分配一定大小的内存空间。<strong>连续分配方式</strong>是最早出现的一种存储器分配方式，<strong>该分配方式为一个用户程序分配一个连续的内存空间，即程序中代码或数据的逻辑地址相邻，体现在内存空间分配时物理地址的相邻</strong>。</p>
+<p>连续分配方式可分为四类：<strong>单一连续分配</strong>、<strong>固定分区分配</strong>、<strong>动态分区分配</strong>以及<strong>动态重定位分区分配</strong>算法。</p>
+<ul>
+<li>单一连续分配：这是最简单的一种存储管理方式，但是<strong>只能用于单用户、单任务的操作系统中</strong>。采用这种存储管理方式时，可把内存分为系统区和用户区两部分。</li>
+<li><p>固定分区分配：<strong>固定分区式分配是最简单的一种可运行多道程序的存储管理方式</strong>。这是将内存用户空间划分为若干个固定大小的区域，在每个分区中只装入一道作业，这样，把用户空间划分为几个分区，便允许有几道作业并发运行，当该作业结束时，又可再从后备作业队列中找到另一个作业调入该分区。</p>
+<p> 划分分区的方法：</p>
+<ul>
+<li>分区大小相等</li>
+<li>分区大小不等</li>
+</ul>
+<p>内存分配：为了便于内存分配，通常将分区按大小进行排队，并为之建立一张分区使用表，其中各表项包括每个分区的起始地址、大小及状态（是否已分配）。</p>
+<p>固定分区分配，是最早的多道程序的存储管理方式，<strong>由于每个分区的大小固定，必然会造成存储空间的浪费，因而现在已很少将它用于通用计算机中</strong>。</p>
+</li>
+</ul>
+<h3 id="动态分区分配（重点）"><a href="#动态分区分配（重点）" class="headerlink" title="动态分区分配（重点）"></a>动态分区分配（重点）</h3><p>动态分区分配是根据进程的实际需要，动态地为之分配内存空间。在实现可变分区分配时，将涉及到分区分配中所用的数据结构、分区分配算法和分区的分配与回收操作这样三个问题。</p>
+<h4 id="分区分配中的数据结构"><a href="#分区分配中的数据结构" class="headerlink" title="分区分配中的数据结构"></a>分区分配中的数据结构</h4><ul>
+<li>空闲分区表：在系统中设置一张空闲分区表，用于记录每个空闲分区的情况。每个空闲分区占一个表目，表目中包括分区序号、分区始址及分区的大小等数据项。</li>
+<li>空闲分区链。</li>
+</ul>
+<h4 id="分区分配算法"><a href="#分区分配算法" class="headerlink" title="分区分配算法"></a>分区分配算法</h4><p>为把一个新作业装入内存，须按照一定的分配算法，从空闲分区表或空闲分区链中选出一分区分配给该作业。目前常用的一下所述的五种分配算法。</p>
+<p><strong>1.首次适应算法（first fit）</strong></p>
+<p>我们以空闲分区链为例来说明采用 FF 算法时的分配情况。<strong>FF 算法要求空闲分区链以<br>地址递增的次序链接。在分配内存时，从链首开始顺序查找，直至找到一个大小能满足要<br>求的空闲分区为止</strong>；然后再按照作业的大小，从该分区中划出一块内存空间分配给请求者，<br>余下的空闲分区仍留在空闲链中。若从链首直至链尾都不能找到一个能满足要求的分区，<br>则此次内存分配失败，返回。 <strong>该算法倾向于优先利用内存中低址部分的空闲分区，从而保<br>留了高址部分的大空闲区。这给为以后到达的大作业分配大的内存空间创造了条件。其缺<br>点是低址部分不断被划分，会留下许多难以利用的、很小的空闲分区，而每次查找又都是<br>从低址部分开始，这无疑会增加查找可用空闲分区时的开销</strong> 。</p>
+<p><strong>2.循环首次适应算法（next fit）</strong></p>
+<p>该算法是由首次适应算法演变而成的。<strong>在为进程分配内存空间时，不再是每次都从链<br>首开始查找，而是从上次找到的空闲分区的下一个空闲分区开始查找，直至找到一个能满<br>足要求的空闲分区，从中划出一块与请求大小相等的内存空间分配给作业</strong>。为实现该算法，<br>应设置一起始查寻指针，用于指示下一次起始查寻的空闲分区，并采用循环查找方式，即<br>如果最后一个(链尾)空闲分区的大小仍不能满足要求，则应返回到第一个空闲分区，比较其<br>大小是否满足要求。找到后，应调整起始查寻指针。<strong>该算法能使内存中的空闲分区分布得<br>更均匀，从而减少了查找空闲分区时的开销，但这样会缺乏大的空闲分区</strong>。</p>
+<p><strong>3.最佳适应算法（best fit）</strong></p>
+<p>所谓“最佳”是指每次为作业分配内存时，总是把能满足要求、又是最小的空闲分区<br>分配给作业，避免“大材小用”。为了加速寻找，<strong>该算法要求将所有的空闲分区按其容量以<br>从小到大的顺序形成一空闲分区链。这样，第一次找到的能满足要求的空闲区，必然是最<br>佳的</strong>。孤立地看，<strong>最佳适应算法似乎是最佳的，然而在宏观上却不一定。因为每次分配后<br>所切割下来的剩余部分总是最小的，这样，在存储器中会留下许多难以利用的小空闲区</strong>。</p>
+<p><strong>4.最坏适应算法（worst fit）</strong></p>
+<p>最坏适应分配算法要扫描整个空闲分区表或链表，总是挑选一个最大的空闲区分割给<br>作业使用，其优点是可使剩下的空闲区不至于太小，产生碎片的几率最小，对中、小作业<br>有利，同时最坏适应分配算法查找效率很高。<strong>该算法要求将所有的空闲分区按其容量以从<br>大到小的顺序形成一空闲分区链，查找时只要看第一个分区能否满足作业要求。但是该算<br>法的缺点也是明显的，它会使存储器中缺乏大的空闲分区</strong>。<font color="red"> <strong>最坏适应算法与前面所述的首<br>次适应算法、循环首次适应算法、最佳适应算法一起，也称为顺序搜索法</strong>。 </font></p>
+<p><strong>5.快速适应算法（quick fit）</strong></p>
+<p><font color="red"> <strong>该算法又称为分类搜索法</strong> </font>，是将空闲分区根据其容量大小进行分类，对于每一类具有<br>相同容量的所有空闲分区，单独设立一个空闲分区链表，这样，系统中存在多个空闲分区<br>链表，同时在内存中设立一张管理索引表，该表的每一个表项对应了一种空闲分区类型，<br>并记录了该类型空闲分区链表表头的指针。空闲分区的分类是根据进程常用的空间大小进<br>行划分，如 2 KB、4 KB、8 KB 等，对于其它大小的分区，如 7 KB 这样的空闲区，既可以<br>放在 8 KB 的链表中，也可以放在一个特殊的空闲区链表中。</p>
+<p>该算法的优点是查找效率高，仅需要根据进程的长度，寻找到能容纳它的最小空闲区<br>链表，并取下第一块进行分配即可。另外该算法在进行空闲分区分配时，不会对任何分区<br>产生分割，所以能保留大的分区，满足对大空间的需求，也不会产生内存碎片。</p>
+<p>该算法的缺点是在分区归还主存时算法复杂，系统开销较大。此外，该算法在分配空<br>闲分区时是以进程为单位，一个分区只属于一个进程，因此在为进程所分配的一个分区中，<br>或多或少地存在一定的浪费。空闲分区划分越细，浪费则越严重，整体上会造成可观的存<br>储空间浪费，这是典型的以空间换时间的作法。</p>
+<h4 id="分区分配操作"><a href="#分区分配操作" class="headerlink" title="分区分配操作"></a>分区分配操作</h4><p>在动态分区存储管理方式中，主要的操作是分配内存和回收内存。</p>
+<p><strong>1）分配内存</strong></p>
+<p>系统应利用某种分配算法，从空闲分区链(表)中找到所需大小的分区。设请求的分区大<br>小为 u.size，表中每个空闲分区的大小可表示为 m.size。若 m.size-u.size≤size(size 是事先规定的不再切割的剩余分区的大小)，说明多余部分太小，可不再切割，将整个分区分配给请求者；否则(即多余部分超过size)，从该分区中按请求的大小划分出一块内存空间分配出去， 余下的部分仍留在空闲分区链(表)中。然后，将分配区的首址返回给调用者。图 4-7 示出了<br>分配流程。</p>
+<p><img src="http://ou6yob3zd.bkt.clouddn.com/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E6%B5%81%E7%A8%8B.png" alt="image"></p>
+<p><strong>2）回收内存</strong></p>
+<p>当进程运行完毕是释放内存时，<strong>系统根据回收区的首址</strong>，从空闲区链（表）中找到响应的插入点，此时可能出现以下四种情况之一：</p>
+<p>(1) 回收区与插入点的前一个空闲分区 F1相邻接，见图 4-8(a)。此时应将回收区与插入<br>点的前一分区合并，不必为回收分区分配新表项，而只需修改其前一分区 F1的大小。</p>
+<p>(2) 回收分区与插入点的后一空闲分区 F2相邻接，见图 4-8(b)。此时也可将两分区合并，<br>形成新的空闲分区，但用回收区的首址作为新空闲区的首址，大小为两者之和。</p>
+<p>(3) 回收区同时与插入点的前、后两个分区邻接，见图 4-8(c)。此时将三个分区合并，<br>使用 F1的表项和 F1的首址，取消 F2的表项，大小为三者之和。</p>
+<p>(4) 回收区既不与 F1邻接，又不与 F2邻接。这时应为回收区单独建立一新表项，填写<br>回收区的首址和大小，并根据其首址插入到空闲链中的适当位置。</p>
+<p><img src="http://ou6yob3zd.bkt.clouddn.com/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6%E6%97%B6%E7%9A%84%E6%83%85%E5%86%B5.png" alt="image"></p>
+<h3 id="伙伴系统"><a href="#伙伴系统" class="headerlink" title="伙伴系统"></a>伙伴系统</h3><p><strong>固定分区和动态分区方式都有不足之处。固定分区方式限制了活动进程的数目，当进<br>程大小与空闲分区大小不匹配时，内存空间利用率很低。动态分区方式算法复杂，回收空<br>闲分区时需要进行分区合并等，系统开销较大。伙伴系统方式是对以上两种内存方式的一<br>种折衷方案</strong>。</p>
+<p>伙伴系统规定，无论已分配分区或空闲分区，其大小均为 2 的 k 次幂，k 为整数，<br>l≤k≤m，其中：21 表示分配的最小分区的大小，2m 表示分配的最大分区的大小，通常 2m<br>是整个可分配内存的大小。</p>
+<p>假设系统的可利用空间容量为 2m个字，则系统开始运行时，整个内存区是一个大小为 2m<br>的空闲分区。在系统运行过程中，由于不断的划分，可能会形成若干个不连续的空闲分区，<br>将这些空闲分区根据分区的大小进行分类，对于每一类具有相同大小的所有空闲分区，单独<br>设立一个空闲分区双向链表。这样，不同大小的空闲分区形成了 k(0≤k≤m)个空闲分区链表。</p>
+<p>当需要为进程分配一个长度为 n 的存储空间时，首先计算一个 i 值，使 2i－1&lt;n≤2i，然<br>后在空闲分区大小为 2i 的空闲分区链表中查找。若找到，即把该空闲分区分配给进程。否<br>则，表明长度为 2i 的空闲分区已经耗尽，则在分区大小为 2i＋1 的空闲分区链表中寻找。若<br>存在 2i＋1 的一个空闲分区，则把该空闲分区分为相等的两个分区，这两个分区称为一对伙<br>伴，其中的一个分区用于分配，而把另一个加入分区大小为 2i 的空闲分区链表中。若大小<br>为 2i＋1的空闲分区也不存在，则需要查找大小为 2i＋2的空闲分区，若找到则对其进行两次分<br>割：第一次，将其分割为大小为 2i＋1 的两个分区，一个用于分配，一个加入到大小为 2i＋1<br>的空闲分区链表中；第二次，将第一次用于分配的空闲区分割为 2i 的两个分区，一个用于<br>分配，一个加入到大小为 2i 的空闲分区链表中。若仍然找不到，则继续查找大小为 2i＋3 的<br>空闲分区，以此类推。由此可见，在最坏的情况下，可能需要对 2k的空闲分区进行 k 次分<br>割才能得到所需分区。</p>
+<p>与一次分配可能要进行多次分割一样，一次回收也可能要进行多次合并，如回收大小<br>为 2i的空闲分区时，若事先已存在 2i的空闲分区时，则应将其与伙伴分区合并为大小为<br>2i＋1的空闲分区，若事先已存在 2i＋1的空闲分区时，又应继续与其伙伴分区合并为大小为<br>2i＋2的空闲分区，依此类推。</p>
+<p>在伙伴系统中，其分配和回收的时间性能取决于查找空闲分区的位置和分割、合并空<br>闲分区所花费的时间。与前面所述的多种方法相比较，由于该算法在回收空闲分区时，需<br>要对空闲分区进行合并，所以其时间性能比前面所述的分类搜索算法差，但比顺序搜索算<br>法好，而其空间性能则远优于前面所述的分类搜索法，比顺序搜索法略差。</p>
+<p>需要指出的是，<strong>在当前的操作系统中，普遍采用的是下面将要讲述的基于分页和分段<br>机制的虚拟内存机制</strong>，该机制较伙伴算法更为合理和高效，但在多处理机系统中，伙伴系<br>统仍不失为一种有效的内存分配和释放的方法，得到了大量的应用。</p>
+<h4 id="哈希算法"><a href="#哈希算法" class="headerlink" title="哈希算法"></a>哈希算法</h4><p>在上述的分类搜索算法（快速适应算法（quick fit））和伙伴系统中，都是将空闲分区根据分区大小进行分类，对于每一类具有相同大小的空闲分区，单独设立一个空闲分区链表。在为进程分配空间时，需要在一张管理索引表中查找所需空间大小所对应的表项，从中得到对应的空闲分区链表表头指针，从而通过查找得到一个空闲分区。如果对空闲愤怒分类较细，则相应的空闲分区链表也较多，因此选择合适的空闲链表的开销也相应增加，且时间性能降低。</p>
+<p><strong>哈希算法就是利用哈希快速查找的优点，以及空闲分区在可利用空间表中的分布规律，建立哈希函数，构造一张以空闲分区大小为关键字的哈希表，该表的每一个表项记录了一个对应的空闲分区链表表头指针。</strong></p>
+<p>当进行空闲分区分配时，<strong>根据所需空间分区大小，通过哈希函数计算，即得到在哈希表中的位置，从中得到相应的空闲分区链表，实现最佳分配策略</strong>。</p>
+<h3 id="可重定位分区分配"><a href="#可重定位分区分配" class="headerlink" title="可重定位分区分配"></a>可重定位分区分配</h3><ol>
+<li>动态重定位的引入</li>
+</ol>
+<p><strong>在连续分配方式中，必须把一个系统或用户程序装入一连续的内存空间</strong>。如果在系统中只有若干个小的区块，即使它们的容量总和大于要装入的程序，但由于这些分区不相邻接，也无法把该程序装入内存。这些不能被利用的小分区称为“零头”或“碎片”。</p>
+<p>若想把作业装入，可采用的一种方法是：将内存中的所有作业进行移动，使它们全都相邻接，这样，即可把原来分散的多个小分区拼接成一个大分区，这时就可把作业装入该区。这种通过移动内存中作业的位置，以把原来多个分散的小分区拼接成一个大分区的方法，称为“拼接”或“紧凑”，见下图，由于经过紧凑后的某些用户程序在内存中的位置发生了变化，此时若不对程序和数据的地址加以修改（变换），则程序必将无法执行。为此，<strong>在每次“紧凑”后，都必须对移动了的程序或数据进行重定位。</strong></p>
+<p><img src="http://ou6yob3zd.bkt.clouddn.com/%E7%B4%A7%E5%87%91%E7%9A%84%E7%A4%BA%E6%84%8F.png" alt="image"></p>
+<ol>
+<li>动态重定位的实现</li>
+</ol>
+<p>在动态运行时装入的方式中，作业装入内存后的所有地址都仍然是相对地址，将相对地址转换为物理地址的工作，被推迟到程序指令要真正执行时进行。为使地址的转换不会影响到指令的执行速度，必须有硬件地址变换机构的支持，<strong>即须在系统中增设一个重定位寄存器，用它来存放程序（数据）在内存中的起始地址</strong>。程序在执行时，真正访问的内存地址是相对地址与重定位寄存器中的地址相加而形成的。</p>
+<p>图 4-10 示出了动态重定位的实现原理。<br><strong>地址变换过程是在程序执行期间，随着对每条指令或数据的访问自动进行的，故称为动态<br>重定位</strong>。当系统对内存进行了“紧凑”而使若干程序从内存的某处移至另一处时，不需对<br>程序做任何修改，只要用该程序在内存的新起始地址，去置换原来的起始地址即可</p>
+<p><img src="http://ou6yob3zd.bkt.clouddn.com/%E5%8A%A8%E6%80%81%E9%87%8D%E5%AE%9A%E4%BD%8D%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="image"></p>
+<ol>
+<li>动态重定位分区分配算法</li>
+</ol>
+<p>动态重定位分区分配算法与动态分区分配算法基本上相同，差别仅在于：这种分配算法中，增加了紧凑的功能，通常，在找不到足够大的空闲分区来满足用户需求时进行紧凑。如下图：</p>
+<p><img src="http://ou6yob3zd.bkt.clouddn.com/%E5%8A%A8%E6%80%81%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D%E7%AE%97%E6%B3%95%E6%B5%81%E7%A8%8B%E5%9B%BE.png" alt="image"></p>
+<h3 id="对换"><a href="#对换" class="headerlink" title="对换"></a>对换</h3><p>1.对换的引入</p>
+<p>在多道程序环境下，一方面，在内存中某些进程由于某事件尚未发生而被阻塞运行，但它却占用了大量的空间，甚至有时可能出现在内存中所有进程都被阻塞而迫使CPU停止下来等待的情况；另一方面，却又有着许多作业在外存上等待，因无内存而不能进入内存运行的情况。显然这对系统资源是一种严重的浪费，且使系统吞吐量下降。为了解决这一问题，在系统中又增设了对换（也称交换）设施。<strong>所谓“对换”，是指把内存中暂时不能运行的内存或者暂时不用的程序和数据调出到外存上，以便腾出足够的内存空间，再把已具备运行条件的进程或进程所需要的程序和数据调入内存。对换是提高内存利用率的有效措施</strong>。</p>
+<p><strong>如果对换是以整个进程为单位的，便称之为“整体对换”或“进程对换”</strong>。这种对换被<br>广泛地应用于分时系统中，其目的是用来解决内存紧张问题，并可进一步提高内存的利用<br>率。<strong>而如果对换是以“页”或“段”为单位进行的，则分别称之为“页面对换”或“分段<br>对换”，又统称为“部分对换”</strong>。这种对换方法是实现后面要讲到的请求分页和请求分段式<br>存储管理的基础，其目的是为了支持虚拟存储系统。在此，我们只介绍进程对换，而分页<br>或分段对换将放在虚拟存储器中介绍。<strong>为了实现进程对换，系统必须能实现三方面的功能：<br>对换空间的管理、进程的换出，以及进程的换入</strong></p>
+<p>2．对换空间的管理</p>
+<p><strong>在具有对换功能的 OS 中，通常把外存分为文件区和对换区。前者用于存放文件，后者<br>用于存放从内存换出的进程</strong>。由于通常的文件都是较长久地驻留在外存上，故对文件区管理<br>的主要目标，是提高文件存储空间的利用率，为此，<strong>对文件区采取离散分配方式</strong>。然而，进<br>程在对换区中驻留的时间是短暂的，对换操作又较频繁，故对对换空间管理的主要目标，<br>是提高进程换入和换出的速度。为此，<strong>对换区采取的是连续分配方式</strong>，较少考虑外存中的碎片问题。</p>
+<p>为了能对对换区中的空闲盘块进行管理，在系统中应配置相应的数据结构，以记录外<br>存的使用情况。<strong>其形式与内存在动态分区分配方式中所用数据结构相似，即同样可以用空<br>闲分区表或空闲分区链</strong>。在空闲分区表中的每个表目中应包含两项，即对换区的首址及其<br>大小，分别用盘块号和盘块数表示。</p>
+<p><strong>由于对换分区的分配是采用连续分配方式，因而对换空间的分配与回收，与动态分区<br>方式时的内存分配与回收方法雷</strong>同。其分配算法可以是首次适应算法、循环首次适应算法<br>或最佳适应算法。具体的分配操作，也与图 4-7 中内存的分配过程相同，这里不再赘述。</p>
+<ol>
+<li>进程的换出和换入</li>
+</ol>
+<p>（1）进程的换出。每当一进程由于创建子进程而需要更多的内存空间，但又无足够的内存空间等情况发生时，系统应将某进程换出。其过程是：系统首先选择处于阻塞状态且优先级最低的进程作为换出进程，然后启动磁盘，将该进程的程序和数据传送到磁盘的对换区上。若传送过程未出现错误，便可回收进程所占用的内存空间，并对该进程和进程控制块做相应的修改。</p>
+<p>（2）进程的换入。系统应定时地查看所有进程的状态，从中找出“就绪”状态但已换出的进程，将其中换出时间最久（换出到磁盘上）的进程作为换入进程，将之换入，直至已无可换入的进程或无可换出的进程为止。</p>
+
+      
+    </div>
+	
+	<div>
+     
+       <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+     
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div align="center">
+    
+     <div class="">
+      <p><span>
+      <b>本文地址：</b><a href="/2018/01/24/连续分配存储管理方式/" title="连续分配存储方式">http://www.wangxinri.cn/2018/01/24/连续分配存储管理方式/</a><br/><b>转载请注明出处，谢谢！</b>
+     </span></p>
+  </div>
+ 
+  </div>
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+	<div>梦想夹带眼泪，咸咸的汗水！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.jpg" alt="新日三少 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpg" alt="新日三少 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/存储管理/" rel="tag"><i class="fa fa-tag"></i> 存储管理</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/22/处理机调度/" rel="next" title="调度算法">
+                <i class="fa fa-chevron-left"></i> 调度算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/28/基本分页存储管理方式/" rel="prev" title="基本分页存储管理">
+                基本分页存储管理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yOTk0Mi82NTA3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="新日三少" />
+          <p class="site-author-name" itemprop="name">新日三少</p>
+           
+              <p class="site-description motion-element" itemprop="description">Love Coding,Enjoy Life</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xinrisanshao" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/u012878150" target="_blank" title="CSDN">
+                  
+                    <i class="fa fa-fw fa-crosshairs"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://alvincat.github.io/" title="双哥的博客" target="_blank">双哥的博客</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#程序的装入和链接"><span class="nav-number">1.</span> <span class="nav-text">程序的装入和链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#连续分配存储管理方式"><span class="nav-number">2.</span> <span class="nav-text">连续分配存储管理方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#动态分区分配（重点）"><span class="nav-number">2.1.</span> <span class="nav-text">动态分区分配（重点）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分区分配中的数据结构"><span class="nav-number">2.1.1.</span> <span class="nav-text">分区分配中的数据结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分区分配算法"><span class="nav-number">2.1.2.</span> <span class="nav-text">分区分配算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分区分配操作"><span class="nav-number">2.1.3.</span> <span class="nav-text">分区分配操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#伙伴系统"><span class="nav-number">2.2.</span> <span class="nav-text">伙伴系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#哈希算法"><span class="nav-number">2.2.1.</span> <span class="nav-text">哈希算法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可重定位分区分配"><span class="nav-number">2.3.</span> <span class="nav-text">可重定位分区分配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对换"><span class="nav-number">2.4.</span> <span class="nav-text">对换</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+	    
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div style="color:red" class="copyright" >
+  
+  &copy;  2017 - 
+  <span  itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">新日三少</span>
+</div>
+
+
+
+<!--
+<div style="color:red" class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div style="color:red" class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+-->
+
+<div style="color:red" class="powered-by">
+  <i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+    访客数:<span id="busuanzi_value_site_uv"></span>
+  </span>
+</div>
+
+
+<div style="color:red" class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count" >全站共97.0k字</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
