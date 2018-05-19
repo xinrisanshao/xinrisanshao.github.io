@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="线程," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="新日三少的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="引言使用多个控制线程（或者简单地说就是线程）在单进程环境中执行多个任务。一个进程中的所有线程都可以访问该进程的组成部分，如文件描述符和内存。">
+<meta name="keywords" content="线程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程">
+<meta property="og:url" content="http://www.wangxinri.cn/2018/05/18/线程/index.html">
+<meta property="og:site_name" content="新日三少的博客">
+<meta property="og:description" content="引言使用多个控制线程（或者简单地说就是线程）在单进程环境中执行多个任务。一个进程中的所有线程都可以访问该进程的组成部分，如文件描述符和内存。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-19T03:28:12.467Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="线程">
+<meta name="twitter:description" content="引言使用多个控制线程（或者简单地说就是线程）在单进程环境中执行多个任务。一个进程中的所有线程都可以访问该进程的组成部分，如文件描述符和内存。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.wangxinri.cn/2018/05/18/线程/"/>
+
+
+
+
+
+  <title>线程 | 新日三少的博客</title>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=63306720";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+	
+	<a href="https://github.com/xinrisanshao"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新日三少的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Big big pig</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photo">
+          <a href="/photo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-photo"></i> <br />
+            
+            照片
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resume">
+          <a href="/resume/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-id-card"></i> <br />
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.wangxinri.cn/2018/05/18/线程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="新日三少">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新日三少的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">线程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-18T11:59:00+08:00">
+                2018-05-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UNIX环境高级编程/" itemprop="url" rel="index">
+                    <span itemprop="name">UNIX环境高级编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  3,738
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  15
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p><strong>使用多个控制线程（或者简单地说就是线程）在单进程环境中执行多个任务</strong>。一个进程中的所有线程都可以访问该进程的组成部分，如文件描述符和内存。</p>
+<a id="more"></a>
+<p>不管什么情况下，<strong>只要单个资源需要在多个用户间共享，就必须处理一致性问题</strong>。本章的最后将讨论目前可用的<strong>同步机制</strong>，防止多个线程在共享资源时出现不一致的问题。</p>
+<h3 id="线程的概念"><a href="#线程的概念" class="headerlink" title="线程的概念"></a>线程的概念</h3><p>典型的UNIX进程可以看成只有一个控制线程，一个进程在某一时刻只能做一件事情。有了多个控制线程以后，在程序设计时就可以把进程设计成在某一时刻能够做不止一件事，每个线程处理各自独立的任务。这种方法有很多好处。</p>
+<ul>
+<li>通过为每种事件类型分配单独的处理线程，可以简化处理异步事件的代码。每个线程在进行事件处理时可以采用同步编程模式，同步编程模式要比异步编程模式简单得多。</li>
+<li>多个进程必须使用操作系统提供的复杂机制才能实现内存和文件描述符的共享，<strong>而多个线程自动地可以访问相同的存储地址空间和文件描述符</strong>。</li>
+<li>有些问题可以分解从而提高整个程序的吞吐量。在只有一个控制线程的情况下，一个单线程进程要完成多个任务，只需要把这些任务串行化。但有多个控制线程时，相互独立的任务的处理就可以交叉进行，此时只需要为每个任务分配一个单独的线程。<strong>当然只有在两个任务的处理过程互不依赖的情况下，两个任务才可以交叉执行</strong>。</li>
+<li>交互的程序同样可以通过使用多线程来改善响应时间，多线程可以把程序中处理用户输入输出的部分与其他部分分开。</li>
+</ul>
+<p>即使多线程程序在串行化任务时不得不阻塞，由于某些线程在阻塞的时候还有另外一些线程可以运行，所以多线程程序在单处理器上运行还是可以改善响应时间和吞吐量。</p>
+<p><strong>每个线程都包含有表示执行环境所必需的信息，其中包含进程中标识线程的线程ID，一组寄存器值、栈、调度优先级和策略、信号屏蔽字、errno变量以及线程私有数据。一个进程的所有信息对该进程的所有线程都是共享的，包括可执行程序的代码、程序的全局内存和堆内存、栈以及文件描述符</strong>。</p>
+<h2 id="线程标识"><a href="#线程标识" class="headerlink" title="线程标识"></a>线程标识</h2><p>就像每个进程有一个进程ID一样，每个线程也有一个线程ID，进程ID在整个系统中是唯一的，但线程ID不同，线程ID只有在它所属的进程上下文中才有意义。</p>
+<p>线程ID是用pthread_t数据类型来表示，必须使用一个函数来对两个线程ID进行比较。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pthread.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_equal</span><span class="params">(<span class="keyword">pthread_t</span> tid1,<span class="keyword">pthread_t</span> tid2)</span></span>;</div><div class="line">            <span class="comment">//若相等，返回非0数值；否则，返回0</span></div></pre></td></tr></table></figure>
+<p>线程可以通过调用pthread_self函数获得自身的线程ID。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">pthread_t</span> pthread_self(<span class="keyword">void</span>);       <span class="comment">//返回值：调用线程的线程ID</span></div></pre></td></tr></table></figure>
+<h2 id="线程创建"><a href="#线程创建" class="headerlink" title="线程创建"></a>线程创建</h2><p>在传统的UNIX进程模型中，每个进程只有一个控制线程。从概念上来讲，这与基于线程的模型中每个进程只包含一个线程是相同的。在POSIX线程（pthread）的情况下，程序开始运行时，他也是以单进程中的单个控制线程启动的。在创建多个控制线程以前，程序的行为与传统的进程并没有什么区别。新增的线程可以通过调用pthread_create函数创建。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pthread.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_create</span><span class="params">(<span class="keyword">pthread_t</span> *<span class="keyword">restrict</span> tidp,</span></span></div><div class="line"><span class="function"><span class="params">                    <span class="keyword">const</span> <span class="keyword">pthread_attr_t</span> *<span class="keyword">restrict</span> attr,</span></span></div><div class="line">                    void *(*start_rtn)(void *),</div><div class="line">                    <span class="keyword">void</span> *<span class="keyword">restrict</span> arg);</div><div class="line">        <span class="comment">//返回值：若成功，返回0；否则，返回错误编码。</span></div></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<ul>
+<li>tidp：新创建的线程ID会被设置成tidp指向的内存单元。</li>
+<li>attr：用于定制各种不同的线程属性，如果设置为NULL，则创建一个具有默认属性的线程。</li>
+<li>start_rtn：新创建的线程从start_rtn函数的地址开始运行，该函数只有一个void类型的指针参数arg，如果start_rtn需要多个参数，可以将参数放入一个结构中，然后将结构的地址作为arg传入。</li>
+</ul>
+<p><strong>线程创建时并不能保证哪个线程会先运行：是新创建的线程，还是调用线程。新创建的线程可以访问进程的地址空间，并且继承调用线程的浮点环境和信号屏蔽字，但是该线程的挂起信号集会被清除</strong>。</p>
+<p>注意：pthread函数在调用失败后通常会返回错误码，它们并不像其他的POSIX函数一样设置errno。每个线程都提供errno的副本，这只是为了与使用errno的现有函数兼容。在线程中，从函数中返回错误码更为清晰整洁，不需要依赖那些随着函数执行不断变化的全局状态。这样可以把错误的范围限制在引起出错的函数中。</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>创建一个线程，打印进程ID、新线程的线程ID以及初始化线程的线程ID。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"head.h"</span></span></div><div class="line"></div><div class="line"><span class="keyword">pthread_t</span> ntid;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">printids</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *s)</span></span>&#123;</div><div class="line">	<span class="keyword">pid_t</span> pid;</div><div class="line">	<span class="keyword">pthread_t</span> tid;</div><div class="line">	pid = getpid();</div><div class="line">	tid = pthread_self();</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"%s pid %lu,tid %lu (0x%lx)\n"</span>,s,pid,tid,tid);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span>* <span class="title">thr_fn</span><span class="params">(<span class="keyword">void</span> *arg)</span></span>&#123;</div><div class="line">	printids(<span class="string">"new thread: "</span>);</div><div class="line">	<span class="keyword">return</span> (<span class="keyword">void</span>*)<span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</div><div class="line">	<span class="keyword">int</span> err;</div><div class="line">	err = pthread_create(&amp;ntid,<span class="literal">NULL</span>,thr_fn,<span class="literal">NULL</span>);</div><div class="line">	<span class="keyword">if</span>( err != <span class="number">0</span>)&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"pthread_create error\n"</span>);</div><div class="line">	&#125;</div><div class="line">	printids(<span class="string">"main thread: "</span>);</div><div class="line">	sleep(<span class="number">1</span>);</div><div class="line">	<span class="built_in">exit</span>(<span class="number">0</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[vrlive@iZ23chs2r19Z eleven]$ gcc pthreadCreate.c -o pthreadCreate.o -lpthread</div><div class="line">[vrlive@iZ23chs2r19Z eleven]$ ./pthreadCreate.o </div><div class="line">main thread:  pid 7229,tid 140149555926848 (0x7f771c7f1740)</div><div class="line">new thread:  pid 7229,tid 140149547579136 (0x7f771bffb700)</div></pre></td></tr></table></figure>
+<p>在编译中要加 -lpthread参数，因为pthread库不是linux默认的库。</p>
+<p>这个示例有两个特别之处。</p>
+<p>第一个特别之处在于，主线程需要休眠，如果主线程不休眠，它就可能会退出，这样新线程还没有机会运行，整个进程就可能已经终止了。这种行为依赖于操作系统中的线程实现和调度算法。</p>
+<p>第二个特别之处在于新线程是通过调用pthread_self函数获取自己的线程ID的，而不是从共享内存中读出的，或者从线程的启动例程中以参数的形式接收到的。在这个例子中，主线程把新线程ID存放在ntid中，但是新建的线程并不能安全地使用它，如果新线程在主线程调用pthread_create返回之前就运行了，那么新线程有可能看到的是未经初始化的ntid的内容。这个内容并不是正确的线程ID。</p>
+<h2 id="线程终止"><a href="#线程终止" class="headerlink" title="线程终止"></a>线程终止</h2><p>如果进程中的任意线程调用了exit、_Exit、_exit，那么整个进程就会终止。与此相类似，如果默认的动作是终止进程，那么，发送到线程的信号就会终止整个进程。</p>
+<p>单个线程可以通过3种方式退出，因此可以在不终止整个进程的情况下，停止它的控制流。</p>
+<ol>
+<li>线程可以简单地从启动例程中返回，返回值是线程的退出码。</li>
+<li>线程可以被同一进程中的其他线程取消。</li>
+<li>线程调用pthread_exit。</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pthread.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">pthread_exit</span><span class="params">(<span class="keyword">void</span> *rval_ptr)</span></span>;</div></pre></td></tr></table></figure>
+<p>rval_ptr参数是一个无类型的指针，与传给启动例程的单个参数类似。进程中的其他线程也可以通过调用pthread_join函数访问到这个指针上。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pthread.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_join</span><span class="params">(<span class="keyword">pthread_t</span> thread,<span class="keyword">void</span> **rval_ptr)</span></span>;  <span class="comment">//若成功，返回0；否则，返回错误编码</span></div></pre></td></tr></table></figure>
+<p>调用线程将一直阻塞，直到指定的线程调用pthread_exit、从启动例程中返回或者被取消。如果线程简单地从它的启动例程返回，rval_ptr就包含返回码。如果线程被取消，由rval_ptr指定的内存单元被设置为PTHREAD_CANCELED。</p>
+<p><strong>可以通过调用pthread_join自动把线程置于分离状态，这样资源就可以恢复</strong>。如果线程已经处于分离状态，pthread_join调用就会失败，返回EINVAL，尽管这种行为是与具体实现相关的。</p>
+<p>如果对线程的返回值并不敢兴趣，那么可以把rval_ptr设置为NULL。在这种情况下，调用pthread_join函数可以等待指定的线程终止，但并不获取线程的终止状态。</p>
+<h3 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h3><p>获取已终止线程的退出码。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"head.h"</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span>* <span class="title">thr_fn1</span><span class="params">(<span class="keyword">void</span> *arg)</span></span>&#123;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"thread 1 returning\n"</span>);</div><div class="line">	<span class="keyword">return</span> ((<span class="keyword">void</span>*)<span class="number">1</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span>* <span class="title">thr_fn2</span><span class="params">(<span class="keyword">void</span> *arg)</span></span>&#123;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"thread 2 exiting\n"</span>);</div><div class="line">	pthread_exit((<span class="keyword">void</span>*)<span class="number">2</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</div><div class="line">	<span class="keyword">int</span> err;</div><div class="line">	<span class="keyword">pthread_t</span> tid1,tid2;</div><div class="line">	<span class="keyword">void</span> *tret;</div><div class="line">	err = pthread_create(&amp;tid1,<span class="literal">NULL</span>,thr_fn1,<span class="literal">NULL</span>);</div><div class="line">	<span class="keyword">if</span>(err != <span class="number">0</span>)&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"can't create thread1\n"</span>);</div><div class="line">	&#125;</div><div class="line">	err = pthread_create(&amp;tid2,<span class="literal">NULL</span>,thr_fn2,<span class="literal">NULL</span>);</div><div class="line">	<span class="keyword">if</span>(err != <span class="number">0</span>)&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"can't create thread2\n"</span>);</div><div class="line">	&#125;</div><div class="line">	err = pthread_join(tid1,&amp;tret);</div><div class="line">	<span class="keyword">if</span>(err != <span class="number">0</span>)&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"can't join with thread 1\n"</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"thread1 exit code %ld\n"</span>,(<span class="keyword">long</span>)tret);</div><div class="line">	err = pthread_join(tid2,&amp;tret);	</div><div class="line">	<span class="keyword">if</span>(err != <span class="number">0</span>)&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"can't join with thread1\n"</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"thread2 exit code %ld\n"</span>,(<span class="keyword">long</span>)tret);</div><div class="line">	<span class="built_in">exit</span>(<span class="number">0</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[vrlive@iZ23chs2r19Z eleven]$ gcc pthreadJoin.c -o pthreadJoin.o -lpthread</div><div class="line">[vrlive@iZ23chs2r19Z eleven]$ ./pthreadJoin.o </div><div class="line">thread 1 returning</div><div class="line">thread1 exit code 1</div><div class="line">thread 2 exiting</div><div class="line">thread2 exit code 2</div></pre></td></tr></table></figure>
+<p>可以看出，当一个线程通过调用pthread_exit退出或简单地从启动例程中返回时，<strong>进程中的其他线程可以通过调用pthread_join函数获得该进程的退出状态</strong>。</p>
+<p>pthread_create和pthread_exit函数的无类型指针参数可以传递的值不止一个，这个指针可以传递包含复杂信息的结构的地址，但是注意，<strong>这个结构体所使用的内存在调用者完成调用以后必须仍然是有效的</strong>。</p>
+<p>示例：</p>
+<p>程序给出了用自动变量（分配在栈上）作为pthread_exit的参数时出现的问题。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"head.h"</span></span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">foo</span>&#123;</span></div><div class="line">	<span class="keyword">int</span> a,b,c,d;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">printfoo</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *s,<span class="keyword">const</span> struct foo *fp)</span></span>&#123;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"%s"</span>,s);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">" structure at 0x%lx\n"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)fp);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">" foo.a = %d\n"</span>,fp-&gt;a);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">" foo.b = %d\n"</span>,fp-&gt;b);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">" foo.c = %d\n"</span>,fp-&gt;c);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">" foo.d = %d\n"</span>,fp-&gt;d);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span>* <span class="title">thr_fn1</span><span class="params">(<span class="keyword">void</span> *arg)</span></span>&#123;</div><div class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">foo</span> <span class="title">f</span> = &#123;</span><span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;   <span class="comment">//initinal	</span></div><div class="line">	printfoo(<span class="string">"thread1 :\n"</span>,&amp;f);</div><div class="line">	pthread_exit((<span class="keyword">void</span>*)&amp;f);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span>* <span class="title">thr_fn2</span><span class="params">(<span class="keyword">void</span> *arg)</span></span>&#123;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"thread 2: ID is %lu\n"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)pthread_self());</div><div class="line">	pthread_exit((<span class="keyword">void</span>*)<span class="number">0</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</div><div class="line">	<span class="keyword">int</span> err;</div><div class="line">	<span class="keyword">pthread_t</span> tid1,tid2;</div><div class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">foo</span> *<span class="title">fp</span>;</span></div><div class="line">	err = pthread_create(&amp;tid1,<span class="literal">NULL</span>,thr_fn1,<span class="literal">NULL</span>);</div><div class="line">	<span class="keyword">if</span>(err != <span class="number">0</span>)&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"can't create thread1\n"</span>);</div><div class="line">	&#125;</div><div class="line">	err = pthread_join(tid1,(<span class="keyword">void</span>*)&amp;fp);</div><div class="line">	<span class="keyword">if</span>(err != <span class="number">0</span>)&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"can't join with thread1\n"</span>);</div><div class="line">	&#125;</div><div class="line">	sleep(<span class="number">1</span>);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"parent starting second thread\n"</span>);</div><div class="line">	err = pthread_create(&amp;tid2,<span class="literal">NULL</span>,thr_fn2,<span class="literal">NULL</span>);</div><div class="line">	<span class="keyword">if</span>(err != <span class="number">0</span>)&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"can't create thread2\n"</span>);</div><div class="line">	&#125;</div><div class="line">	err = pthread_join(tid2,<span class="literal">NULL</span>);</div><div class="line">	<span class="keyword">if</span>(err != <span class="number">0</span>)&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"can't join with thread2\n"</span>);</div><div class="line">	&#125;</div><div class="line">	sleep(<span class="number">1</span>);</div><div class="line">	printfoo(<span class="string">"parent:\n"</span>,fp);</div><div class="line">	<span class="built_in">exit</span>(<span class="number">0</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">[vrlive@iZ23chs2r19Z eleven]$ gcc pthreadExit.c -o pthreadExit.o -lpthread</div><div class="line">[vrlive@iZ23chs2r19Z eleven]$ ./pthreadExit.o </div><div class="line">thread1 :</div><div class="line"> structure at 0x7ff5ec397f00</div><div class="line"> foo.a = 1</div><div class="line"> foo.b = 2</div><div class="line"> foo.c = 3</div><div class="line"> foo.d = 4</div><div class="line">parent starting second thread</div><div class="line">thread 2: ID is 140694206908160</div><div class="line">parent:</div><div class="line"> structure at 0x7ff5ec397f00</div><div class="line"> foo.a = 0</div><div class="line"> foo.b = 0</div><div class="line"> foo.c = 1</div><div class="line"> foo.d = 0</div></pre></td></tr></table></figure>
+<p>解决办法，可以使用全局结构（全局变量，static修饰），或者用malloc函数分配结构。</p>
+<h2 id="取消线程"><a href="#取消线程" class="headerlink" title="取消线程"></a>取消线程</h2><p>线程可以通过调用pthread_cancel函数来请求取消同一进程中的其他线程。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pthread.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_cancel</span><span class="params">(<span class="keyword">pthread_t</span> tid)</span></span>;   <span class="comment">//返回值，若成功，返回0，否则，返回错误编码</span></div></pre></td></tr></table></figure>
+<p>在默认情况下，pthread_cancel函数会使得由tid标识的线程的行为表现为如同调用了参数为PTHREAD_CANCELED的pthread_exit函数，但是，线程可以选择忽略取消或者控制如何被取消。注意，pthread_cancel并不等待线程终止，它仅仅提出请求。</p>
+<p><strong>线程可以安排它退出时需要调用的函数，这与进程在退出时可以用atexit函数安排退出是类似的。这样的函数称为线程清理处理程序</strong>（thread cleanup handler）。一个线程可以建立多个清理处理程序。处理程序记录在栈中，也就是说，它们的执行顺序与它们的注册时相反。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pthread.h&gt;</span></span></div><div class="line">void pthread_cleanup_push(void (*rtn)(void *)，void *arg);</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">pthread_cleanup_pop</span><span class="params">(<span class="keyword">int</span> execute)</span></span>;</div></pre></td></tr></table></figure>
+<p><strong>当线程执行以下动作时，清理函数rtn是由pthread_cleanup_push函数调度的</strong>，调用时只有一个参数arg：</p>
+<ul>
+<li>调用pthread_exit时；</li>
+<li>响应取消请求时；</li>
+<li>用非零execute参数调用pthread_cleanup_pop时。</li>
+</ul>
+<p>如果execute参数设置为0，清理函数将不被调用。不管发生上述哪种情况，pthread_cleanup_pop都将删除上次pthread_cleanup_push调用建立的清理处理程序。</p>
+<p><strong>这些函数有一个限制，由于它们可以实现为宏，所以必须在与线程相同的作用域中以匹配对的形式使用</strong>。</p>
+<h3 id="示例-2"><a href="#示例-2" class="headerlink" title="示例"></a>示例</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"head.h"</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">cleanup</span><span class="params">(<span class="keyword">void</span> *arg)</span></span>&#123;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"cleanup: %s\n"</span>,(<span class="keyword">char</span>*)arg);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span>* <span class="title">thr_fn1</span><span class="params">(<span class="keyword">void</span> *arg)</span></span>&#123;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"thread1 start\n"</span>);</div><div class="line">	pthread_cleanup_push(cleanup,<span class="string">"thread1 first handler"</span>);</div><div class="line">	pthread_cleanup_push(cleanup,<span class="string">"thread1 second handler"</span>);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"thread1 push complete\n"</span>);</div><div class="line">	<span class="keyword">if</span>(arg)&#123;    <span class="comment">//  (void*)1</span></div><div class="line">		<span class="keyword">return</span> ((<span class="keyword">void</span>*)<span class="number">1</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"pthread1 pthread_cleanup_pop start\n"</span>);</div><div class="line">	pthread_cleanup_pop(<span class="number">0</span>);</div><div class="line">	pthread_cleanup_pop(<span class="number">0</span>);</div><div class="line">	<span class="keyword">return</span> ((<span class="keyword">void</span>*)<span class="number">1</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span>* <span class="title">thr_fn2</span><span class="params">(<span class="keyword">void</span> *arg)</span></span>&#123;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"thread2 start\n"</span>);</div><div class="line">	pthread_cleanup_push(cleanup,<span class="string">"thread2 first handler"</span>);</div><div class="line">	pthread_cleanup_push(cleanup,<span class="string">"thread2 second handler"</span>);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"thread2 push complete\n"</span>);</div><div class="line">	<span class="keyword">if</span>(arg)&#123;</div><div class="line">		pthread_exit((<span class="keyword">void</span>*)<span class="number">2</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"pthread2 pthread_cleanup_pop start\n"</span>);</div><div class="line">	pthread_cleanup_pop(<span class="number">0</span>);</div><div class="line">	pthread_cleanup_pop(<span class="number">0</span>);</div><div class="line">	pthread_exit((<span class="keyword">void</span>*)<span class="number">2</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</div><div class="line">	<span class="keyword">int</span> err;</div><div class="line">	<span class="keyword">pthread_t</span> tid1,tid2;</div><div class="line">	<span class="keyword">void</span> *tret;</div><div class="line">	err = pthread_create(&amp;tid1,<span class="literal">NULL</span>,thr_fn1,(<span class="keyword">void</span>*)<span class="number">1</span>);</div><div class="line">	<span class="keyword">if</span>(err != <span class="number">0</span>)&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"can't create thread1\n"</span>);</div><div class="line">	&#125;</div><div class="line">	err = pthread_create(&amp;tid2,<span class="literal">NULL</span>,thr_fn2,(<span class="keyword">void</span>*)<span class="number">1</span>);</div><div class="line">	<span class="keyword">if</span>(err !=<span class="number">0</span>)&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"can't create thread2\n"</span>);</div><div class="line">	&#125;</div><div class="line">	err = pthread_join(tid1,&amp;tret);</div><div class="line">	<span class="keyword">if</span>(err != <span class="number">0</span>)&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"can't join with thread1\n"</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"thread1 exit code %ld\n"</span>,(<span class="keyword">long</span>)tret);</div><div class="line">	err = pthread_join(tid2,&amp;tret);</div><div class="line">	<span class="keyword">if</span>(err != <span class="number">0</span>)&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"can't join with thread2\n"</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"thread2 exit code %ld\n"</span>,(<span class="keyword">long</span>)tret);</div><div class="line">	<span class="built_in">exit</span>(<span class="number">0</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">[vrlive@iZ23chs2r19Z eleven]$ ./pthreadCleanup.o </div><div class="line">thread1 start</div><div class="line">thread1 push complete</div><div class="line">thread1 exit code 1</div><div class="line">thread2 start</div><div class="line">thread2 push complete</div><div class="line">cleanup: thread2 second handler</div><div class="line">cleanup: thread2 first handler</div><div class="line">thread2 exit code 2</div></pre></td></tr></table></figure>
+<p>从输入结果可以看到，两个线程都正确地启动和退出了，但是只有第二个线程的清理处理程序被调用了。因此，如果线程是通过从它的启动例程中返回而终止的话，它的清理处理程序就不会被调用，还要注意清理处理程序是按照与它们安装时相反的顺序被调用的。</p>
+<p>现在，让我们了解一下线程函数和进程函数之间的相似之处，下图总结了这些相似的函数。</p>
+<table>
+<thead>
+<tr>
+<th>进程原语</th>
+<th>线程原语</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fork</td>
+<td>pthread_create</td>
+<td>创建新的控制流</td>
+</tr>
+<tr>
+<td>exit</td>
+<td>pthread_exit</td>
+<td>从现在的控制流中退出</td>
+</tr>
+<tr>
+<td>waitpid</td>
+<td>pthread_join</td>
+<td>从控制流中得到退出状态</td>
+</tr>
+<tr>
+<td>atexit</td>
+<td>pthread_cancel_push</td>
+<td>注册在调用控制流时调用的函数</td>
+</tr>
+<tr>
+<td>getpid</td>
+<td>pthread_self</td>
+<td>获取控制流ID</td>
+</tr>
+<tr>
+<td>abort</td>
+<td>pthread_cancel</td>
+<td>请求控制流的非正常退出</td>
+</tr>
+</tbody>
+</table>
+<p>在默认情况下，线程的终止状态会保存直到对该线程调用pthread_join。如果线程已经被分离，线程的底层存储资源可以在线程终止时立即被收回。在线程分离后，我们不能用pthread_join函数等待它的终止状态，因为对分离状态的线程调用pthread_join会产生未定义行为。可以调用pthread_detach分离线程。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pthread.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_detach</span><span class="params">(<span class="keyword">pthread_t</span> tid)</span></span>;     <span class="comment">//若成功，返回0；否则，返回错误编码</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+	
+	<div>
+     
+       <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+     
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div align="center">
+    
+     <div class="">
+      <p><span>
+      <b>本文地址：</b><a href="/2018/05/18/线程/" title="线程">http://www.wangxinri.cn/2018/05/18/线程/</a><br/><b>转载请注明出处，谢谢！</b>
+     </span></p>
+  </div>
+ 
+  </div>
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+	<div>梦想夹带眼泪，咸咸的汗水！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.jpg" alt="新日三少 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpg" alt="新日三少 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/线程/" rel="tag"><i class="fa fa-tag"></i> 线程</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/17/函数kill和raise/" rel="next" title="kill和raise">
+                <i class="fa fa-chevron-left"></i> kill和raise
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/18/函数alarm和pause/" rel="prev" title="alarm与pause">
+                alarm与pause <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yOTk0Mi82NTA3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="新日三少" />
+          <p class="site-author-name" itemprop="name">新日三少</p>
+           
+              <p class="site-description motion-element" itemprop="description">Love Coding,Enjoy Life</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xinrisanshao" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/u012878150" target="_blank" title="CSDN">
+                  
+                    <i class="fa fa-fw fa-crosshairs"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://alvincat.github.io/" title="双哥的博客" target="_blank">双哥的博客</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线程的概念"><span class="nav-number">1.1.</span> <span class="nav-text">线程的概念</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程标识"><span class="nav-number">2.</span> <span class="nav-text">线程标识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程创建"><span class="nav-number">3.</span> <span class="nav-text">线程创建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#示例"><span class="nav-number">3.1.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程终止"><span class="nav-number">4.</span> <span class="nav-text">线程终止</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#示例-1"><span class="nav-number">4.1.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#取消线程"><span class="nav-number">5.</span> <span class="nav-text">取消线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#示例-2"><span class="nav-number">5.1.</span> <span class="nav-text">示例</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+	    
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div style="color:red" class="copyright" >
+  
+  &copy;  2017 - 
+  <span  itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">新日三少</span>
+</div>
+
+
+
+<!--
+<div style="color:red" class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div style="color:red" class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+-->
+
+<div style="color:red" class="powered-by">
+  <i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+    访客数:<span id="busuanzi_value_site_uv"></span>
+  </span>
+</div>
+
+
+<div style="color:red" class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count" >全站共124.1k字</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
