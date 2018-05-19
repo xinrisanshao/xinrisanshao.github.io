@@ -614,9 +614,10 @@
     <link href="http://www.wangxinri.cn/2018/05/14/%E8%A7%A3%E9%87%8A%E5%99%A8%E6%96%87%E4%BB%B6/"/>
     <id>http://www.wangxinri.cn/2018/05/14/解释器文件/</id>
     <published>2018-05-14T14:59:00.000Z</published>
-    <updated>2018-05-19T03:15:09.392Z</updated>
+    <updated>2018-05-19T03:44:17.433Z</updated>
     
     <content type="html"><![CDATA[<h2 id="解释器文件"><a href="#解释器文件" class="headerlink" title="解释器文件"></a>解释器文件</h2><p>所有现今的UNIX系统都支持解释器文件（interpreter file）。这种文件是文本文件，其起始行的形式是：</p>
+<a id="more"></a>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>! pathname[optional-argument]</div></pre></td></tr></table></figure>
 <p>在感叹号和pathname之间的空格是可选的。最常见的解释器文件以下列行开始:</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>! /bin/sh</div></pre></td></tr></table></figure>
@@ -638,7 +639,7 @@
     
     <summary type="html">
     
-      &lt;h2 id=&quot;解释器文件&quot;&gt;&lt;a href=&quot;#解释器文件&quot; class=&quot;headerlink&quot; title=&quot;解释器文件&quot;&gt;&lt;/a&gt;解释器文件&lt;/h2&gt;&lt;p&gt;所有现今的UNIX系统都支持解释器文件（interpreter file）。这种文件是文本文件，其起始行的形式是：&lt;
+      &lt;h2 id=&quot;解释器文件&quot;&gt;&lt;a href=&quot;#解释器文件&quot; class=&quot;headerlink&quot; title=&quot;解释器文件&quot;&gt;&lt;/a&gt;解释器文件&lt;/h2&gt;&lt;p&gt;所有现今的UNIX系统都支持解释器文件（interpreter file）。这种文件是文本文件，其起始行的形式是：&lt;/p&gt;
     
     </summary>
     
@@ -709,9 +710,11 @@
     <link href="http://www.wangxinri.cn/2018/05/14/%E7%AB%9E%E4%BA%89%E6%9D%A1%E4%BB%B6/"/>
     <id>http://www.wangxinri.cn/2018/05/14/竞争条件/</id>
     <published>2018-05-14T13:59:00.000Z</published>
-    <updated>2018-05-19T03:12:04.768Z</updated>
+    <updated>2018-05-19T03:44:44.661Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="竞争条件"><a href="#竞争条件" class="headerlink" title="竞争条件"></a>竞争条件</h2><p>当多个进程都企图对共享数据进行某种处理，而最后的结果又取决于进程运行的顺序时，我们认为发生了竞争条件（race condition）。如果再fork之后的某种逻辑显式或隐式地依赖于在fork之后是父进程先运行还是子进程先运行，那么fork函数就会是竞争条件活跃的滋生地。通常，我们不能预料哪一个进程先运行。即使我们知道哪一个进程先运行，在该进程开始运行后所发生的事情也依赖于系统负载以及内核的调度算法。</p>
+    <content type="html"><![CDATA[<h2 id="竞争条件"><a href="#竞争条件" class="headerlink" title="竞争条件"></a>竞争条件</h2><p>当多个进程都企图对共享数据进行某种处理，而最后的结果又取决于进程运行的顺序时，我们认为发生了竞争条件（race condition）。</p>
+<a id="more"></a>
+<p>如果再fork之后的某种逻辑显式或隐式地依赖于在fork之后是父进程先运行还是子进程先运行，那么fork函数就会是竞争条件活跃的滋生地。通常，我们不能预料哪一个进程先运行。即使我们知道哪一个进程先运行，在该进程开始运行后所发生的事情也依赖于系统负载以及内核的调度算法。</p>
 <p>如果一个进程希望等待一个子进程终止，则它必须调用wait函数中的一个（子进程终止前，父进程被阻塞了）。如果一个进程要等待其父进程终止，则可使用下列形式的循环：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">while</span>(getppid() != <span class="number">1</span>)&#123;</div><div class="line">    sleep(<span class="number">1</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>这种形式的循环称为轮询（polling），它的问题是浪费了CPU时间，因为调用者每隔一秒都被唤醒，然后进行条件测试。</p>
@@ -724,7 +727,7 @@
     
     <summary type="html">
     
-      &lt;h2 id=&quot;竞争条件&quot;&gt;&lt;a href=&quot;#竞争条件&quot; class=&quot;headerlink&quot; title=&quot;竞争条件&quot;&gt;&lt;/a&gt;竞争条件&lt;/h2&gt;&lt;p&gt;当多个进程都企图对共享数据进行某种处理，而最后的结果又取决于进程运行的顺序时，我们认为发生了竞争条件（race condit
+      &lt;h2 id=&quot;竞争条件&quot;&gt;&lt;a href=&quot;#竞争条件&quot; class=&quot;headerlink&quot; title=&quot;竞争条件&quot;&gt;&lt;/a&gt;竞争条件&lt;/h2&gt;&lt;p&gt;当多个进程都企图对共享数据进行某种处理，而最后的结果又取决于进程运行的顺序时，我们认为发生了竞争条件（race condition）。&lt;/p&gt;
     
     </summary>
     
@@ -880,8 +883,8 @@
     <title>vfork</title>
     <link href="http://www.wangxinri.cn/2018/04/20/vfork/"/>
     <id>http://www.wangxinri.cn/2018/04/20/vfork/</id>
-    <published>2018-04-20T13:59:00.000Z</published>
-    <updated>2018-05-19T03:10:55.409Z</updated>
+    <published>2018-04-20T14:59:00.000Z</published>
+    <updated>2018-05-19T03:44:56.582Z</updated>
     
     <content type="html"><![CDATA[<h2 id="vfork"><a href="#vfork" class="headerlink" title="vfork"></a>vfork</h2><p>vfork函数的调用序列和返回值与fork相同，但两者的语义不同。</p>
 <a id="more"></a>

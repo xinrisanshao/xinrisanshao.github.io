@@ -2053,27 +2053,14 @@
 
       
         
-          
-            <h2 id="解释器文件"><a href="#解释器文件" class="headerlink" title="解释器文件"></a>解释器文件</h2><p>所有现今的UNIX系统都支持解释器文件（interpreter file）。这种文件是文本文件，其起始行的形式是：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>! pathname[optional-argument]</div></pre></td></tr></table></figure>
-<p>在感叹号和pathname之间的空格是可选的。最常见的解释器文件以下列行开始:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>! /bin/sh</div></pre></td></tr></table></figure>
-<p>pathname通常是绝对路径名，对它不进行什么特殊的处理（不使用PATH进行路径搜索）。<strong>对这种文件的识别是由内核作为exec系统调用处理的一部分来完成的。内核使调用exec函数的进程实际执行的并不是该解释器文件，而是在该解释器文件第一行中pathname所指定的文件</strong>。一定要将解释器文件（文本文件，它以#!开头）和解释器（由该解释器文件第一行中的pathname指定）区分开来。</p>
-<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>execl执行的文件是一个解释器文件时，内核如何处理execl参数及该解释器文件第一行的可选参数。</p>
-<p>execinterp.c </p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"head.h"</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</div><div class="line">	<span class="keyword">pid_t</span> pid;</div><div class="line">	<span class="keyword">if</span>((pid = fork()) &lt; <span class="number">0</span>)&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"fork error\n"</span>);</div><div class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(pid == <span class="number">0</span>)&#123;	<span class="comment">//child</span></div><div class="line">		<span class="keyword">if</span>( execl(<span class="string">"/home/vrlive/linuxProgram/apueProgram/eight/testinterp"</span>,<span class="string">"testinterp"</span>,<span class="string">"myarg1"</span>,<span class="string">"MY ARG2"</span>,(<span class="keyword">char</span>*)<span class="number">0</span>) &lt; <span class="number">0</span>)&#123;</div><div class="line">			<span class="built_in">printf</span>(<span class="string">"execl error\n"</span>);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(waitpid(pid,<span class="literal">NULL</span>,<span class="number">0</span>) &lt; <span class="number">0</span>)&#123;    <span class="comment">//parent</span></div><div class="line">		<span class="built_in">printf</span>(<span class="string">"waitpid error\n"</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">exit</span>(<span class="number">0</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>其中testinterp为解释器文件，之前运行老出错，是因为testinterp文件没有可执行权限。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[vrlive@iZ23chs2r19Z eight]$ ll | grep testinterp </div><div class="line">-rwxrwxr-x 1 vrlive vrlive   61 May 14 16:51 testinterp</div><div class="line">[vrlive@iZ23chs2r19Z eight]$ cat testinterp </div><div class="line"><span class="meta">#</span>! /home/vrlive/linuxProgram/apueProgram/eight/echoarg.o foo</div></pre></td></tr></table></figure>
-<p>echoarg.o是echoarg.c的可执行文件，回显每一个命令行参数。</p>
-<p>echoarg.c</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"head.h"</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> *argv[])</span></span>&#123;</div><div class="line">	<span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line">	<span class="keyword">for</span>(i = <span class="number">0</span>;i&lt;argc;++i)&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"argv[%d]: %s\n"</span>,i,argv[i]);</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">exit</span>(<span class="number">0</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>输出结果：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[vrlive@iZ23chs2r19Z eight]$ ./execinterp.o </div><div class="line">argv[0]: /home/vrlive/linuxProgram/apueProgram/eight/echoarg.o</div><div class="line">argv[1]: foo</div><div class="line">argv[2]: /home/vrlive/linuxProgram/apueProgram/eight/testinterp</div><div class="line">argv[3]: myarg1</div><div class="line">argv[4]: MY ARG2</div></pre></td></tr></table></figure>
-<p>当内核exec解释器时（/home/vrlive/linuxProgram/apueProgram/eight/echoarg.o）时，argv[0]是该解释器的pathname，argv[1]是解释器文件中的可选参数，其余参数是pathname（excel函数pathname参数值/home/vrlive/linuxProgram/apueProgram/eight/testinterp）以及execl的第2个和第3个参数（myarg1、MY ARG2）。调用execl时的argv[1]和argv[2]已右移了两个位置。</p>
-<p><strong>注意</strong>，内核取execl调用中的pathname而非第一个参数（testinterp），因为一般而言，pathname包含了比第一个参数更多的信息。</p>
-<p><strong>后续待补充</strong>…</p>
-
-          
+          <h2 id="解释器文件"><a href="#解释器文件" class="headerlink" title="解释器文件"></a>解释器文件</h2><p>所有现今的UNIX系统都支持解释器文件（interpreter file）。这种文件是文本文件，其起始行的形式是：</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/05/14/解释器文件/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

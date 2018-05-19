@@ -669,18 +669,14 @@
 
       
         
-          
-            <h2 id="竞争条件"><a href="#竞争条件" class="headerlink" title="竞争条件"></a>竞争条件</h2><p>当多个进程都企图对共享数据进行某种处理，而最后的结果又取决于进程运行的顺序时，我们认为发生了竞争条件（race condition）。如果再fork之后的某种逻辑显式或隐式地依赖于在fork之后是父进程先运行还是子进程先运行，那么fork函数就会是竞争条件活跃的滋生地。通常，我们不能预料哪一个进程先运行。即使我们知道哪一个进程先运行，在该进程开始运行后所发生的事情也依赖于系统负载以及内核的调度算法。</p>
-<p>如果一个进程希望等待一个子进程终止，则它必须调用wait函数中的一个（子进程终止前，父进程被阻塞了）。如果一个进程要等待其父进程终止，则可使用下列形式的循环：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">while</span>(getppid() != <span class="number">1</span>)&#123;</div><div class="line">    sleep(<span class="number">1</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这种形式的循环称为轮询（polling），它的问题是浪费了CPU时间，因为调用者每隔一秒都被唤醒，然后进行条件测试。</p>
-<p><strong>为了避免竞争条件和轮询，在多个进程之间需要有某种形式的信号发送和接收方法，在UNIX中可以使用信号机制，各种形式的进程间通信（IPC）也可使用</strong>。</p>
-<p><strong>示例</strong>：程序输出两个字符串：一个由子进程输出，另一个由父进程输出。因为输出依赖于内核使这两个进程的运行的顺序及每个进程运行的时间长度，所以该程序包含了一个竞争条件。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"head.h"</span></span></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">charatatime</span><span class="params">(<span class="keyword">char</span> *)</span></span>;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</div><div class="line">	<span class="keyword">pid_t</span> pid;</div><div class="line">	<span class="keyword">if</span>((pid = fork()) &lt;<span class="number">0</span>)&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"fork error\n"</span>);</div><div class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(pid == <span class="number">0</span>)&#123;   <span class="comment">//child</span></div><div class="line">		charatatime(<span class="string">"output for child\n"</span>);</div><div class="line">	&#125;<span class="keyword">else</span>&#123;    <span class="comment">//parent</span></div><div class="line">		charatatime(<span class="string">"output for parent\n"</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">exit</span>(<span class="number">0</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">charatatime</span><span class="params">(<span class="keyword">char</span> *str)</span></span>&#123;</div><div class="line">	<span class="keyword">char</span> *ptr;</div><div class="line">	<span class="keyword">int</span> c;</div><div class="line">	setbuf(<span class="built_in">stdout</span>,<span class="literal">NULL</span>);     <span class="comment">//set unbuffered</span></div><div class="line">	<span class="keyword">for</span>(ptr = str; (c=*str++) != <span class="string">'\0'</span>;)&#123;</div><div class="line">		putc(c,<span class="built_in">stdout</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在程序中将标准输出设置为不带缓冲的，于是每个字符输出都需调用一次write（内核系统调用）。本例的目的是使内核能尽可能多次地在两个进程之间进行切换，以便演示竞争条件。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">[vrlive@iZ23chs2r19Z eight]$ ./race.o </div><div class="line">ouotputpuut for child</div><div class="line">t for parent</div><div class="line">[vrlive@iZ23chs2r19Z eight]$ ./race.o </div><div class="line">output for parent</div><div class="line">output for[vrlive@iZ23chs2r19Z eight]$  child</div><div class="line">./race.o </div><div class="line">ououtputtput for child</div><div class="line"> for parent</div><div class="line">[vrlive@iZ23chs2r19Z eight]$ ./race.o </div><div class="line">output for parent</div><div class="line">output for child</div></pre></td></tr></table></figure>
-
-          
+          <h2 id="竞争条件"><a href="#竞争条件" class="headerlink" title="竞争条件"></a>竞争条件</h2><p>当多个进程都企图对共享数据进行某种处理，而最后的结果又取决于进程运行的顺序时，我们认为发生了竞争条件（race condition）。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/05/14/竞争条件/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1103,7 +1099,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-20T21:59:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-20T22:59:00+08:00">
                 2018-04-20
               </time>
             
